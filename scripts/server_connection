@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Citious Server Password: NinkTec1982"
+ssh root@okycoky.com

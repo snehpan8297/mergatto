@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# [0; - Regular
+# [1; - Bold
+# [4; - Underline
+# [5; - Blink
+# [7; - Background
+
+
+# [0;30m - Negro
+# [0;31m - Rojo -> Error / Warning
+# [0;32m - Verde Oscuro
+# [0;33m - Naranja -> DEBUG
+# [0;34m - Violeta
+# [0;35m - Rosa -> Notice
+# [0;36m - Celeste -> SQL
+# [0;37m - Blanco
+
+tail -f /Applications/MAMP/logs/php_error.log | awk '
+  {
+    if($0 ~ /DEBUG/) print "\033[0;33m" $0 "\033[0m"; else
+    if($0 ~ /SQL/) print "\033[0;36m" $0 "\033[0m"; else
+    if($0 ~ /PHP Notice/) print "\033[0;35m" $0 "\033[0m"; else
+    if($0 ~ /PHP Warning/) print "\033[0;31m" $0 "\033[0m"; else
+    if($0 ~ /PHP Fatal error/) print "\033[0;31m" $0 "\033[0m"; else
+    if($0 ~ /PHP Parse error/) print "\033[0;31m" $0 "\033[0m"; else
+    print "\033[0m" $0 "\033[0m";
+  }
+'

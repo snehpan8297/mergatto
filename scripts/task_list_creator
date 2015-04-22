@@ -1,0 +1,13 @@
+#!/bin/bash
+echo ""
+for var in "$@"
+do
+  echo "Create View $var"
+  echo "Create Screenshot $var"
+  echo "Update Wiki View $var"
+  echo "Create Controller $var"
+  echo "Update Wiki Controller $var"
+  echo "Create Webservice Action $var"
+  echo "Create Wiki Webservice Action $var"
+done
+echo ""
