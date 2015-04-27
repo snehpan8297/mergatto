@@ -3057,7 +3057,7 @@ fieldset[disabled] .btn-link:focus {
 .btn-sm,
 .btn-group-sm > .btn {
   padding: 5px 10px;
-  font-size: 12px;
+  font-size: 12px ;
   line-height: 1.5;
   border-radius: 3px;
 }
@@ -5539,13 +5539,6 @@ button.close {
   height: 0;
   border-color: transparent;
   border-style: solid;
-}
-.tooltip.top .tooltip-arrow {
-  bottom: 0;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px 5px 0;
-  border-top-color: #000;
 }
 .tooltip.top-left .tooltip-arrow {
   bottom: 0;

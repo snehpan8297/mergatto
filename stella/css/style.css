@@ -31,10 +31,10 @@ a:hover {
 	text-decoration: underline;
 }
 .color {
-	background-color: #67C4B0;
+	background-color: #000;
 }
 #home {
-	border-top: 8px solid #67C4B0;
+	border-top: 8px solid #000;
 }
 
 .container-fluid {
@@ -97,9 +97,9 @@ a:hover {
 	color: #fff;
 	top: 0;
 	text-decoration: none;
-	background-color: #67C4B0;
+	background-color: #000;
 	box-shadow: none;
-	border: 2px solid #67C4B0;
+	border: 2px solid #000;
 }
 
 .btn-outline,
@@ -344,11 +344,11 @@ a:hover .product-price {
 }
 
 .sold-out-label, .sale-label{
-	color: #67C4B0;
+	color: #000;
 	font-weight: 400;
 	text-transform: uppercase;
 	padding: 3px 9px;
-	border: 2px solid #67C4B0;
+	border: 2px solid #000;
 }
 .sale-label {
 	color: #000;
@@ -655,7 +655,7 @@ a.remove-item i{
 
 }
 a.remove-item:hover {
-	color: #67C4B0;
+	color: #000;
 	text-decoration: none;
 }
 th{
@@ -759,7 +759,7 @@ a.nav-brand:hover {
 
 	font-size: 12px;
 	font-weight: 400;
-	background-color: #67C4B0;
+	background-color: #000;
 }
 a.nav-icon, a.nav-icon-outline{
 	background-color:#000 ;
@@ -825,7 +825,7 @@ a.nav-icon-outline:hover{
 }
 
 a.close-menu:hover {
-	color: #67C4B0;
+	color: #000;
 	text-decoration: none;
 }
 /* ------------------------------ breadcrumb -------------------------- */
@@ -1060,7 +1060,7 @@ blockquote footer, blockquote small, blockquote .small {
 
 	.menu-wrapper {
 		/* display: none; */
-		border-top: 8px solid #67C4B0;
+		border-top: 8px solid #000;
 		position: fixed;
 		z-index: 1;
 		right: 0;
@@ -1101,13 +1101,13 @@ blockquote footer, blockquote small, blockquote .small {
 		font-weight: 300;
 }
 	.menu-wrapper ul.nav-list li.active a{
-		color: #67C4B0;
+		color: #000;
 	}
 	.menu-wrapper ul.nav-list li a:hover{
 		color: #FFF;
 	}
 	/*.menu-wrapper ul.nav-list li a span::before	{
-		color: #67C4B0;
+		color: #000;
 		padding-left: 5px;
 	}*/
 	.menu-wrapper .close-menu {
@@ -1126,7 +1126,7 @@ blockquote footer, blockquote small, blockquote .small {
 		/*text-align: center;*/
 	}
 	/*.menu-wrapper .effect a span::before {
-		color: #67C4B0;
+		color: #000;
 	}*/
 	
 	/* center MT */

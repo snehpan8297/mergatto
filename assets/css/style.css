@@ -31,10 +31,10 @@ a:hover {
 	text-decoration: underline;
 }
 .color {
-	background-color: #67C4B0;
+	background-color: #000;
 }
 #home {
-	border-top: 8px solid #67C4B0;
+	border-top: 8px solid #000;
 }
 
 .container-fluid {
@@ -99,9 +99,9 @@ a:hover {
 	color: #fff;
 	top: 0;
 	text-decoration: none;
-	background-color: #67C4B0;
+	background-color: #000;
 	box-shadow: none;
-	border: 2px solid #67C4B0;
+	border: 2px solid #000;
 }
 
 .btn-outline,
@@ -158,7 +158,13 @@ a:hover {
 .btn.pull-left {
 	margin: 0;
 }
-
+.btn-xs,
+.btn-group-xs {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
 
 /* ------------------------------ color list -------------------------- */
 .product-colors {
@@ -215,7 +221,7 @@ a:hover {
 .effect a {
 	position: relative;
 	color: #000 !important;
-	padding: 5px 15px !important;
+	padding: 10px 15px !important;
 	font-weight: 400;
 	line-height: 20px;
 	display: inline-block;
@@ -228,10 +234,13 @@ a:hover {
 .effect a:focus,
 .effect li.active a{
 	background-color: #000;
-	color: #FFF !important;
 	text-decoration: none;
 }
-
+.effect a:hover span,
+.effect a:focus span,
+.effect li.active a span{
+	color: #FFF !important;
+}
 .mt-info {
 	padding-left: 20px;
 }
@@ -327,10 +336,6 @@ a:hover {
 	line-height: 1.3em;
 }
 
-.price:after {
-	content: '€';
-}
-
 .product-price .original-price {
 	text-decoration: line-through;
 	margin-left: .5em;
@@ -346,11 +351,11 @@ a:hover .product-price {
 }
 
 .sold-out-label, .sale-label{
-	color: #67C4B0;
+	color: #000;
 	font-weight: 400;
 	text-transform: uppercase;
 	padding: 3px 9px;
-	border: 2px solid #67C4B0;
+	border: 2px solid #000;
 }
 .sale-label {
 	color: #000;
@@ -364,7 +369,7 @@ a:hover .product-price {
 .product {
 }
 .product .product-title {
-	margin-top: 0;
+	margin-top: 10px;
 	margin-bottom: 21px;
 }
 .product .product-price {
@@ -657,7 +662,7 @@ a.remove-item i{
 
 }
 a.remove-item:hover {
-	color: #67C4B0;
+	color: #000;
 	text-decoration: none;
 }
 th{
@@ -755,7 +760,7 @@ a.nav-brand {
 
 	font-size: 12px;
 	font-weight: 400;
-	background-color: #67C4B0;
+	background-color: #000;
 }
 a.nav-icon, a.nav-icon-outline{
 	background-color: #FFF;
@@ -809,8 +814,26 @@ a.nav-icon:hover {
 }
 
 a.close-menu:hover {
-	color: #67C4B0;
+	color: #000;
 	text-decoration: none;
+}
+
+/* -------------------------- nav list secondary ----------------------- */
+ul.nav-list-secondary{
+	background-color:#000;
+	padding:10px 0px !important;
+	margin:-20px auto 20px auto !important;
+}
+ul.nav-list-secondary li{
+
+}
+ul.nav-list-secondary li a span{
+	color:#bbb;
+}
+ul.nav-list-secondary li a:hover span,
+ul.nav-list-secondary li a:focus span,
+ul.nav-list-secondary li.active a span{
+	color:#fff !important;
 }
 /* ------------------------------ breadcrumb -------------------------- */
 .breadcrumb{
@@ -1037,7 +1060,7 @@ blockquote footer, blockquote small, blockquote .small {
 
 	.menu-wrapper {
 		/* display: none; */
-		border-top: 8px solid #67C4B0;
+		border-top: 8px solid #000;
 		position: fixed;
 		z-index: 1;
 		right: 0;
@@ -1078,13 +1101,13 @@ blockquote footer, blockquote small, blockquote .small {
 		font-weight: 300;
 }
 	.menu-wrapper ul.nav-list li.active a{
-		color: #67C4B0;
+		color: #000;
 	}
 	.menu-wrapper ul.nav-list li a:hover{
 		color: #FFF;
 	}
 	/*.menu-wrapper ul.nav-list li a span::before	{
-		color: #67C4B0;
+		color: #000;
 		padding-left: 5px;
 	}*/
 	.menu-wrapper .close-menu {
@@ -1103,7 +1126,7 @@ blockquote footer, blockquote small, blockquote .small {
 		/*text-align: center;*/
 	}
 	/*.menu-wrapper .effect a span::before {
-		color: #67C4B0;
+		color: #000;
 	}*/
 
 	/* center MT */
@@ -1144,4 +1167,19 @@ blockquote footer, blockquote small, blockquote .small {
 		.big-text {
 		font-size: 179px;
 	}
+}
+
+.m-t-20{
+	margin-top:20px;
+}
+
+.m-b-10{
+	margin-bottom:10px;
+}
+.full-width{
+	width:100%;
+}
+.xsmall th,
+.xsmall td{
+	font-size:85% !important;
 }
