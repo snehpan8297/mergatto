@@ -64,8 +64,7 @@ $(document).ready(function() {
     },
     success: function(response) {
       if(response.result){
-        $_ajax["product_"+$_GET["id_product"]]="";
-
+        $(".data-ajax-product-name").html(response.data.name_es);
         $(".data-ajax-product").html($_ajax["product_"+$_GET["id_product"]]);
       }else{
         alert("[list_products] error: "+response.error_code);
