@@ -83,7 +83,7 @@
         $filter["id_product"]=array("operation"=>"=","value"=>$product_category["id_product"]);
         $filter["visible"]=array("operation"=>"=","value"=>1);
         if(isset($action_data["id_family"])){
-          $filter["id_family"]=array("operation"=>"=","value"=>$product_category["id_family"]);
+          $filter["id_family"]=array("operation"=>"=","value"=>$action_data["id_family"]);
         }
         if(isInBD($table,$filter)){
           $table="colors";
@@ -124,19 +124,76 @@
           }
         }
 
-        if($list_empty){
-          $response["result"]=false;
-          $response["error_code"]="list_empty";
-          debug_log($response["error_code"],"ERROR");
-          echo json_encode($response);
-          die();
-        }
+
 
       }
-
+      if($list_empty){
+        $response["result"]=false;
+        $response["error_code"]="list_empty";
+        debug_log($response["error_code"],"ERROR");
+        echo json_encode($response);
+        die();
+      }
 
       break;
 
+    case "get_product":
+      // Check Input Data
+
+
+
+      $table="products";
+      $filter=array();
+      $filter["id_product"]=array("operation"=>"=","value"=>$product_category["id_product"]);
+      $filter["visible"]=array("operation"=>"=","value"=>1);
+      if(!isInBD($table,$filter)){
+        $response["result"]=false;
+        $response["error_code"]="product_not_valid";
+        debug_log($response["error_code"],"ERROR");
+        echo json_encode($response);
+        die();
+      }
+      $product=getInBD($table,$filter);
+      $product["price_with_discount"]=intval($product["pvp"]);
+      if($product["use_discount"]==1){
+        $product["price_with_discount"]=intval($product["pvp"]*(100-$product["discount"])/100);
+      }
+      $product["colors"]=array();
+
+      $table="stocks";
+      $filter=array();
+      $filter["id_product"]=array("operation"=>"=","value"=>$product["id_product"]);
+      $filter["complex"]="false";
+      $or=" or ";
+      for($i=1;$i<=12;$i++){
+        $filter["complex"].=$or."stock_size_".$i." > 0";
+      }
+      if(!isInBD($table,$filter)){
+        $response["result"]=false;
+        $response["error_code"]="product_no_stock";
+        debug_log($response["error_code"],"ERROR");
+        echo json_encode($response);
+        die();
+      }
+      $stocks=listInBD($table,$filter);
+      foreach ($stocks as $key=>$stock){
+        $table="colors";
+        $filter=array();
+        $filter["id"]=array("operation"=>"=","value"=>$stock["id_color"]);
+        if(isInBD($table,$filter)){
+          $color=getInBD($table,$filter);
+          for($i=1;$i<=12;$i++){
+            $color["stock_size_".$i]=$stock["stock_size_".$i];
+          }
+          $product["colors"][]=$color;
+        }
+      }
+
+      $response["data"]=array();
+      $response["data"]=$product;
+
+
+      break;
 
     default:
       notValidAction();echo json_encode($response);die();

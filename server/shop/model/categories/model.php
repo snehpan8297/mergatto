@@ -158,6 +158,7 @@
           $filter=array();
           $filter["id_family"]=array("operation"=>"=","value"=>$id_family);
           $family=getInBD($table,$filter);
+          $family["id_category"]=$action_data["id_category"];
           $response["data"][]=$family;
         }
       }
