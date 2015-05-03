@@ -56,11 +56,11 @@
 		global $page_path;
 
 		if($_CONFIG["debug_mode"]==1){
-			$path_str="";
+			$_PATH_str="";
 			if($show_path){
-				$path_str="[".$page_path."]";
+				$_PATH_str="[".$page_path."]";
 			}
-			error_log("[".$code."]".$path_str." ".$str);
+			error_log("[".$code."]".$_PATH_str." ".$str);
 
 		}
 	}

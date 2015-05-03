@@ -256,7 +256,7 @@
 	}
 
 
-	$table="config";
+	$table="config_mergatto";
 	$filter=array();
 	$filter["used"]=array("operation"=>"=","value"=>"1");
 	$_CONFIG=getInBD($table,$filter);
