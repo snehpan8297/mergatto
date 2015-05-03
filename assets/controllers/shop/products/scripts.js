@@ -68,7 +68,7 @@ $(document).ready(function() {
         $_ajax["product-list"]="<div class='row'>";
         jQuery.each(response.data,function($_key,$_product){
           $_ajax["product-list"]+="<div class='col-sm-3'>";
-          $_ajax["product-list"]+=" <a href='../../shop/product/index.html?id_product="+$_product.id_product+"'>";
+          $_ajax["product-list"]+=" <a href='../../shop/product/index.html?id_product="+$_product.id_product+"&id_category="+$_GET["id_category"]+"'>";
           $_ajax["product-list"]+="   <img src='../../media/shop/photos/"+$_product.serial_model_code+"-1.jpg' class='img-responsive full-width' alt='item'>";
           if($_product.use_discount==1){
             $_ajax["product-list"]+="   <span class='productlist-label'>";

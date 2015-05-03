@@ -8,7 +8,7 @@
 
 		<script>
       var $_PATH="../../";
-      var $_PAGE="/shop/products/";
+      var $_PAGE="/shop/product/";
     </script>
 
 		<title>Oky^Coky Shop</title>
@@ -107,49 +107,35 @@
       <div class="container-fluid product">
         <div class="row visible-xs product-mobile">
           <div class="col-xs-12 text-center">
-            <h2 class="product-name data-ajax-product-name" data-ajax="product-name">Vestido Estampado</h2>
-            <div class="product-price">
-              <span class="price">14.00€</span>
+            <h2 class="product-title data-ajax-product-name" data-ajax="product-name"></h2>
+						<div class="product-price hidden-xs data-ajax-product-price" data-ajax="product-price">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-8 ">
-						<div>
-            	<img src="../../media/shop/photos/5051-URD-1.jpg" class="product-img img-responsive full-width" alt="item">
-            	<img src="../../media/shop/photos/5051-URD-2.jpg" class="product-img img-responsive full-width" alt="item">
-            	<img src="../../media/shop/photos/5051-URD-3.jpg" class="product-img img-responsive full-width" alt="item">
+						<div class="data-ajax-product-images" data-ajax="product-images">
           	</div>
 					</div>
           <div class="col-sm-4 ">
-            <h2 class="product-title hidden-xs p-t-20">Vestido Estampado</h2>
-            <div class="product-price hidden-xs">
-              <span class="price">14.00€</span>
+            <h2 class="product-title hidden-xs p-t-20 data-ajax-product-name"></h2>
+            <div class="product-price hidden-xs data-ajax-product-price" data-ajax="product-price">
             </div>
+						<div class="product-mark hidden-xs data-ajax-product-mark" data-ajax="product-mark">
+						</div>
             <div class="product-detail" data-ajax="product-content">
 
             </div>
             <form  action="product1.html" method="POST" class="myform">
-							<label class="">Talla</label>
-              <div class="form-group">
-                <select class="form-control">
-                  <option value="XS">XS</option>
-                  <option value="S">S</option>
-                  <option value="M">M</option>
-                  <option value="L">L</option>
-                  <option value="XL">XL</option>
-                </select>
-              </div>
 							<label>Color</label>
-							<div class="form-group">
-                <select class="form-control">
-                  <option value="XS">Blanco</option>
-                  <option value="S">Multicolor</option>
-                  <option value="M">Camel</option>
-                </select>
+							<div class="form-group data-ajax-product-colors" data-ajax="product-colors">
               </div>
+							<label class="">Talla</label>
+							<div class="form-group data-ajax-product-sizes" data-ajax="product-sizes">
+              </div>
+
 							<div class="clearfix">
-								<a href="" class="btn btn-block" data-lang="add-to-cart">Añadir al Carro</a>
+								<a href="javascript:void(0)" class="btn btn-block" id="add-to-cart" data-lang="add-to-cart">Añadir al Carro</a>
 							</div>
 							<div class="m-t-20">
 								<div class="panel panel-default text-right">
@@ -166,19 +152,19 @@
 												</div>
 												<div class="form-group">
 													<select class="form-control">
-														<option value="XS">XS</option>
-														<option value="S">S</option>
-														<option value="M">M</option>
-														<option value="L">L</option>
-														<option value="XL">XL</option>
+														<option value="1">34</option>
+														<option value="2">36</option>
+														<option value="3">38</option>
+														<option value="4">40</option>
+														<option value="5">42</option>
+														<option value="6">44</option>
+														<option value="7">46</option>
+														<option value="8">48</option>
+														<option value="9">50</option>
+														<option value="10">52</option>
 													</select>
 												</div>
-												<div class="form-group">
-													<select class="form-control">
-														<option value="XS">Blanco</option>
-														<option value="S">Negro</option>
-														<option value="M">Camel</option>
-													</select>
+												<div class="form-group data-ajax-product-colors" data-ajax="product-colors">
 												</div>
 												<div class="clearfix">
 													<a href="" class="btn btn-block" data-lang="add-to-cart">Avisarme cuando esté disponible</a>
@@ -628,6 +614,7 @@
 		<script src="../../assets/js/placeholders.min.js" type="text/javascript"></script>
 		<script src="../../assets/js/custom.js" type="text/javascript"></script>
 		<script src="../../assets/js/ga.js" type="text/javascript"></script>
+		<script src="../../assets/controllers/general/settings.js" type="text/javascript"></script>
 		<script src="../../assets/controllers/general/functions.js" type="text/javascript"></script>
 		<script src="../../assets/controllers/general/system_functions.js" type="text/javascript"></script>
 		<script src="../../assets/controllers/general/interface_functions.js" type="text/javascript"></script>

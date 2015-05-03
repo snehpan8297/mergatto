@@ -144,7 +144,7 @@
 
       $table="products";
       $filter=array();
-      $filter["id_product"]=array("operation"=>"=","value"=>$product_category["id_product"]);
+      $filter["id_product"]=array("operation"=>"=","value"=>$action_data["id_product"]);
       $filter["visible"]=array("operation"=>"=","value"=>1);
       if(!isInBD($table,$filter)){
         $response["result"]=false;

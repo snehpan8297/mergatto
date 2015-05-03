@@ -29,7 +29,7 @@
 	/*********************************************************
 	* AJAX OPERATIONS
 	*********************************************************/
-	$server_option='server';
+	$server_option='local';
 
 	switch ($server_option){
 		case "local":
@@ -42,7 +42,7 @@
 				'bdpass' => 'root',
 				'bdprefix' => 'classic_'
 			);
-			$url_server = "http://localhost:8888/okycoky/";
+			$url_server = "http://localhost:8888/mergatto/";
 
 			break;
 		case "server":
