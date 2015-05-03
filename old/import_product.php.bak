@@ -1,0 +1,225 @@
+<?php
+@session_start();
+if(!isset($_SESSION['admin_classics'])) {
+	header("location:./admin.php");
+	die();
+}
+$page = "import";
+include ("./include/bdOC.php");
+?>
+<style type="text/css">
+	.ProgressBar     { width: 500px; border: 1px solid black; background: #eef; height: 2.5em; display: block; margin: auto; }
+	.ProgressBarText { position: absolute; font-size: 2em; width: 500px; text-align: center; font-weight: normal; color: black; }
+	.ProgressBarFill { height: 100%; background: #aae; display: block; overflow: visible; }
+</style>
+<?php
+include ("./header.php");
+?>
+<script language="javascript">
+//Creo una función que imprimira en la hoja el valor del porcentanje asi como el relleno de la barra de progreso
+function callprogress(vValor,cont,total,serial){
+	document.getElementById("getprogress").innerHTML = vValor;
+	document.getElementById("ProgressBarCount").innerHTML = cont;
+	document.getElementById("ProgressBarTotal").innerHTML = total;
+	document.getElementById("ProgressBarSerial").innerHTML = serial;
+	document.getElementById("getProgressBarFill").innerHTML = '<div class="ProgressBarFill" style="width: '+vValor+'%;"></div>';
+}
+//Funcion para mostrar el botón de siguiente
+function showNext() {
+	$("#nextButton").show();
+}
+</script>
+<div id='content'>
+	<div id='line_separator'> &nbsp; </div>
+	<div id='page_header'>
+		<div id='page_navigator'>
+			<a href='./admin_menu.php' class='important'><?php echo $s["admin_menu_title"];?></a> / <a href='javascript:void(0)' class='important'><?php echo $s["admin_product_import_title"];?></a>
+		</div>
+	</div>
+	<b><?php echo $s["progress"]; ?></b> <span id="ProgressBarSerial"></span> [<span id="ProgressBarCount"></span> / <span id="ProgressBarTotal"></span>]<br/><br/>
+	<div class="ProgressBar">
+		<div class="ProgressBarText"><span id="getprogress"></span>&nbsp;<?php echo $s["percent_completed"]; ?></div>
+		<div id="getProgressBarFill"></div>
+	</div>
+	<div id='nextButton' style='display:none; margin-top: 100px;'>
+		<div class='likeabutton'>
+			<a id="next" href="import_product_end.php"><span class='text'><?php echo $s["next"];?></span></a>
+		</div>
+	</div>
+</div>
+<?php
+include ("footer.php");
+?>
+<?php
+$si["family_19"] = "Others";
+$si["family_23"] = "Coats";
+$si["family_24"] = "Shirts";
+$si["family_25"] = "T-Shirts";
+$si["family_26"] = "Belts";
+$si["family_27"] = "Jackets";
+$si["family_28"] = "Blazers";
+$si["family_29"] = "Scarves";
+$si["family_30"] = "Skirts";
+$si["family_31"] = "Vests";
+$si["family_32"] = "Trousers";
+$si["family_33"] = "Trousers DRK";
+$si["family_36"] = "Dresses";
+$si["family_37"] = "Tops";
+$si["family_39"] = "Accessories";
+$si["family_40"] = "Morocco Clothes";
+$si["family_41"] = "Cuellos";
+$si["family_42"] = "Shirts Dresslok";
+$si["family_43"] = "T-Shirts Dresslok";
+$si["family_44"] = "Jackets Oky's";
+$si["family_46"] = "Gloves";
+$si["family_47"] = "Necklaces";
+$si["family_48"] = "Headdress";
+$si["family_49"] = "Foulards";
+$si["family_50"] = "Shoes";
+if(isset($_POST["new_season_name"])) {
+	$total = count($_POST["series"]);
+	$cont = 0;
+	//deleteAllProducts($_POST["new_season_name"]);
+	$error = array();
+	$exist = array();
+	foreach($_POST["series"] as $key=>$serial_model_code) {
+		$cont++;
+		$porcentaje = $cont * 100 / $total;
+		echo "<script>callprogress(".round($porcentaje).",".$cont.",".$total.",'".$serial_model_code."')</script>";
+		//try {
+			if(!productInDB(trim($serial_model_code))) {
+				$p = getModelSeason($serial_model_code);
+				if(strstr($p["name"],"-")) {
+					$descarray = explode("-", $p["name"]);
+				} else {
+					$descarray[0] = $p["name"];
+					$descarray[1] = $p["name"];
+				}
+				$modelname = getFamilyName($p["id_family"]) . " " . $descarray[1];
+				$product["serial_model_code"] = $serial_model_code;
+				$product["id_season"] = $p["id_season"];
+				$product["id_family"] = $p["id_family"];
+				$product["id_sizing"] = $p["id_sizing"];
+				$product["name_es"] = $modelname;
+				$product["name_en"] = strtoupper($si["family_".$p["id_family"]])." ". $descarray[1];
+				$product["description_es"] = $descarray[0];
+				$product["description_en"] = $descarray[0];
+				$product["composition_es"] = $p["description"];
+				$product["composition_en"] = $p["description"];
+				$product['id_lavado'] = $p["id_lavado"];
+				$product['id_lejiado'] = $p["id_lejiado"];
+				$product['id_planchado'] = $p["id_planchado"];
+				$product['id_lavado_seco'] = $p["id_lavado_seco"];
+				$product['id_secado'] = $p["id_secado"];
+				$product["pvp"] = $p["public_pvp"];
+				$product['season_year'] = "00";
+				$product['season_winter'] = 0;
+				/*for ($i = 1; $i <= 12; $i++) {
+					if(isset($p["client_pvp_" . $i])) {
+						$product["client_pvp_" . $i] = $p["client_pvp_" . $i];
+					} else {
+						$product["client_pvp_" . $i] = 0;
+					}
+				}*/
+				$product["visible"] = 0;
+				//$product["old_season"] = 0;
+				$images = getIfModelHasImage($serial_model_code);
+				if(sizeof($images) == 0) {
+					if($p["image"] == 1) {
+						getImageProduct($serial_model_code);
+					} else {
+						getImageProductPatron($serial_model_code);
+					}
+				}
+				$idmodel = getIdProduct($serial_model_code);
+				if($idmodel == -1) {
+					$idmodel = insertModel($product);
+				} else {
+					updateModel($product);
+					deleteImages($idmodel);
+					deleteColors($serial_model_code);
+				}
+				/*$colors = getColors($serial_model_code);
+				$prod['name_colors'] = $colors["name"];
+				$prod['id_colors'] = $colors["id"];
+				$prod["number"] = $colors["number"];
+				$colores = array();
+				for($i=0;$i<sizeof($prod['id_colors']);$i++){
+					//id_color,name,name_id_color,name_es,name_en
+					$colores[] = array($prod["id_colors"][$i],$prod["name_colors"][$i],$prod["number"][$i],$prod["name_colors"][$i],$prod["name_colors"][$i]);
+				}
+				addModelColors($serial_model_code,$colores);*/
+				$images = getIfModelHasImage($serial_model_code);
+				if(sizeof($images) > 0) {
+					addImageToProduct($images[0],$idmodel);
+				}
+				//Actualizamos Stock
+				$colorstock = getPedLineData($_POST["new_season_name"],$_POST["receiptnumber"],$serial_model_code);
+				while($value = mssql_fetch_assoc($colorstock)) {
+					$colors = getColor($serial_model_code,$value["ID_COLOR_PROD"]);
+					$prod['name_colors'] = $colors["name"];
+					$prod['id_colors'] = $colors["id"];
+					$prod["number"] = $colors["number"];
+					$colores = array();
+					$colores[] = array($prod["id_colors"][0],$prod["name_colors"][0],$prod["number"][0],$prod["name_colors"][0],$prod["name_colors"][0]);
+					addModelColors($serial_model_code,$colores);
+					$colordata = colordata($value["ID_COLOR_PROD"]);
+					$stock["id_color"] = $colordata["id"];
+					$stock["id_product"] = $idmodel;
+					$stock["stock_size_1"] = $value["TALLA1"];
+					$stock["stock_size_2"] = $value["TALLA2"];
+					$stock["stock_size_3"] = $value["TALLA3"];
+					$stock["stock_size_4"] = $value["TALLA4"];
+					$stock["stock_size_5"] = $value["TALLA5"];
+					$stock["stock_size_6"] = $value["TALLA6"];
+					$stock["stock_size_7"] = $value["TALLA7"];
+					$stock["stock_size_8"] = $value["TALLA8"];
+					$stock["stock_size_9"] = $value["TALLA9"];
+					$stock["stock_size_10"] = $value["TALLA10"];
+					$stock["stock_size_11"] = $value["TALLA11"];
+					$stock["stock_size_12"] = $value["TALLA12"];
+					$idstock = existStock($idmodel,$colordata["id"]);
+					if($idstock != false) {
+						$istock["id_stock"] = $idstock;
+						updateStock($stock);
+					} else {
+						insertStock($stock);
+					}
+				}
+				/*$colors = productColors($serial_model_code);
+				while($color = db_fetch($colors)) {
+					$stock = getModelColorStock($serial_model_code, $color["id_color"]);
+					$a = strpos($color["name_id_color"],"M");
+					if($a === true) {
+						$stock = getModelColorStockM($serial_model_code,$color["name_id_color"]);
+					//} else {
+						//$stockM = array(0,0,0,0,0,0,0,0,0,0,0,0);
+					}
+					$istock = array();
+					$istock["id_product"] = $idmodel;
+					$istock["id_color"] = $color["id"];
+					for($i=1;$i<=12;$i++) {
+						$istock["stock_size_".$i] = $stock[$i-1];//+$stockM[$i-1];
+					}
+					$idstock = existStock($idmodel,$color["id"]);
+					if($idstock != false) {
+						$istock["id_stock"] = $idstock;
+						updateStock($istock);
+					} else {
+						insertStock($istock);
+					}
+				}*/
+			} else {
+				$exist[] = $serial_model_code;
+			}
+		/*} catch(Exception $e) {
+			$error[] = array($serial_model_code,$e->getMessage());
+		}*/
+		flush();
+		ob_flush();
+	}
+	unset($_SESSION["import_msgs_classics"]);
+	$_SESSION["import_msgs_classics"] = array($error,$exist);
+	echo "<script>showNext();</script>";
+}
+?>

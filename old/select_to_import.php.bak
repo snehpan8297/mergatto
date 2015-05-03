@@ -1,0 +1,161 @@
+<?php
+@session_start();
+if(!isset($_SESSION['admin_classics'])) {
+	header("location:./admin.php");
+	die();
+}
+include ("./include/bdOC.php");
+$seasons = getSeasons();
+$page = "select_to_import";
+include ("header.php");
+?>
+<script>
+	var season=<?php echo getInstalledSeason();?>;
+	$(document).ready(function() {
+		$("#admin_new_season_step_1").click(function() {
+			var tot=0;
+			$(".chline1").each(function() {
+				if($(this).attr("checked")=="checked") {
+					tot++;
+				}
+			});
+			if (tot==0) {
+				alert("<?php echo $s["alert_choose_one_line"]; ?>");
+				return false;
+			}
+			var cadea="#new_season_name option[value='"+season+"']";
+			//if (confirm("<?php echo $s["alert_season_installed_1"]; ?> "+$("#new_season_name option:selected").text()+"<?php echo $s["alert_season_installed_2"]; ?> ")) {
+				$('#step_1').submit();
+			//}
+		});
+		$(".chline1").live("change",function () {
+			var listing="";
+			var coma="";
+			$(".chline1").each(function () {
+				if ($(this).attr("checked")=="checked") {
+					listing += coma + $(this).val();
+					coma=",";
+				}
+			});
+		});
+		$("#new_season_name").change(function() {
+			$("#admin_lines .checkbox_content").html("");
+			$("#admin_new_season_step_next").hide();
+		});
+		$("#receiptnumber").keyup(function(event) {
+			$("#admin_lines .checkbox_content").html("");
+			$("#admin_new_season_step_next").hide();
+		}).keydown(function(event) {
+			if (event.which == 13) {
+				event.preventDefault();
+			}  
+		});
+		$("#admin_new_season_step_search").click(function() {
+			if($("#new_season_name").val() != 0) {
+				if($("#receiptnumber").val() != "") {
+					$("#zoom_window").show();
+					$.ajax({
+						type : "POST",
+						url : "./select_to_import_getdata.php",
+						data : {
+							"id_season" : $("#new_season_name").val(),
+							"lang" : "<?php echo $lang; ?>",
+							"receiptnumber" : $("#receiptnumber").val()
+						},
+						success : function(msg) {
+							$("#admin_lines .checkbox_content").html(msg);
+							$("#zoom_window").hide();
+							$("#admin_new_season_step_next").show();
+						}
+					});
+				} else {
+					$("#admin_lines .checkbox_content").html("");
+					$("#admin_receiptnumber_alert").text("<?php echo $s["import_receiptnumber_error"]; ?>");
+					$("#admin_new_season_step_next").hide();
+				}
+			} else {
+				$("#admin_lines .checkbox_content").html("");
+				$("#admin_season_alert").text("<?php echo $s["import_season_error"]; ?>");
+				$("#admin_new_season_step_next").hide();
+			}
+		});
+	});
+	function selectseries(who) {
+		$(".chline1").each(function () {
+			if (who==1) {
+				$(this).attr("checked","checked");
+			} else {
+				$(this).removeAttr("checked");
+			}
+		});
+	}
+</script>
+<div id='zoom_window' style='display:none;'>
+	<div class='background' style='background-color:#000000;opacity:0.5;width:100%;height:100%;z-index:900;position:fixed;top:0;left:0;'></div>
+	<div class='window_preview' style='background-color:#ffffff; position:absolute; top:50%; left: 50%; margin-left: -200px; margin-top: -100px; width:400px; height: 200px; z-index:910; display: table-cell; vertical-align: middle; text-align: center; font-size: 16px; font-weight: bold; box-shadow: black;'>
+		<div class='contentbox' style='margin: 50px;'>
+			<img src='./img/interface/loading_button.gif' alt='Loading...'/><br/>
+			Cargando...
+		</div>
+	</div>
+</div>
+<div id='content'>
+	<div id='line_separator'> &nbsp; </div>
+	<div id='page_header'>
+		<div id='page_navigator'>
+			<a href='./admin_menu.php' class='important'><?php echo $s["admin_menu_title"];?></a> / <?php echo $s["admin_import_new_stock"];?>
+		</div>
+	</div>
+	<div class='contentbox'>
+		<div id='infobox_header' class='infobox_info'>
+			<?php echo $s["admin_import_new_stock_moreinfo"];?>
+		</div>
+		<div class='form' style="display:block">
+			<form id='step_1' action="./import_product.php" method="post">
+				<div class='form_entry'>
+					<span class='label'><h3><?php echo $s["admin_import_new_stock_subtitle"];?></h3></span>
+					<span id="admin_login_alert" class='form_entry_alert'></span>
+				</div>
+				<div class='form_entry'>
+					<span class='label'><?php echo $s["admin_import_new_stock_season"];?> <span class='form_isrequired'>*</span></span>
+					<select name="new_season_name" id="new_season_name" class="select">
+						<option value='0'><?php echo $s["select_item"]; ?></option>
+						<?php 
+						for($sesion=0;$sesion<sizeof($seasons["name_season"]);$sesion++) {
+							echo "<option value='".$seasons["id_season"][$sesion]."'>".utf8_encode($seasons["name_season"][$sesion])."</option>";
+						}
+						?>
+					</select>
+					<span id="admin_season_alert" class='form_entry_alert'></span>
+				</div>
+				<div class='form_entry'>
+					<span class='label'> <?php echo $s["receipt_to_import"]; ?> <span class='form_isrequired'>*</span></span>
+					<input class='text' type="text" name="receiptnumber" id="receiptnumber" />
+					<span id="admin_receiptnumber_alert" class='form_entry_alert'></span>
+				</div>
+				<div class='form_submit'>
+					<div class='likeabutton'>
+						<a id="admin_new_season_step_search" href="#"><span class='text'><?php echo $s["search.."]; ?></span></a>
+					</div>
+				</div>
+				<div class='form_entry'>
+					<span id="admin_lines">
+						<div class="checkbox_content">
+						</div>
+					</span>
+				</div>
+				<div class='form_entry'>
+					<span class='label'><?php echo $s["payments_moreinfo"];?></span>
+				</div>
+				<div class='form_submit' id="admin_new_season_step_next" style='display:none;'>
+					<div class='likeabutton'>
+						<a id="admin_new_season_step_1" href="#"><span class='text'><?php echo $s["next"]; ?></span></a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<?php
+include ("footer.php");
+?>

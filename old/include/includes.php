@@ -1,0 +1,18 @@
+<?php
+	if(!isset($lang)){
+		$lang="en";
+	}
+	$lang_url='./lang/lang_'.$lang.'.php';
+	include_once($lang_url);
+	include_once('./include/front_settings.php');
+	include_once("./include/products.php");
+	include_once('./include/users.php');
+	include_once('./include/orders.php');
+	include_once('./include/payments.php');
+	include_once('./include/stock.php');
+	include_once("./include/cover.php");
+	include_once("./include/addresses.php");
+	include_once("./include/colors.php");
+	include_once("./include/subfamily.php");
+	include_once("./include/promocodes.php");
+?>

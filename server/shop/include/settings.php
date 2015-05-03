@@ -29,7 +29,7 @@
 	/*********************************************************
 	* AJAX OPERATIONS
 	*********************************************************/
-	$server_option='local';
+	$server_option='server';
 
 	switch ($server_option){
 		case "local":
@@ -50,7 +50,7 @@
 				'bdtype' => 'mysql',
 				'bdserver' => 'localhost',
 				'bdport' => '',
-				'bd' => 'classics',
+				'bd' => 'okycoky_classics',
 				'bduser' => 'root',
 				'bdpass' => 'n1nkt3c',
 				'bdprefix' => 'classic_'
