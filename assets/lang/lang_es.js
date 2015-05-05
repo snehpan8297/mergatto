@@ -1,21 +1,18 @@
 
 $_s = new Array();
-$_s["conversation_stages_1"]="Nuevo";
-$_s["conversation_stages_2"]="En Proceso";
-$_s["conversation_stages_3"]="Cerrado";
-$_s["conversation_stages_4"]="Cancelado";
+
+$_s["sizes_guide_1"]="34";
+$_s["sizes_guide_2"]="36";
+$_s["sizes_guide_3"]="38";
+$_s["sizes_guide_4"]="40";
+$_s["sizes_guide_5"]="42";
+$_s["sizes_guide_6"]="44";
+$_s["sizes_guide_7"]="46";
+$_s["sizes_guide_8"]="48";
+$_s["sizes_guide_9"]="50";
+$_s["sizes_guide_10"]="52";
 
 $_styles = new Array();
-$_styles["conversation_stages_1"]="badge-warning";
-$_styles["conversation_stages_2"]="badge-success";
-$_styles["conversation_stages_3"]="badge-info";
-$_styles["conversation_stages_4"]="badge-danger";
-
-$_styles["conversation_new_message_0"]="bg-white";
-$_styles["conversation_new_message_1"]="bg-white";
-
-$_styles["message_chat_user"]="from-them";
-$_styles["message_chat_brand"]="from-me";
 
 $(document).ready(function() {
   $(".data-lang").each(function(){
