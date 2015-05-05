@@ -4,7 +4,7 @@ function debug_log($_message){
     $.ajax({
       type: "POST",
       dataType: 'json',
-      url: $SERVER_PATH+"server/app/controler/general/controler.php",
+      url: $_SERVER_PATH+"server/app/controler/general/controler.php",
       data: {
         "action":"javascript_debug_log",
         "message":$_message

@@ -6,7 +6,7 @@
 *********************************************************/
 
 function session_destroy(){
-  localStorage.removeItem('session_key');
+  localStorage.session_key=null;
 }
 
 /*********************************************************
@@ -31,11 +31,11 @@ function logout(){
 function check_session(){
 
   $_session_data=new Array();
-  if ((typeof localStorage.getItem('session_key') == 'undefined')||(localStorage.getItem('session_key') == null)){
+  if ((typeof localStorage.session_key == 'undefined')||(localStorage.session_key == null)||(localStorage.session_key == "null")){
     $.ajax({
       type: "POST",
       dataType: 'json',
-      url: $SERVER_PATH+"server/shop/model/access/model.php",
+      url: $_SERVER_PATH+"server/shop/model/access/model.php",
       data: {
         "action":"add_session"
       },
@@ -44,18 +44,18 @@ function check_session(){
       },
       success: function(response) {
         if(response.result){
-          localStorage.setItem('session_key',response.data.session_key);
-          localStorage.setItem('first_name',"");
-          localStorage.setItem('second_name',"");
-          localStorage.setItem('email',"");
-          localStorage.setItem('street_1',"");
-          localStorage.setItem('street_2',"");
-          localStorage.setItem('city',"");
-          localStorage.setItem('zip',"");
-          localStorage.setItem('state',"");
-          localStorage.setItem('phone',"");
-          localStorage.setItem('size',"");
-          $_session_data["session_key"]=localStorage.getItem('session_key');
+          localStorage.session_key=response.data.session_key;
+          localStorage.first_name="";
+          localStorage.last_name="";
+          localStorage.email="";
+          localStorage.street_1="";
+          localStorage.street_2="";
+          localStorage.city="";
+          localStorage.zip="";
+          localStorage.state="";
+          localStorage.phone="";
+          localStorage.size="";
+          $_session_data["session_key"]=localStorage.session_key;
     }else{
           alert("[get_session] error: "+response.error_code);
         }
@@ -63,12 +63,12 @@ function check_session(){
     });
     //window.location.href = $_PATH+"access/login/";
   }else{
-    $_session_data["session_key"]=localStorage.getItem('session_key');
+    $_session_data["session_key"]=localStorage.session_key;
 
     $.ajax({
       type: "POST",
       dataType: 'json',
-      url: $SERVER_PATH+"server/shop/model/access/model.php",
+      url: $_SERVER_PATH+"server/shop/model/access/model.php",
       data: {
         "action":"get_session",
         "session_key":$_session_data["session_key"]
@@ -78,21 +78,21 @@ function check_session(){
       },
       success: function(response) {
         if(response.result){
-          localStorage.setItem('session_key',response.data.session_key);
-          localStorage.setItem('first_name',response.data.first_name);
-          localStorage.setItem('second_name',response.data.second_name);
-          localStorage.setItem('email',response.data.email);
-          localStorage.setItem('street_1',response.data.street_1);
-          localStorage.setItem('street_2',response.data.street_2);
-          localStorage.setItem('city',response.data.city);
-          localStorage.setItem('zip',response.data.zip);
-          localStorage.setItem('country',response.data.country);
-          localStorage.setItem('state',response.data.state);
-          localStorage.setItem('phone',response.data.phone);
-          localStorage.setItem('size',response.data.size);
+          localStorage.session_key=response.data.session_key;
+          localStorage.first_name=response.data.first_name;
+          localStorage.last_name=response.data.last_name;
+          localStorage.email=response.data.email;
+          localStorage.street_1=response.data.street_1;
+          localStorage.street_2=response.data.street_2;
+          localStorage.city=response.data.city;
+          localStorage.zip=response.data.zip;
+          localStorage.country=response.data.country;
+          localStorage.state=response.data.state;
+          localStorage.phone=response.data.phone;
+          localStorage.size=response.data.size;
         }else{
           if(response.error_code=="session_key_not_valid"){
-            localStorage.removeItem('session_key');
+            localStorage.session_key=null;
             check_session();
           }else{
             alert("[get_session] error: "+response.error_code);
@@ -101,17 +101,17 @@ function check_session(){
       }
     });
   }
-  $_session_data["first_name"]=localStorage.getItem('first_name');
-  $_session_data["second_name"]=localStorage.getItem('second_name');
-  $_session_data["email"]=localStorage.getItem('email');
-  $_session_data["street_1"]=localStorage.getItem('street_1');
-  $_session_data["street_2"]=localStorage.getItem('street_2');
-  $_session_data["city"]=localStorage.getItem('city');
-  $_session_data["zip"]=localStorage.getItem('zip');
-  $_session_data["country"]=localStorage.getItem('country');
-  $_session_data["state"]=localStorage.getItem('state');
-  $_session_data["phone"]=localStorage.getItem('phone');
-  $_session_data["size"]=localStorage.getItem('size');
+  $_session_data["first_name"]=localStorage.first_name;
+  $_session_data["last_name"]=localStorage.last_name;
+  $_session_data["email"]=localStorage.email;
+  $_session_data["street_1"]=localStorage.street_1;
+  $_session_data["street_2"]=localStorage.street_2;
+  $_session_data["city"]=localStorage.city;
+  $_session_data["zip"]=localStorage.zip;
+  $_session_data["country"]=localStorage.country;
+  $_session_data["state"]=localStorage.state;
+  $_session_data["phone"]=localStorage.phone;
+  $_session_data["size"]=localStorage.size;
 
   $(".input-data-session-data").each(function(){
     $_index=$(this).attr("input-data-session-data");
@@ -123,13 +123,11 @@ function check_session(){
   $(".input-data-session-data").change(function(){
     $_index=$(this).attr("input-data-session-data");
     $_value=$(this).val();
-    localStorage.setItem($_index,$_value);
-    $_session_data[$_index]=localStorage.getItem($_index);
 
     $.ajax({
       type: "POST",
       dataType: 'json',
-      url: $SERVER_PATH+"server/shop/model/access/model.php",
+      url: $_SERVER_PATH+"server/shop/model/access/model.php",
       data: {
         "action":"update_session",
         "session_key":$_session_data["session_key"],
@@ -141,7 +139,7 @@ function check_session(){
       },
       success: function(response) {
         if(response.result){
-
+          check_session();
         }else{
           alert("[get_session] error: "+response.error_code);
         }
@@ -155,10 +153,10 @@ function get_cart(){
   $.ajax({
     type: "POST",
     dataType: 'json',
-    url: $SERVER_PATH+"server/shop/model/cart/model.php",
+    url: $_SERVER_PATH+"server/shop/model/cart/model.php",
     data: {
       action: "list_cart_items",
-      session_key: localStorage.getItem("session_key")
+      session_key: localStorage.session_key
     },
     error: function(data, textStatus, jqXHR) {
       alert("[list_cart_items] error: ajax call error");
@@ -169,6 +167,7 @@ function get_cart(){
         $(".data-ajax-cart-items-count").html($_ajax["cart-items-count"]);
         if($_PAGE=="/shop/cart/"){
           $_ajax["cart-items-list"]="";
+          $_ajax["cart-items-list-small"]="";
           $_ajax["cart-subtotal"]=0;
           $_ajax["cart-items"]=response.data.cart_items;
 
@@ -186,8 +185,17 @@ function get_cart(){
             $_ajax["cart-items-list"]+="  <td class='text-right vert-align'>"+$_cart_item.total+"€</td>";
             $_ajax["cart-items-list"]+="  <td class='text-center vert-align'><a href='javascript:delete_cart_item("+$_cart_item.id_product+","+$_cart_item.id_color+","+$_cart_item.size+")' class='remove-item'><i class='icon-close'></i></a></td>";
             $_ajax["cart-items-list"]+="</tr>";
+
+            $_ajax["cart-items-list-small"]+="<tr>";
+            $_ajax["cart-items-list-small"]+="  <td class='vert-align'><a href='../../shop/product/index.html?id_product="+$_cart_item.id_product+"'>"+$_cart_item.product.name_es+" "+$_cart_item.color.name_es+" (Talla: "+$_s["sizes_guide_"+$_cart_item.size]+")</a></td>";
+            $_ajax["cart-items-list-small"]+="  <td class='text-center vert-align'><input type='number' min='0' max='9' class='form-control form-control-inline input-cart-quantity' data-cart-item='"+$_key+"' style='width: 52px!important;' value='"+$_cart_item.quantity+"'></td>";
+            $_ajax["cart-items-list-small"]+="  <td class='text-center vert-align'>"+$_cart_item.total+"€ <a href='javascript:delete_cart_item("+$_cart_item.id_product+","+$_cart_item.id_color+","+$_cart_item.size+")' class='remove-item'><i class='icon-close'></i></a></td>";
+            $_ajax["cart-items-list-small"]+="</tr>";
+
             $_ajax["cart-subtotal"]+=$_cart_item.total;
-        });
+          });
+
+
 
           $(".data-ajax-cart-items-list").html($_ajax["cart-items-list"]);
           $(".input-cart-quantity").change(function(){
@@ -198,12 +206,31 @@ function get_cart(){
             $_quantity=$(this).val();
             update_quantity_cart_item($_id_product,$_id_color,$_size,$_quantity)
           });
-          $(".data-ajax-cart-subtotal").html(parseInt($_ajax["cart-subtotal"]));
+          $_ajax["cart-subtotal"]=parseInt($_ajax["cart-subtotal"]);
+          $(".data-ajax-cart-subtotal").html($_ajax["cart-subtotal"]);
           $_ajax["cart-shipping"]=9;
           $(".data-ajax-cart-shipping").html($_ajax["cart-shipping"]);
           $_ajax["cart-total"]=$_ajax["cart-subtotal"]+$_ajax["cart-shipping"];
           $(".data-ajax-cart-total").html($_ajax["cart-total"]);
-        }
+
+          $_ajax["cart-items-list-small"]+="";
+          $_ajax["cart-items-list-small"]+="<tr>";
+          $_ajax["cart-items-list-small"]+="  <td>Subtotal:</td>";
+          $_ajax["cart-items-list-small"]+="  <td></td>";
+          $_ajax["cart-items-list-small"]+="  <td class='text-right'><b>"+$_ajax["cart-subtotal"]+"€</b></td>";
+          $_ajax["cart-items-list-small"]+="</tr>";
+          $_ajax["cart-items-list-small"]+="<tr>";
+          $_ajax["cart-items-list-small"]+="  <td>Envío:</td>";
+          $_ajax["cart-items-list-small"]+="  <td></td>";
+          $_ajax["cart-items-list-small"]+="  <td class='text-right'>"+$_ajax["cart-shipping"]+"€</td>";
+          $_ajax["cart-items-list-small"]+="</tr>";
+          $_ajax["cart-items-list-small"]+="<tr>";
+          $_ajax["cart-items-list-small"]+="  <td>Total*:</td>";
+          $_ajax["cart-items-list-small"]+="  <td></td>";
+          $_ajax["cart-items-list-small"]+="  <td id='total' class='text-right'>"+$_ajax["cart-total"]+"€</td>";
+          $_ajax["cart-items-list-small"]+="</tr>";
+          $(".data-ajax-cart-items-list-small").html($_ajax["cart-items-list-small"]);
+      }
 
         if($_PAGE=="/shop/checkout/1/"){
           $_ajax["order-items-list"]="";
@@ -266,6 +293,24 @@ function get_cart(){
             $(".data-ajax-cart-total").html($_ajax["cart-total"]);
             $_ajax["cart-items-count"]="";
             $(".data-ajax-cart-items-count").html($_ajax["cart-items-count"]);
+
+            $_ajax["cart-items-list-small"]="";
+            $_ajax["cart-items-list-small"]+="<tr>";
+            $_ajax["cart-items-list-small"]+="  <td>Subtotal:</td>";
+            $_ajax["cart-items-list-small"]+="  <td></td>";
+            $_ajax["cart-items-list-small"]+="  <td class='text-right'><b>"+$_ajax["cart-subtotal"]+"€</b></td>";
+            $_ajax["cart-items-list-small"]+="</tr>";
+            $_ajax["cart-items-list-small"]+="<tr>";
+            $_ajax["cart-items-list-small"]+="  <td>Envío:</td>";
+            $_ajax["cart-items-list-small"]+="  <td></td>";
+            $_ajax["cart-items-list-small"]+="  <td class='text-right'>"+$_ajax["cart-shipping"]+"€</td>";
+            $_ajax["cart-items-list-small"]+="</tr>";
+            $_ajax["cart-items-list-small"]+="<tr>";
+            $_ajax["cart-items-list-small"]+="  <td>Total*:</td>";
+            $_ajax["cart-items-list-small"]+="  <td></td>";
+            $_ajax["cart-items-list-small"]+="  <td id='total' class='text-right'>"+$_ajax["cart-total"]+"€</td>";
+            $_ajax["cart-items-list-small"]+="</tr>";
+            $(".data-ajax-cart-items-list-small").html($_ajax["cart-items-list-small"]);
           }
 
           if($_PAGE=="/shop/checkout/1/"){
@@ -298,14 +343,13 @@ function get_cart(){
 }
 
 function add_to_cart($_id_product,$_id_color,$_size,$_quantity){
-
   $.ajax({
     type: "POST",
     dataType: 'json',
-    url: $SERVER_PATH+"server/shop/model/cart/model.php",
+    url: $_SERVER_PATH+"server/shop/model/cart/model.php",
     data: {
       action: "add_cart_item",
-      session_key: localStorage.getItem("session_key"),
+      session_key: localStorage.session_key,
       id_product: $_id_product,
       id_color: $_id_color,
       size: $_size,
@@ -328,10 +372,10 @@ function delete_cart_item($_id_product,$_id_color,$_size){
   $.ajax({
     type: "POST",
     dataType: 'json',
-    url: $SERVER_PATH+"server/shop/model/cart/model.php",
+    url: $_SERVER_PATH+"server/shop/model/cart/model.php",
     data: {
       action: "delete_cart_item",
-      session_key: localStorage.getItem("session_key"),
+      session_key: localStorage.session_key,
       id_product: $_id_product,
       id_color: $_id_color,
       size: $_size
@@ -355,10 +399,10 @@ function update_quantity_cart_item($_id_product,$_id_color,$_size,$_quantity){
     $.ajax({
       type: "POST",
       dataType: 'json',
-      url: $SERVER_PATH+"server/shop/model/cart/model.php",
+      url: $_SERVER_PATH+"server/shop/model/cart/model.php",
       data: {
         action: "update_quantity_cart_item",
-        session_key: localStorage.getItem("session_key"),
+        session_key: localStorage.session_key,
         id_product: $_id_product,
         id_color: $_id_color,
         size: $_size,

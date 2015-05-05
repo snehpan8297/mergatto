@@ -2,7 +2,7 @@ $(document).ready(function() {
   $.ajax({
     type: "POST",
     dataType: 'json',
-    url: $SERVER_PATH+"server/shop/model/categories/model.php",
+    url: $_SERVER_PATH+"server/shop/model/categories/model.php",
     data: {
       action: "list_categories"
     },
@@ -26,7 +26,7 @@ $(document).ready(function() {
   $.ajax({
     type: "POST",
     dataType: 'json',
-    url: $SERVER_PATH+"server/shop/model/categories/model.php",
+    url: $_SERVER_PATH+"server/shop/model/categories/model.php",
     data: {
       action: "list_families",
       id_category: $_GET["id_category"]
@@ -54,7 +54,7 @@ $(document).ready(function() {
   $.ajax({
     type: "POST",
     dataType: 'json',
-    url: $SERVER_PATH+"server/shop/model/products/model.php",
+    url: $_SERVER_PATH+"server/shop/model/products/model.php",
     data: {
       action: "get_product",
       id_product: $_GET["id_product"]

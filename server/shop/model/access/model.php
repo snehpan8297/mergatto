@@ -69,7 +69,7 @@
       $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
       $data=array();
       $data["first_name"]=$client["name"];
-      $data["second_name"]=$client["subname"];
+      $data["last_name"]=$client["subname"];
       $data["email"]=$client["email"];
       $data["street_1"]=$client["address_1"];
       $data["street_2"]=$client["address_2"];
@@ -80,7 +80,7 @@
       $data["phone"]=$client["mobile"];
       $data["size"]=$client["size"];
       $data["last_activity"]=$timestamp;
-      $data["loged"]=1;
+      $data["logged"]=1;
       updateInBD($table,$filter,$data);
       $session=getInBD($table,$filter);
 
@@ -156,7 +156,7 @@
 
       $session=getInBD($table,$filter);
 
-      if($session["loged"]==1){
+      if($session["logged"]==1){
         $table="clients";
         $filter=array();
         $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
@@ -167,7 +167,7 @@
             updateInBD($table,$filter,$data);
             break;
 
-          case "second_name":
+          case "last_name":
             $data=array();
             $data["subname"]=$action_data["value"];
             updateInBD($table,$filter,$data);

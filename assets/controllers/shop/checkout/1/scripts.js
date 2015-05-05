@@ -2,7 +2,7 @@ $(document).ready(function() {
   $.ajax({
     type: "POST",
     dataType: 'json',
-    url: $SERVER_PATH+"server/shop/model/categories/model.php",
+    url: $_SERVER_PATH+"server/shop/model/categories/model.php",
     data: {
       action: "list_categories"
     },

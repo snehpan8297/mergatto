@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	
+
 	/* select colors ======================================= */
 	$('.product-colors > li > a').click(function() {
 		$('.product-colors > li').removeClass('selected');
@@ -12,9 +12,9 @@ $(document).ready(function() {
 	/* off canvas menu ======================================= */
 	$('.menu-link, .close-menu').on('click', function(){
 		$('#wrap').toggleClass('menu-open');
-		// $('.menu-wrapper').toggleClass('menu-show');
+		$('.menu-wrapper').toggleClass('menu-hidden');
 		return false;
-	});	
+	});
 	$(window).bind("resize",function(){
 		// console.log($(this).width())
 		if($(this).width() >768){

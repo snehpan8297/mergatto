@@ -210,6 +210,9 @@ a:hover {
 	position: relative;
 	font-weight: 300;
 }
+.menu-hidden{
+	display:none !important;
+}
 .menu-wrapper h3 {
 	color: #FFF;
 	/*font-weight: 400;*/
@@ -741,6 +744,9 @@ a.nav-brand {
 	-moz-transition: all 0.3s ease-out;
 	transition: all 0.3s ease-out;
 }
+.nav-brand img{
+	width:150px;
+}
 .cart {
 	position: absolute;
 	top: 0;
@@ -1233,4 +1239,7 @@ ul.nav-list-3{
 }
 ul.nav-list-3 li{
 	margin:5px 5px;
+}
+.text-xsmall{
+	font-size:70%;
 }

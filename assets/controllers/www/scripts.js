@@ -7,7 +7,7 @@ $(document).ready(function() {
   $.ajax({
     type: "POST",
     dataType: 'json',
-    url: $SERVER_PATH+"server/shop/model/pages/model.php",
+    url: $_SERVER_PATH+"server/shop/model/pages/model.php",
     data: {
       action: "get_page",
       page: $_GET["title"]
