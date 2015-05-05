@@ -1,0 +1,211 @@
+<!doctype html>
+<html ng-app="storeApp">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta content="" name="description" />
+    <meta content="Mergatto Team SL" name="author" />
+
+    <script>
+      var $_PATH="../../";
+      var $_PAGE="/shop/cart/";
+    </script>
+
+    <title>Oky^Coky Shop</title>
+    <meta name="description" content="Oky^Coky">
+
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <script src="../../assets/plugins/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/plugins/jquery/jquery.mobile.min.js" type="text/javascript"></script>
+    <script src="../../assets/controllers/general/init.js" type="text/javascript"></script>
+
+
+    <link href="../../assets/plugins/boostrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
+    <link href="../../assets/css/style.css?v=5" rel="stylesheet">
+    <link href="../../assets/css/icomoon/style.css" rel="stylesheet">
+    <link href="../../assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="../../assets/img/ico/32.png" rel="shortcut icon" sizes="32x32" type="image/png"/>
+    <link href="../../assets/img/ico/60.png" rel="apple-touch-icon-precomposed" type="image/png"/>
+    <link href="../../assets/img/ico/72.png" rel="apple-touch-icon-precomposed" sizes="72x72" type="image/png"/>
+    <link href="../../assets/img/ico/120.png" rel="apple-touch-icon-precomposed" sizes="120x120" type="image/png"/>
+    <link href="../../assets/img/ico/152.png" rel="apple-touch-icon-precomposed" sizes="152x152" type="image/png"/>
+    <!--[if lt IE 9]>
+      <script src="../../assets/plugins/html5shiv/html5shiv.js"></script>
+      <script src="../../assets/plugins/respond/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+	<body id="home">
+
+    <div class="container-fluid visible-xs">
+			<div class="menu-wrapper">
+				<a href="javascript:void(0)" class="close-menu visible-xs"><i class="icon-close"></i></a>
+        <h3 class="" data-lang="menu">Nuevo en Tienda</h3>
+        <ul class="nav-list text-center" data-ajax="categories-list">
+          <li><a href="../../shop/products/index.html?category=new-in-shop&section=all"><span>Todo</span></a></li>
+          <li><a href="../../shop/products/index.html?category=new-in-shop&section=coats"><span>Abrigos</span></a></li>
+          <li><a href="../../shop/products/index.html?category=new-in-shop&section=dresses"><span>Vestidos</span></a></li>
+          <li><a href="../../shop/products/index.html?category=new-in-shop&section=jackets"><span>Chaquetas</span></a></li>
+          <li><a href="../../shop/products/index.html?category=new-in-shop&section=skirts"><span>Faldas</span></a></li>
+          <li><a href="../../shop/products/index.html?category=new-in-shop&section=jumpsuits"><span>Monos</span></a></li>
+          <li><a href="../../shop/products/index.html?category=new-in-shop&section=trousers"><span>Pantalones</span></a></li>
+          <li><a href="../../shop/products/index.html?category=new-in-shop&section=tops"><span>Tops</span></a></li>
+          <li><a href="../../shop/products/index.html?category=new-in-shop&section=accesories"><span>Complementos</span></a></li>
+				</ul>
+        <h3 class="" data-lang="menu">Tienda</h3>
+        <ul class="nav-list text-center" data-ajax="categories-list">
+					<li><a href="../../shop/products/index.html?category=new-in-shop"><span>Nuevo en Tienda</span></a></li>
+          <li><a href="../../shop/products/index.html?category=new-collection"><span>Nueva Colección</span></a></li>
+          <li><a href="../../shop/products/index.html?category=outlet"><span>Outlet</span></a></li>
+				</ul>
+				<h3 class="" data-lang="menu">Menú</h3>
+				<ul class="nav-list text-center" data-ajax="nav-list">
+					<li><a href="../../shop/index.html" data-lang="shop"><span>Tienda</span></a></li>
+					<li><a href="../../pages/index.html?title=lookbook" data-lang="lookbook"><span>Lookbook SS15</span></a></li>
+					<li><a href="../../blog/posts/index.html" data-lang="blog"><span>Blog</span></a></li>
+					<li><a href="../../about/index.html" data-lang="contact"><span>Nosotros</span></a></li>
+					<li><a href="../../contact/index.html" data-lang="contact"><span>Contacto</span></a></li>
+					<li><a href="../../access/login.html" data-lang="my-account"><span>Mi Cuenta</span></a></li>
+				</ul>
+			</div>
+		</div>
+
+    <div id="wrap">
+			<div id="main-nav" class="">
+				<div class="container-fluid">
+					<div class="nav-header">
+						<a href="../../index.html" class="nav-brand"><img src="../../assets/img/logo.png"/></a>
+						<a class="nav-icon pull-right visible-xs menu-link" href="javascript:void(0)"><i class="fa fa-bars"></i></a>
+						<a class="nav-icon cart pull-right" href="../../shop/cart/index.html"><i class="fa fa-shopping-cart"></i><span class="badge data-ajax-cart-items-count" data-ajax="cart-items-count"></span></a>
+					</div>
+				</div>
+			</div>
+			<div class="hidden-xs">
+				<ul class="nav-list text-center effect" data-ajax="nav-list">
+					<li class="active"><a href="../../shop/index.html" data-lang="shop"><span>Tienda</span></a></li>
+					<li><a href="../../pages/index.html?title=lookbook" data-lang="lookbook"><span>Lookbook SS15</span></a></li>
+					<li><a href="../../blog/posts/index.html" data-lang="blog"><span>Blog</span></a></li>
+					<li><a href="../../about/index.html" data-lang="contact"><span>Nosotros</span></a></li>
+					<li><a href="../../contact/index.html" data-lang="contact"><span>Contacto</span></a></li>
+					<li><a href="../../access/login/index.html" data-lang="my-account"><span>Mi Cuenta</span></a></li>
+				</ul>
+			</div>
+			<div class="hidden-xs">
+				<ul class="nav-list nav-list-secondary text-center data-ajax-categories-list" data-ajax="categories-list">
+					<li>&nbsp</li>
+				</ul>
+			</div>
+      <div class="hidden-xs">
+				<ul class="nav-list text-center data-ajax-families-list" data-ajax="families-list">
+					<li>&nbsp</li>
+				</ul>
+			</div>
+
+			<div class="container-fluid title">
+				<div class="row">
+					<div class="col-sm-12">
+						<h2><span data-lang="shopping-cart">Carro de la compra</span></h2>
+					</div>
+				</div>
+			</div>
+
+			<div class="container-fluid cart-list" ng-controller="cartController">
+				<div class="row">
+					<div class="col-sm-8">
+						<table class="table">
+						  <thead>
+							<tr>
+							  <th><span data-lang="item">Producto</span></th>
+                <th><span data-lang="color">Color</span></th>
+                <th><span data-lang="size">Talla</span></th>
+                <th><span data-lang="unit-cost">Precio Unidad</span></th>
+							  <th class="text-center"><span data-lang="quantity">Cantidad</span></th>
+							  <th class="text-right"><span data-lang="total">Total</span></th>
+							  <th></th>
+							</tr>
+						  </thead>
+						  <tbody class="data-ajax-cart-items-list" data-ajax="cart-items-list">
+
+              </tbody>
+						</table>
+
+						<h4>ENVÍOS FUERA DE LA PENÍNSULA</h4>
+						<p>Los envíos fuera de la península son calculados y mostrados una vez se ha introducido la dirección de envío.</p>
+
+					</div>
+					<div class="col-sm-4 ">
+							<table class="table">
+							  <thead>
+								<tr>
+								  <th colspan="3" class="text-center"><span data-lang="order-summary">Resumen de pedido</span></th>
+								</tr>
+							  </thead>
+							  <tbody>
+								<tr>
+								  <td>Subtotal:</td>
+								  <td></td>
+								  <td class="text-right"><b><span class='data-ajax-cart-subtotal'></span>€</b></td>
+								</tr>
+								<tr>
+								  <td>Envío:</td>
+								  <td></td>
+								  <td class="text-right"><span class='data-ajax-cart-shipping'></span>€</td>
+								</tr>
+								<tr>
+								  <td>Total*:</td>
+								  <td></td>
+								  <td id="total" class="text-right"><span class='data-ajax-cart-total'></span>€</td>
+								</tr>
+							  </tbody>
+							</table>
+              <p class="text-right">* <span data-lang="tax-inclued">Iva Incluido</span></p>
+							<a href="checkout.html" class="btn btn-right" data-lang="pay-order">Finalizar pedido</a>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12 text-center show-more">
+						<a href="../index.html" class="btn btn-outline" data-lang="back-to-shop">Volver a la tienda</a>
+					</div>
+				</div>
+
+			</div>
+
+			<footer>
+				<div class="container-fluid">
+					<div class="pull-left copyright">
+						<p>STELLA <b>SHOP</b> &copy; 2014. Designed by <a href="http://www.angelostudio.net" target="_blank">Angelo Studio</a>.</p>
+						<ul class="nav-list effect">
+							<li><a href="terms-conditions.html">Delivery & Returns</a></li>
+							<li><a href="terms-conditions.html">Terms & Conditions</a></li>
+							<li><a href="privacy.html">Privacy</a></li>
+							<li><a href="faq.html">FAQ</a></li>
+						</ul>
+					</div>
+
+					<div class="pull-right copyright">
+							<ul class="social-links">
+								<li><a href="https://twitter.com/angelo_studio"><i class="icon-twitter"></i></a></li>
+								<li><a href="http://dribbble.com/angelo_studio"><i class="icon-dribbble"></i></a></li>
+								<li><a href="http://www.pinterest.com/angelostudio/"><i class="icon-pinterest"></i></a></li>
+							</ul>
+					</div>
+				</div>
+			</footer>
+		</div>
+    <script src="../../assets/plugins/boostrap/js/bootstrap.min.js" type="text/javascript"></script>
+		<script src="../../assets/js/placeholders.min.js" type="text/javascript"></script>
+		<script src="../../assets/js/custom.js" type="text/javascript"></script>
+		<script src="../../assets/js/ga.js" type="text/javascript"></script>
+		<script src="../../assets/controllers/general/settings.js" type="text/javascript"></script>
+		<script src="../../assets/controllers/general/functions.js" type="text/javascript"></script>
+		<script src="../../assets/controllers/general/system_functions.js" type="text/javascript"></script>
+		<script src="../../assets/controllers/general/interface_functions.js" type="text/javascript"></script>
+		<script src="../../assets/controllers/general/init.js" type="text/javascript"></script>
+		<script src="../../assets/controllers/shop/cart/scripts.js" type="text/javascript"></script>
+	</body>
+</html>

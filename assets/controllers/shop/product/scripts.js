@@ -81,8 +81,10 @@ $(document).ready(function() {
         $(".data-ajax-product-mark").html($_ajax["product-mark"]);
 
         $_ajax["product-images"]="";
-        $_ajax["product-images"]+="<img src='../../media/shop/photos/"+response.data.serial_model_code+"-1.jpg' class='product-img img-responsive full-width' alt='item'>";
-        $_ajax["product-images"]+="<img src='../../media/shop/photos/"+response.data.serial_model_code+"-2.jpg' class='product-img img-responsive full-width' alt='item'>";
+        jQuery.each(response.data.images,function($_key,$_image){
+          $_ajax["product-images"]+="<img src='../../media/shop/photos/"+response.data.serial_model_code+"-"+$_image.index+".jpg' class='product-img img-responsive full-width' alt='item'>";
+        });
+
         $(".data-ajax-product-images").html($_ajax["product-images"]);
 
         $_ajax["product-colors"]="<select class='form-control' id='product-color'>";
@@ -114,11 +116,11 @@ $(document).ready(function() {
           $("#product-sizes-"+$_color_selected).removeClass("hidden");
         });
 
+
         $("#add-to-cart").click(function(){
-          $_color_selected=$("#product-color").val();
-          $_size_selected=$("#product-sizes-"+$_color_selected).val();
-          alert($_color_selected+" "+$_size_selected);
+          add_to_cart($_GET["id_product"],$("#product-color").val(),$("#product-sizes-"+$_color_selected).val(),1);
         });
+
       }else{
         alert("[list_products] error: "+response.error_code);
       }

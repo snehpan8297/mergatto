@@ -20,3 +20,7 @@ var delimiter="";
 })();
 
 var $_ajax = new Array();
+
+check_session();
+
+get_cart();

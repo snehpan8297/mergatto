@@ -29,7 +29,7 @@
 	/*********************************************************
 	* AJAX OPERATIONS
 	*********************************************************/
-	$server_option='local';
+	$server_option='server';
 
 	switch ($server_option){
 		case "local":

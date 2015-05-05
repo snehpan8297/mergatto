@@ -116,7 +116,7 @@
               if($product["use_discount"]==1){
                 $product["price_with_discount"]=intval($product["pvp"]*(100-$product["discount"])/100);
               }
-              $product["price_with_discount"]=$product["price_with_discount"].",00";
+              $product["price_with_discount"]=$product["price_with_discount"];
               $response["data"][]=$product;
 
               $list_empty=false;
@@ -188,7 +188,12 @@
           $product["colors"][]=$color;
         }
       }
-
+      $product["images"]=array();
+      for($i=1;$i<=12;$i++){
+        if(file_exists(PATH."../../media/shop/photos/".$product["serial_model_code"]."-".$i.".jpg")){
+          $product["images"][]["index"]=$i;
+        }
+      }
       $response["data"]=array();
       $response["data"]=$product;
 
