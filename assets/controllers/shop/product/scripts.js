@@ -44,7 +44,7 @@ $(document).ready(function() {
         });
         $(".data-ajax-families-list").html($_ajax["families-list"]);
       }else{
-        alert("[list_families] error: "+response.error_code);
+        //alert("[list_families] error: "+response.error_code);
       }
     }
   });
