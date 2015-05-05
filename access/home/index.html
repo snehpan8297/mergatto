@@ -8,7 +8,7 @@
 
     <script>
       var $_PATH="../../";
-      var $_PAGE="/shop/cart/";
+      var $_PAGE="/access/login/";
     </script>
 
     <title>Oky^Coky Shop</title>
@@ -85,12 +85,12 @@
 			</div>
 			<div class="hidden-xs">
 				<ul class="nav-list text-center effect" data-ajax="nav-list">
-					<li class="active"><a href="../../shop/index.html" data-lang="shop"><span>Tienda</span></a></li>
+					<li><a href="../../shop/index.html" data-lang="shop"><span>Tienda</span></a></li>
 					<li><a href="../../page/index.html?title=lookbook" data-lang="lookbook"><span>Lookbook SS15</span></a></li>
 					<li><a href="../../page/index.html?title=posts" data-lang="blog"><span>Blog</span></a></li>
 					<li><a href="../../page/index.html?title=about" data-lang="contact"><span>Nosotros</span></a></li>
 					<li><a href="../../page/index.html?title=contact" data-lang="contact"><span>Contacto</span></a></li>
-					<li><a href="../../access/login/index.html" data-lang="my-account"><span>Mi Cuenta</span></a></li>
+					<li class="active"><a href="../../access/login/index.html" data-lang="my-account"><span>Mi Cuenta</span></a></li>
 				</ul>
 			</div>
 			<div class="hidden-xs">
@@ -104,74 +104,14 @@
 				</ul>
 			</div>
 
-			<div class="container-fluid title">
-				<div class="row">
-					<div class="col-sm-12">
-						<h2><span data-lang="shopping-cart">Carro de la compra</span></h2>
-					</div>
-				</div>
-			</div>
-
-			<div class="container-fluid cart-list" ng-controller="cartController">
-				<div class="row">
-					<div class="col-sm-8">
-						<table class="table">
-						  <thead>
-							<tr>
-							  <th><span data-lang="item">Producto</span></th>
-                <th><span data-lang="color">Color</span></th>
-                <th><span data-lang="size">Talla</span></th>
-                <th><span data-lang="unit-cost">Precio Unidad</span></th>
-							  <th class="text-center"><span data-lang="quantity">Cantidad</span></th>
-							  <th class="text-right"><span data-lang="total">Total</span></th>
-							  <th></th>
-							</tr>
-						  </thead>
-						  <tbody class="data-ajax-cart-items-list" data-ajax="cart-items-list">
-
-              </tbody>
-						</table>
-
-						<h4>ENVÍOS FUERA DE LA PENÍNSULA</h4>
-						<p>Los envíos fuera de la península son calculados y mostrados una vez se ha introducido la dirección de envío.</p>
-
-					</div>
-					<div class="col-sm-4 ">
-							<table class="table">
-							  <thead>
-								<tr>
-								  <th colspan="3" class="text-center"><span data-lang="order-summary">Resumen de pedido</span></th>
-								</tr>
-							  </thead>
-							  <tbody>
-								<tr>
-								  <td>Subtotal:</td>
-								  <td></td>
-								  <td class="text-right"><b><span class='data-ajax-cart-subtotal'></span>€</b></td>
-								</tr>
-								<tr>
-								  <td>Envío:</td>
-								  <td></td>
-								  <td class="text-right"><span class='data-ajax-cart-shipping'></span>€</td>
-								</tr>
-								<tr>
-								  <td>Total*:</td>
-								  <td></td>
-								  <td id="total" class="text-right"><span class='data-ajax-cart-total'></span>€</td>
-								</tr>
-							  </tbody>
-							</table>
-              <p class="text-right">* <span data-lang="tax-inclued">Iva Incluido</span></p>
-							<a href="../checkout/1/" class="btn btn-right" data-lang="pay-order">Finalizar pedido</a>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-sm-12 text-center show-more">
-						<a href="../index.html" class="btn btn-outline" data-lang="back-to-shop">Volver a la tienda</a>
-					</div>
-				</div>
-
+			<div class="container-fluid cart-list">
+        <div class="row">
+          <div class="col-sm-12" >
+            <p class="text-center big-text padding-10">404</p>
+            <h1 class="text-center" data-lang="404-title">Ops! Página no encontrada</h1>
+            <p class="text-center" data-lang="404-content">La página que ha solicitado no existe o no es accesible.</p>
+          </div>
+        </div>
 			</div>
 
       <footer>
@@ -205,6 +145,6 @@
 		<script src="../../assets/controllers/general/system_functions.js" type="text/javascript"></script>
 		<script src="../../assets/controllers/general/interface_functions.js" type="text/javascript"></script>
 		<script src="../../assets/controllers/general/init.js" type="text/javascript"></script>
-		<script src="../../assets/controllers/shop/cart/scripts.js" type="text/javascript"></script>
+		<script src="../../assets/controllers/access/login/scripts.js" type="text/javascript"></script>
 	</body>
 </html>

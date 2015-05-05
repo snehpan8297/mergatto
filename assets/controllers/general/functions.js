@@ -29,13 +29,15 @@ function logout(){
 *********************************************************/
 
 function check_session(){
+
+  $_session_data=new Array();
   if ((typeof localStorage.getItem('session_key') == 'undefined')||(localStorage.getItem('session_key') == null)){
     $.ajax({
       type: "POST",
       dataType: 'json',
       url: $SERVER_PATH+"server/shop/model/access/model.php",
       data: {
-        "action":"get_session"
+        "action":"add_session"
       },
       error: function(data, textStatus, jqXHR) {
         alert("[get_session] error: ajax call error");
@@ -43,13 +45,110 @@ function check_session(){
       success: function(response) {
         if(response.result){
           localStorage.setItem('session_key',response.data.session_key);
-        }else{
-          alert("[get_session] error: "+result.error_code);
+          localStorage.setItem('first_name',"");
+          localStorage.setItem('second_name',"");
+          localStorage.setItem('email',"");
+          localStorage.setItem('street_1',"");
+          localStorage.setItem('street_2',"");
+          localStorage.setItem('city',"");
+          localStorage.setItem('zip',"");
+          localStorage.setItem('state',"");
+          localStorage.setItem('phone',"");
+          localStorage.setItem('size',"");
+          $_session_data["session_key"]=localStorage.getItem('session_key');
+    }else{
+          alert("[get_session] error: "+response.error_code);
         }
       }
     });
     //window.location.href = $_PATH+"access/login/";
+  }else{
+    $_session_data["session_key"]=localStorage.getItem('session_key');
+
+    $.ajax({
+      type: "POST",
+      dataType: 'json',
+      url: $SERVER_PATH+"server/shop/model/access/model.php",
+      data: {
+        "action":"get_session",
+        "session_key":$_session_data["session_key"]
+      },
+      error: function(data, textStatus, jqXHR) {
+        alert("[get_session] error: ajax call error");
+      },
+      success: function(response) {
+        if(response.result){
+          localStorage.setItem('session_key',response.data.session_key);
+          localStorage.setItem('first_name',response.data.first_name);
+          localStorage.setItem('second_name',response.data.second_name);
+          localStorage.setItem('email',response.data.email);
+          localStorage.setItem('street_1',response.data.street_1);
+          localStorage.setItem('street_2',response.data.street_2);
+          localStorage.setItem('city',response.data.city);
+          localStorage.setItem('zip',response.data.zip);
+          localStorage.setItem('country',response.data.country);
+          localStorage.setItem('state',response.data.state);
+          localStorage.setItem('phone',response.data.phone);
+          localStorage.setItem('size',response.data.size);
+        }else{
+          if(response.error_code=="session_key_not_valid"){
+            localStorage.removeItem('session_key');
+            check_session();
+          }else{
+            alert("[get_session] error: "+response.error_code);
+          }
+        }
+      }
+    });
   }
+  $_session_data["first_name"]=localStorage.getItem('first_name');
+  $_session_data["second_name"]=localStorage.getItem('second_name');
+  $_session_data["email"]=localStorage.getItem('email');
+  $_session_data["street_1"]=localStorage.getItem('street_1');
+  $_session_data["street_2"]=localStorage.getItem('street_2');
+  $_session_data["city"]=localStorage.getItem('city');
+  $_session_data["zip"]=localStorage.getItem('zip');
+  $_session_data["country"]=localStorage.getItem('country');
+  $_session_data["state"]=localStorage.getItem('state');
+  $_session_data["phone"]=localStorage.getItem('phone');
+  $_session_data["size"]=localStorage.getItem('size');
+
+  $(".input-data-session-data").each(function(){
+    $_index=$(this).attr("input-data-session-data");
+    $(this).val($_session_data[$_index]);
+    if($_index=="size"){
+
+    }
+  });
+  $(".input-data-session-data").change(function(){
+    $_index=$(this).attr("input-data-session-data");
+    $_value=$(this).val();
+    localStorage.setItem($_index,$_value);
+    $_session_data[$_index]=localStorage.getItem($_index);
+
+    $.ajax({
+      type: "POST",
+      dataType: 'json',
+      url: $SERVER_PATH+"server/shop/model/access/model.php",
+      data: {
+        "action":"update_session",
+        "session_key":$_session_data["session_key"],
+        "index":$_index,
+        "value":$_value
+      },
+      error: function(data, textStatus, jqXHR) {
+        alert("[get_session] error: ajax call error");
+      },
+      success: function(response) {
+        if(response.result){
+
+        }else{
+          alert("[get_session] error: "+response.error_code);
+        }
+      }
+    });
+  });
+
 }
 
 function get_cart(){
@@ -105,6 +204,48 @@ function get_cart(){
           $_ajax["cart-total"]=$_ajax["cart-subtotal"]+$_ajax["cart-shipping"];
           $(".data-ajax-cart-total").html($_ajax["cart-total"]);
         }
+
+        if($_PAGE=="/shop/checkout/1/"){
+          $_ajax["order-items-list"]="";
+          $_ajax["order-subtotal"]=0;
+
+          jQuery.each(response.data.cart_items,function($_key,$_cart_item){
+            $_ajax["order-items-list"]+="<tr>";
+            $_ajax["order-items-list"]+="  <td class='vert-align'>"+$_cart_item.product.name_es+"</td>";
+            $_ajax["order-items-list"]+="  <td class='vert-align'>"+$_cart_item.quantity+"x</td>";
+            $_ajax["order-items-list"]+="  <td class='vert-align text-right'>"+$_cart_item.total+"€</td>";
+            $_ajax["order-items-list"]+="</tr>";
+            $_ajax["order-subtotal"]+=$_cart_item.total;
+          });
+
+          $_ajax["order-subtotal"]=parseInt($_ajax["order-subtotal"]);
+
+          $_ajax["order-items-list"]+="<tr>";
+          $_ajax["order-items-list"]+="  <td class='vert-align'><b>Subtotal</b></td>";
+          $_ajax["order-items-list"]+="  <td class='vert-align'></td>";
+          $_ajax["order-items-list"]+="  <td class='vert-align text-right'>"+$_ajax["order-subtotal"]+"€</td>";
+          $_ajax["order-items-list"]+="</tr>";
+
+          $_ajax["order-shipping"]="9";
+          $_ajax["order-shipping"]=parseInt($_ajax["order-shipping"]);
+
+          $_ajax["order-items-list"]+="<tr>";
+          $_ajax["order-items-list"]+="  <td class='vert-align'>Coste de envío</td>";
+          $_ajax["order-items-list"]+="  <td class='vert-align'></td>";
+          $_ajax["order-items-list"]+="  <td class='vert-align text-right'>"+$_ajax["order-shipping"]+"€</td>";
+          $_ajax["order-items-list"]+="</tr>";
+
+          $_ajax["cart-total"]=$_ajax["order-subtotal"]+$_ajax["order-shipping"];
+
+          $_ajax["order-items-list"]+="<tr>";
+          $_ajax["order-items-list"]+="  <td class='vert-align'>Coste de envío</td>";
+          $_ajax["order-items-list"]+="  <td class='vert-align'></td>";
+          $_ajax["order-items-list"]+="  <td class='vert-align text-right' id='total'>"+$_ajax["cart-total"]+"€</td>";
+          $_ajax["order-items-list"]+="</tr>";
+
+          $(".data-ajax-order-items-list").html($_ajax["order-items-list"]);
+        }
+
       }else{
         if(response.error_code=="cart_items_list_empty"){
           $_ajax["cart-items-count"]="";
@@ -126,6 +267,29 @@ function get_cart(){
             $_ajax["cart-items-count"]="";
             $(".data-ajax-cart-items-count").html($_ajax["cart-items-count"]);
           }
+
+          if($_PAGE=="/shop/checkout/1/"){
+            $_ajax["order-items-list"]+="<tr>";
+            $_ajax["order-items-list"]+="  <td class='vert-align'><b>Subtotal</b></td>";
+            $_ajax["order-items-list"]+="  <td class='vert-align'></td>";
+            $_ajax["order-items-list"]+="  <td class='vert-align text-right'>0€</td>";
+            $_ajax["order-items-list"]+="</tr>";
+
+            $_ajax["order-items-list"]+="<tr>";
+            $_ajax["order-items-list"]+="  <td class='vert-align'>Coste de envío</td>";
+            $_ajax["order-items-list"]+="  <td class='vert-align'></td>";
+            $_ajax["order-items-list"]+="  <td class='vert-align text-right'>0€</td>";
+            $_ajax["order-items-list"]+="</tr>";
+
+            $_ajax["order-items-list"]+="<tr>";
+            $_ajax["order-items-list"]+="  <td class='vert-align'>Coste de envío</td>";
+            $_ajax["order-items-list"]+="  <td class='vert-align'></td>";
+            $_ajax["order-items-list"]+="  <td class='vert-align text-right' id='total'>0€</td>";
+            $_ajax["order-items-list"]+="</tr>";
+
+            $(".data-ajax-order-items-list").html($_ajax["order-items-list"]);
+          }
+
         }
 
       }

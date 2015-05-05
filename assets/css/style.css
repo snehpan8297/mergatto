@@ -695,7 +695,7 @@ footer {
 ul.nav-list {
 	list-style-type: none;
 	display: block;
-	margin: 0px auto 20px auto;
+	margin: 0px auto 0px auto;
 	padding: 0 2em;
 	/*width: 100%;*/
 	font-weight: 300;
@@ -822,7 +822,8 @@ a.close-menu:hover {
 ul.nav-list-secondary{
 	background-color:#000;
 	padding:10px 0px !important;
-	margin:-20px auto 10px auto !important;
+	margin:0px auto 0px auto !important;
+	font-size:12px;
 }
 ul.nav-list-secondary li{
 
@@ -1182,8 +1183,13 @@ blockquote footer, blockquote small, blockquote .small {
 .xsmall th,
 .xsmall td{
 	font-size:85% !important;
+	padding:2px !important;
+	text-align:center !important;
 }
-
+.xsmall th.first,
+.xsmall td.first{
+	text-align:left !important;
+}
 .margin-10{
 	margin:10px;
 }
@@ -1221,6 +1227,10 @@ blockquote footer, blockquote small, blockquote .small {
 	color:#ddd;
 }
 ul.nav-list-3{
-	margin:0px auto 20px auto;
+	margin:0px auto 0px auto;
+	padding:10px 0px;
 	font-size:12px;
+}
+ul.nav-list-3 li{
+	margin:5px 5px;
 }

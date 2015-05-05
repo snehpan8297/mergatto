@@ -72,7 +72,7 @@ $(document).ready(function() {
           $_ajax["product-list"]+="   <img src='../../media/shop/photos/"+$_product.serial_model_code+"-1.jpg' class='img-responsive full-width' alt='item'>";
           if($_product.use_discount==1){
             $_ajax["product-list"]+="   <span class='productlist-label'>";
-            $_ajax["product-list"]+="     <span class='sale-label'>-"+$_product.discount+"% Descuento</span>";
+            $_ajax["product-list"]+="     <!--<span class='sale-label'>-"+$_product.discount+"% Descuento</span>-->";
             $_ajax["product-list"]+="   </span>";
           }
           $_ajax["product-list"]+="   <span class='productlist-price-container'>";
