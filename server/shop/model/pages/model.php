@@ -217,7 +217,7 @@
           $response["data"]["content"]="
           <div class='container-fluid'>
           <h1 class='text-center'>Workbook Spring/Summer 2015</h1>
-          <div class='col-md-4 padding-20'><img class='product-img img-responsive full-width' alt='' src='http://www.okycoky.net/img/ss15/okycoky/small/okycokyss14-001-1.jpg'/></div>
+          <div class='col-md-4 padding-20 text-center'><img class='product-img img-responsive full-width' alt='' src='http://www.okycoky.net/img/ss15/okycoky/small/okycokyss14-001-1.jpg'/><br/>Look 1/100</div>
           <div class='col-md-4 padding-20'><img class='product-img img-responsive full-width' alt='' src='http://www.okycoky.net/img/ss15/okycoky/small/okycokyss14-002-1.jpg'/></div>
           <div class='col-md-4 padding-20'><img class='product-img img-responsive full-width' alt='' src='http://www.okycoky.net/img/ss15/okycoky/small/okycokyss14-003-1.jpg'/></div>
           <div class='col-md-4 padding-20'><img class='product-img img-responsive full-width' alt='' src='http://www.okycoky.net/img/ss15/okycoky/small/okycokyss14-004-1.jpg'/></div>

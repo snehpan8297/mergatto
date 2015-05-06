@@ -1,5 +1,7 @@
 include($_PATH+"assets/lang/lang_es.js");
-
+if($_PAGE=="/shop/products/"){
+  ////
+}
 var $_GET_STR="";
 var delimiter="";
 
