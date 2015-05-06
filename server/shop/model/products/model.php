@@ -158,6 +158,7 @@
       if($product["use_discount"]==1){
         $product["price_with_discount"]=intval($product["pvp"]*(100-$product["discount"])/100);
       }
+      debug_log($product["use_discount"],"XXXXXX");
       $product["colors"]=array();
 
       $table="stocks";

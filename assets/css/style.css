@@ -21,14 +21,13 @@ hr {
 }
 a {
 	/*color: #000;*/
-	color: #45B099;
-	text-decoration: none;
+	color: #000;
+	text-decoration: underline;
 	font-weight: 400;
 }
 a:hover {
-	color: #45B099;
+	color: #999;
 	/*color: #000;*/
-	text-decoration: underline;
 }
 .color {
 	background-color: #000;
@@ -327,7 +326,7 @@ a:hover {
 }
 
 .product-price {
-	background-color: #fff;
+	background-color: rgba(255,255,255,0.5);
 	display: inline-block;
 	padding: .7em 1.1em;
 	font-family: "Helvetica Neue","Arial","sans-serif";
@@ -1176,16 +1175,7 @@ blockquote footer, blockquote small, blockquote .small {
 	}
 }
 
-.m-l-10{
-	margin-left:10px;
-}
-.m-t-20{
-	margin-top:20px;
-}
 
-.m-b-10{
-	margin-bottom:10px;
-}
 .full-width{
 	width:100%;
 }
@@ -1198,6 +1188,9 @@ blockquote footer, blockquote small, blockquote .small {
 .xsmall th.first,
 .xsmall td.first{
 	text-align:left !important;
+}
+.margin-0{
+	margin:0px;
 }
 .margin-10{
 	margin:10px;
@@ -1229,7 +1222,22 @@ blockquote footer, blockquote small, blockquote .small {
 .padding-50{
 	padding:50px;
 }
+.m-l-10{
+	margin-left:10px;
+}
+.m-t-5{
+	margin-top:5px;
+}
+.m-t-10{
+	margin-top:10px;
+}
+.m-t-20{
+	margin-top:20px;
+}
 
+.m-b-10{
+	margin-bottom:10px;
+}
 .cart-price .original-price {
 	text-decoration: line-through;
 	margin-left: .5em;
@@ -1253,7 +1261,13 @@ ul.nav-list-3 li{
 	padding: 8px;
 	margin: 0 0 15px 0;
 }
-
+footer.sticky{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index:1000;
+	padding:10px;
+}
 .box {
 	border:2px solid #ddd;
 	padding:10px;

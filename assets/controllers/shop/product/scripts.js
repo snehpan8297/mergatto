@@ -67,7 +67,7 @@ $(document).ready(function() {
         $(".data-ajax-product-name").html(response.data.name_es);
 
         $_ajax["product-price"]="";
-        if(response.data.use_discount=1){
+        if(response.data.use_discount==1){
           $_ajax["product-price"]="<span class='price'>"+response.data.price_with_discount+"€</span><span class='original-price'>"+response.data.pvp+"€</span>";
         }else{
           $_ajax["product-price"]="<span class='price'>"+response.data.price_with_discount+"€</span>";
@@ -75,7 +75,7 @@ $(document).ready(function() {
         $(".data-ajax-product-price").html($_ajax["product-price"]);
 
         $_ajax["product-mark"]="";
-        if(response.data.use_discount=1){
+        if(response.data.use_discount==1){
           $_ajax["product-mark"]="<span class='sale-label'>-"+response.data.discount+"% Descuento</span>";
         }
         $(".data-ajax-product-mark").html($_ajax["product-mark"]);
@@ -87,7 +87,7 @@ $(document).ready(function() {
 
         $(".data-ajax-product-images").html($_ajax["product-images"]);
 
-        $_ajax["product-colors"]="<select class='form-control' id='product-color'>";
+        $_ajax["product-colors"]="";
         $_ajax["product-sizes"]="";
         jQuery.each(response.data.colors,function($_key,$_color){
           $_ajax["product-colors"]+="<option value='"+$_color.id+"'>"+$_color.name_es+"</option>";
@@ -119,6 +119,34 @@ $(document).ready(function() {
 
         $("#add-to-cart").click(function(){
           add_to_cart($_GET["id_product"],$("#product-color").val(),$("#product-sizes-"+$_color_selected).val(),1);
+        });
+        $("#add-product-request").click(function(){
+          $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: $_SERVER_PATH+"server/shop/model/products/model.php",
+            data: {
+              action: "add_product_request",
+              id_product: $_GET["id_product"],
+              id_color: $("#product-request-form #product-request-id-color").val(),
+              size: $("#product-request-form #product-request-size").val(),
+              email: $("#product-request-form #product-request-email").val()
+            },
+            error: function(data, textStatus, jqXHR) {
+              alert("[list_categories] error: ajax call error");
+            },
+            success: function(response) {
+              if(response.result){
+                $_ajax["categories-list"]="";
+                jQuery.each(response.data,function($_key,$_category){
+                  $_ajax["categories-list"]+="<li><a href='../../shop/products/index.html?id_category="+$_category.id_category+"'><span>"+$_category.name_es+"</span></a></li>";
+                });
+                $(".data-ajax-categories-list").html($_ajax["categories-list"]);
+              }else{
+                alert("[list_categories] error: "+response.error_code);
+              }
+            }
+          });
         });
 
       }else{
