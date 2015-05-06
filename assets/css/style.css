@@ -327,9 +327,9 @@ a:hover {
 }
 
 .product-price {
-	background-color: rgba(255,255,255,0.5);
+	background-color: #fff;
 	display: inline-block;
-	padding: 5px 10px;
+	padding: .7em 1.1em;
 	font-family: "Helvetica Neue","Arial","sans-serif";
 	font-size: 14px;
 	text-transform: none;
@@ -1176,6 +1176,9 @@ blockquote footer, blockquote small, blockquote .small {
 	}
 }
 
+.m-l-10{
+	margin-left:10px;
+}
 .m-t-20{
 	margin-top:20px;
 }
@@ -1242,4 +1245,16 @@ ul.nav-list-3 li{
 }
 .text-xsmall{
 	font-size:70%;
+}
+.table-title {
+	font-size: 16px;
+	border-bottom: 2px solid #ddd;
+	font-weight: bold;
+	padding: 8px;
+	margin: 0 0 15px 0;
+}
+
+.box {
+	border:2px solid #ddd;
+	padding:10px;
 }
