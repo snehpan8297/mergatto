@@ -12,6 +12,15 @@ $_s["sizes_guide_8"]="48";
 $_s["sizes_guide_9"]="50";
 $_s["sizes_guide_10"]="52";
 
+$_s["payment_0"]="<i class='fa fa-times'></i>";
+$_s["payment_1"]="<i class='fa fa-check'></i>";
+
+$_s["order_status_0"]="Enviado";
+$_s["order_status_1"]="Enviado";
+$_s["order_status_2"]="Enviado";
+$_s["order_status_3"]="Enviado";
+$_s["order_status_4"]="Enviado";
+
 $_styles = new Array();
 
 $(document).ready(function() {

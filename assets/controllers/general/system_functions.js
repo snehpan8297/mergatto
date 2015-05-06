@@ -36,7 +36,11 @@ function time() {
   return Math.floor(new Date()
     .getTime() / 1000);
 }
+function timestamp_to_date($_timestamp){
+  $_date=new Date($_timestamp*1000)
+  return $_date.getDate()+" / "+$_date.getMonth()+" / "+$_date.getFullYear();
 
+}
 function timestamp_to_str($_timestamp){
 
   $_from_now = time() - $_timestamp;

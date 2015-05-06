@@ -1176,6 +1176,9 @@ blockquote footer, blockquote small, blockquote .small {
 	}
 }
 
+.m-l-10{
+	margin-left:10px;
+}
 .m-t-20{
 	margin-top:20px;
 }
@@ -1242,4 +1245,16 @@ ul.nav-list-3 li{
 }
 .text-xsmall{
 	font-size:70%;
+}
+.table-title {
+	font-size: 16px;
+	border-bottom: 2px solid #ddd;
+	font-weight: bold;
+	padding: 8px;
+	margin: 0 0 15px 0;
+}
+
+.box {
+	border:2px solid #ddd;
+	padding:10px;
 }
