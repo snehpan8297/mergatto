@@ -55,16 +55,17 @@ function check_session(){
           localStorage.state="";
           localStorage.phone="";
           localStorage.size="";
+          localStorage.cookies_accepted=0;
+          localStorage.logged=0;
           $_session_data["session_key"]=localStorage.session_key;
-    }else{
+        }else{
           alert("[get_session] error: "+response.error_code);
         }
       }
     });
-    //window.location.href = $_PATH+"access/login/";
+
   }else{
     $_session_data["session_key"]=localStorage.session_key;
-
     $.ajax({
       type: "POST",
       dataType: 'json',
@@ -90,6 +91,8 @@ function check_session(){
           localStorage.state=response.data.state;
           localStorage.phone=response.data.phone;
           localStorage.size=response.data.size;
+          localStorage.cookies_accepted=response.data.cookies_accepted;
+          localStorage.logged=response.data.logged;
         }else{
           if(response.error_code=="session_key_not_valid"){
             localStorage.session_key=null;
@@ -112,13 +115,16 @@ function check_session(){
   $_session_data["state"]=localStorage.state;
   $_session_data["phone"]=localStorage.phone;
   $_session_data["size"]=localStorage.size;
+  $_session_data["cookies_accepted"]=localStorage.cookies_accepted;
+  $_session_data["logged"]=localStorage.logged;
+
+  if($_session_data["cookies_accepted"]=="0"){
+    $("#cookies_footer").removeClass("hidden");
+  }
 
   $(".input-data-session-data").each(function(){
     $_index=$(this).attr("input-data-session-data");
     $(this).val($_session_data[$_index]);
-    if($_index=="size"){
-
-    }
   });
   $(".input-data-session-data").change(function(){
     $_index=$(this).attr("input-data-session-data");
@@ -139,7 +145,23 @@ function check_session(){
       },
       success: function(response) {
         if(response.result){
-          check_session();
+          localStorage.session_key=response.data.session_key;
+          localStorage.first_name=response.data.first_name;
+          localStorage.last_name=response.data.last_name;
+          localStorage.email=response.data.email;
+          localStorage.street_1=response.data.street_1;
+          localStorage.street_2=response.data.street_2;
+          localStorage.city=response.data.city;
+          localStorage.zip=response.data.zip;
+          localStorage.country=response.data.country;
+          localStorage.state=response.data.state;
+          localStorage.phone=response.data.phone;
+          localStorage.size=response.data.size;
+          localStorage.cookies_accepted=response.data.cookies_accepted;
+          localStorage.logged=response.data.logged;
+          if(localStorage.cookies_accepted=="0"){
+            $("#cookies_footer").removeClass("hidden");
+          }
         }else{
           alert("[get_session] error: "+response.error_code);
         }
@@ -181,7 +203,15 @@ function get_cart(){
             }else{
               $_ajax["cart-items-list"]+="  <td class='vert-align cart-price'>"+$_cart_item.product.price_with_discount+"€</td>";
             }
-            $_ajax["cart-items-list"]+="  <td class='text-center vert-align'><input type='number' min='1' max='9' class='form-control form-control-inline input-cart-quantity' data-cart-item='"+$_key+"' style='width: 52px!important;' value='"+$_cart_item.quantity+"'></td>";
+            $_ajax["cart-items-list"]+="  <td class='text-center vert-align'>";
+            $_ajax["cart-items-list"]+="    <select class='form-control form-control-inline input-cart-quantity' data-cart-item='"+$_key+"'>";
+            for ( $_i=0;$_i<=9;$_i++){
+              $_option_selected="";
+              if($_cart_item.quantity==$_i){$_option_selected="selected"}
+              $_ajax["cart-items-list"]+="      <option value='"+$_i+"' "+$_option_selected+">"+$_i+"</option>";
+            }
+
+
             $_ajax["cart-items-list"]+="  <td class='text-right vert-align'>"+$_cart_item.total+"€</td>";
             $_ajax["cart-items-list"]+="  <td class='text-center vert-align'><a href='javascript:delete_cart_item("+$_cart_item.id_product+","+$_cart_item.id_color+","+$_cart_item.size+")' class='remove-item'><i class='icon-close'></i></a></td>";
             $_ajax["cart-items-list"]+="</tr>";
@@ -361,6 +391,8 @@ function add_to_cart($_id_product,$_id_color,$_size,$_quantity){
     success: function(response) {
       if(response.result){
         get_cart();
+        $('.cart').fadeOut(400).delay(100).fadeIn(400).delay(100).fadeOut(400).delay(100).fadeIn(400);
+
       }else{
         alert("[add_cart_item] error: "+response.error_code);
       }
@@ -420,4 +452,42 @@ function update_quantity_cart_item($_id_product,$_id_color,$_size,$_quantity){
       }
     });
   }
+}
+function accept_cookies(){
+  $.ajax({
+    type: "POST",
+    dataType: 'json',
+    url: $_SERVER_PATH+"server/shop/model/access/model.php",
+    data: {
+      "action":"update_session",
+      "session_key":$_session_data["session_key"],
+      "index":"cookies_accepted",
+      "value":"1"
+    },
+    error: function(data, textStatus, jqXHR) {
+      alert("[get_session] error: ajax call error");
+    },
+    success: function(response) {
+      if(response.result){
+        localStorage.session_key=response.data.session_key;
+        localStorage.first_name=response.data.first_name;
+        localStorage.last_name=response.data.last_name;
+        localStorage.email=response.data.email;
+        localStorage.street_1=response.data.street_1;
+        localStorage.street_2=response.data.street_2;
+        localStorage.city=response.data.city;
+        localStorage.zip=response.data.zip;
+        localStorage.country=response.data.country;
+        localStorage.state=response.data.state;
+        localStorage.phone=response.data.phone;
+        localStorage.size=response.data.size;
+        localStorage.cookies_accepted=response.data.cookies_accepted;
+        localStorage.logged=response.data.logged;
+        $("#cookies_footer").addClass("hidden");
+      }else{
+        alert("[get_session] error: "+response.error_code);
+      }
+    }
+  });
+
 }

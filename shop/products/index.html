@@ -66,10 +66,16 @@
 			<div id="main-nav" class="">
 				<div class="container-fluid">
 					<div class="nav-header">
-						<a href="../../index.html" class="nav-brand"><img src="../../assets/img/logo.png"/></a>
-						<a class="nav-icon pull-right visible-xs menu-link" href="javascript:void(0)"><i class="fa fa-bars"></i></a>
-						<a class="nav-icon cart pull-right" href="../../shop/cart/index.html"><i class="fa fa-shopping-cart"></i><span class="badge data-ajax-cart-items-count" data-ajax="cart-items-count"></span></a>
-					</div>
+            <div class="row">
+              <div class="col-xs-6">
+                <a href="../../index.html" class="nav-brand"><img src="../../assets/img/logo.png"/></a>
+              </div>
+              <div class="col-xs-6">
+                <a class="nav-icon pull-right visible-xs menu-link" href="javascript:void(0)"><i class="fa fa-bars"></i></a>
+                <a class="nav-icon pull-right cart" href="../../shop/cart/index.html"><i class="fa fa-shopping-cart"></i><span class="badge data-ajax-cart-items-count" data-ajax="cart-items-count"></span></a>
+              </div>
+            </div>
+  				</div>
 				</div>
 			</div>
 			<div class="hidden-xs">
@@ -99,6 +105,19 @@
 
   		</div>
 
+			<footer id="cookies_footer" class="sticky hidden">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-8">
+							<p class='small text-left margin-0'>Utilizamos cookies propias y de terceros para mejorar su experiencia y nuestros servicios. Pulse el botón aceptar para aceptar su uso, uede obtener más información en nuestra <a href="../page/?title=privacy-policy" data-lang="privacy-policy">Política de privacidad</a>.</p>
+						</div>
+						<div class="col-md-4">
+							<p class='hidden-xs text-right margin-0'><a href="javascript:accept_cookies()" class="btn btn-md btn-outline margin-0" data-lang="add-to-cart">Aceptar</a></p>
+							<p class='visible-xs text-center margin-0 m-t-10'><a href="javascript:accept_cookies()" class="btn btn-xs btn-outline margin-0" data-lang="add-to-cart">Aceptar</a></p>
+						</div>
+					</div>
+				</div>
+			</footer>
 			<footer>
 				<div class="container-fluid">
 					<div class="row">
@@ -106,15 +125,15 @@
 							<div class="pull-left copyright">
 								<ul class="hidden-xs nav-list">
 									<li><a href="../../page/?title=return-and-shipping" data-lang="delivery-and-returns">Devolución & Envío</a></li>
-									<li><a href="../../page/?title=terms-and-conditions" data-lang="delivery-and-returns">Términos & Condiciones</a></li>
-									<li><a href="../../page/?title=privacy-policy">Política de privacidad</a></li>
-									<li><a href="../../faq/index.html">FAQ</a></li>
+									<li><a href="../../page/?title=terms-and-conditions" data-lang="terms-and-conditions">Términos & Condiciones</a></li>
+									<li><a href="../../page/?title=privacy-policy" data-lang="privacy-policy">Política de privacidad</a></li>
+									<li><a href="../../faq/index.html" data-lang="faq">FAQ</a></li>
 								</ul>
 								<p class="visible-xs text-center">
-									<a href="../../page/?title=return-and-shipping" data-lang="delivery-and-returns">Devolución & Envío</a><br/>
-									<a href="../../page/?title=terms-and-conditions" data-lang="delivery-and-returns">Términos & Condiciones</a><br/>
-									<a href="../../page/?title=privacy-policy" data-lang="delivery-and-returns">Política de privacidad</a><br/>
-									<a href="../../faq/index.html" data-lang="delivery-and-returns">FAQ</a>
+									<a href="../../page/?title=return-and-shipping" class="as-nav-list" data-lang="delivery-and-returns">Devolución & Envío</a><br/>
+									<a href="../../page/?title=terms-and-conditions" class="as-nav-list" data-lang="terms-and-conditions">Términos & Condiciones</a><br/>
+									<a href="../../page/?title=privacy-policy" class="as-nav-list" data-lang="privacy-policy">Política de privacidad</a><br/>
+									<a href="../../faq/index.html" class="as-nav-list" data-lang="faq">FAQ</a>
 								</p>
 								<p class=''><span data-lang="brand-name">Oky^Coky</span> &copy; 2015.</p>
 							</div>

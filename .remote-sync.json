@@ -3,9 +3,6 @@
   "uploadOnSave": true,
   "hostname": "okycoky.net",
   "target": "/var/www/new/",
-  "ignore": [
-    ".git/**"
-  ],
   "username": "root",
   "password": "NinkTec1982"
 }

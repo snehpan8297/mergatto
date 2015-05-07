@@ -158,6 +158,7 @@
       if($product["use_discount"]==1){
         $product["price_with_discount"]=intval($product["pvp"]*(100-$product["discount"])/100);
       }
+      debug_log($product["use_discount"],"XXXXXX");
       $product["colors"]=array();
 
       $table="stocks";
@@ -197,6 +198,22 @@
       $response["data"]=array();
       $response["data"]=$product;
 
+
+      break;
+
+    case "add_product_request":
+      // Check Input Data
+
+
+
+      $table="product_requests";
+      $data=array();
+      $data["id_product"]=$action_data["id_product"];
+      $data["id_color"]=$action_data["id_color"];
+      $data["size"]=$action_data["size"];
+      $data["email"]=$action_data["email"];
+      $data["created"]=$timestamp;
+      addInBD($table,$data);
 
       break;
 

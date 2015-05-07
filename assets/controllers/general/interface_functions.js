@@ -17,3 +17,7 @@ function show_notification($_type,$_message){
       type: $_type
   }).show();
 }
+function scroll_to($_a_name){
+  var aTag = $("a[name='"+$_a_name+"']");
+  $('html,body').animate({scrollTop: aTag.offset().top},'slow');
+}

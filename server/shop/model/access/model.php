@@ -94,26 +94,29 @@
     case "add_session":
       // Check Input Data
 
-      $session_key="anonymous";
+      $ip="anonymous";
 
       if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        $session_key.=$_SERVER['HTTP_CLIENT_IP'];
+        $ip=$_SERVER['HTTP_CLIENT_IP'];
 			} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $session_key.=$_SERVER['HTTP_X_FORWARDED_FOR'];
+        $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
       } else {
-        $session_key.=$_SERVER['REMOTE_ADDR'];
+        $ip=$_SERVER['REMOTE_ADDR'];
       }
-      $session_key.=$timestamp;
-      $session_key=sha1($session_key);
 
       $table="sessions";
       $data=array();
-      $data["session_key"]=$session_key;
       $data["created"]=$timestamp;
-      addInBD($table,$data);
+      $data["ip"]=$ip;
+      $id_session=addInBD($table,$data);
+      $filter=array();
+      $filter["id_session"]=array("operation"=>"=","value"=>$id_session);
+      $data=array();
+      $data["session_key"]=sha1($ip.$timestamp.$id_session);
+      updateInBD($table,$filter,$data);
 
       $response["data"]=array();
-      $response["data"]["session_key"]=$session_key;
+      $response["data"]["session_key"]=$data["session_key"];
 
 
       break;
@@ -233,6 +236,8 @@
 
       }
 
+      $response["data"]=array();
+      $response["data"]=$session;
       break;
     default:
       notValidAction();echo json_encode($response);die();
