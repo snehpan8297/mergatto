@@ -54,6 +54,29 @@ $(document).ready(function() {
   $.ajax({
     type: "POST",
     dataType: 'json',
+    url: $_SERVER_PATH+"server/shop/model/categories/model.php",
+    data: {
+      action: "get_category",
+      id_category: $_GET["id_category"]
+    },
+    error: function(data, textStatus, jqXHR) {
+      alert("[get_category] error: ajax call error");
+    },
+    success: function(response) {
+      if(response.result){
+        $_ajax["category-name"]=response.data.name_es;
+        $(".data-ajax-category-name").html($_ajax["category-name"]);
+      }else{
+        //alert("[list_families] error: "+response.error_code);
+      }
+    }
+  });
+});
+
+$(document).ready(function() {
+  $.ajax({
+    type: "POST",
+    dataType: 'json',
     url: $_SERVER_PATH+"server/shop/model/products/model.php",
     data: {
       action: "list_products",

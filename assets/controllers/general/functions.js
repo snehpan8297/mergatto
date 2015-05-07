@@ -211,15 +211,30 @@ function get_cart(){
               $_ajax["cart-items-list"]+="      <option value='"+$_i+"' "+$_option_selected+">"+$_i+"</option>";
             }
 
+            $_ajax["cart-items-list"]+="    </select>";
+            $_ajax["cart-items-list"]+="  </td>";
+
 
             $_ajax["cart-items-list"]+="  <td class='text-right vert-align'>"+$_cart_item.total+"€</td>";
             $_ajax["cart-items-list"]+="  <td class='text-center vert-align'><a href='javascript:delete_cart_item("+$_cart_item.id_product+","+$_cart_item.id_color+","+$_cart_item.size+")' class='remove-item'><i class='icon-close'></i></a></td>";
             $_ajax["cart-items-list"]+="</tr>";
 
             $_ajax["cart-items-list-small"]+="<tr>";
-            $_ajax["cart-items-list-small"]+="  <td class='vert-align'><a href='../../shop/product/index.html?id_product="+$_cart_item.id_product+"'>"+$_cart_item.product.name_es+" "+$_cart_item.color.name_es+" (Talla: "+$_s["sizes_guide_"+$_cart_item.size]+")</a></td>";
-            $_ajax["cart-items-list-small"]+="  <td class='text-center vert-align'><input type='number' min='0' max='9' class='form-control form-control-inline input-cart-quantity' data-cart-item='"+$_key+"' style='width: 52px!important;' value='"+$_cart_item.quantity+"'></td>";
-            $_ajax["cart-items-list-small"]+="  <td class='text-center vert-align'>"+$_cart_item.total+"€ <a href='javascript:delete_cart_item("+$_cart_item.id_product+","+$_cart_item.id_color+","+$_cart_item.size+")' class='remove-item'><i class='icon-close'></i></a></td>";
+            $_ajax["cart-items-list-small"]+="  <td class='vert-align'><a href='../../shop/product/index.html?id_product="+$_cart_item.id_product+"'>"+$_cart_item.product.name_es+" "+$_cart_item.color.name_es+"<br/>(Talla: "+$_s["sizes_guide_"+$_cart_item.size]+")</a></td>";
+
+            $_ajax["cart-items-list-small"]+="  <td class='text-center vert-align'>";
+            $_ajax["cart-items-list-small"]+="    <select class='form-control form-control-inline input-cart-quantity' data-cart-item='"+$_key+"'>";
+            for ( $_i=0;$_i<=9;$_i++){
+              $_option_selected="";
+              if($_cart_item.quantity==$_i){$_option_selected="selected"}
+              $_ajax["cart-items-list-small"]+="      <option value='"+$_i+"' "+$_option_selected+">"+$_i+"</option>";
+            }
+
+            $_ajax["cart-items-list-small"]+="    </select>";
+            $_ajax["cart-items-list-small"]+="  </td>";
+
+            $_ajax["cart-items-list-small"]+="  <td class='text-center vert-align'>"+$_cart_item.total+"€</td>";
+            $_ajax["cart-items-list-small"]+="  <td class='text-center vert-align'><a href='javascript:delete_cart_item("+$_cart_item.id_product+","+$_cart_item.id_color+","+$_cart_item.size+")' class='remove-item'><i class='icon-close'></i></a></td>";
             $_ajax["cart-items-list-small"]+="</tr>";
 
             $_ajax["cart-subtotal"]+=$_cart_item.total;
@@ -228,14 +243,7 @@ function get_cart(){
 
 
           $(".data-ajax-cart-items-list").html($_ajax["cart-items-list"]);
-          $(".input-cart-quantity").change(function(){
-            $_key=$(this).attr("data-cart-item");
-            $_id_product=$_ajax["cart-items"][$_key]["id_product"];
-            $_id_color=$_ajax["cart-items"][$_key]["id_color"];
-            $_size=$_ajax["cart-items"][$_key]["size"];
-            $_quantity=$(this).val();
-            update_quantity_cart_item($_id_product,$_id_color,$_size,$_quantity)
-          });
+
           $_ajax["cart-subtotal"]=parseInt($_ajax["cart-subtotal"]);
           $(".data-ajax-cart-subtotal").html($_ajax["cart-subtotal"]);
           $_ajax["cart-shipping"]=9;
@@ -248,18 +256,30 @@ function get_cart(){
           $_ajax["cart-items-list-small"]+="  <td>Subtotal:</td>";
           $_ajax["cart-items-list-small"]+="  <td></td>";
           $_ajax["cart-items-list-small"]+="  <td class='text-right'><b>"+$_ajax["cart-subtotal"]+"€</b></td>";
+          $_ajax["cart-items-list-small"]+="  <td></td>";
           $_ajax["cart-items-list-small"]+="</tr>";
           $_ajax["cart-items-list-small"]+="<tr>";
           $_ajax["cart-items-list-small"]+="  <td>Envío:</td>";
           $_ajax["cart-items-list-small"]+="  <td></td>";
           $_ajax["cart-items-list-small"]+="  <td class='text-right'>"+$_ajax["cart-shipping"]+"€</td>";
+          $_ajax["cart-items-list-small"]+="  <td></td>";
           $_ajax["cart-items-list-small"]+="</tr>";
           $_ajax["cart-items-list-small"]+="<tr>";
           $_ajax["cart-items-list-small"]+="  <td>Total*:</td>";
           $_ajax["cart-items-list-small"]+="  <td></td>";
           $_ajax["cart-items-list-small"]+="  <td id='total' class='text-right'>"+$_ajax["cart-total"]+"€</td>";
+          $_ajax["cart-items-list-small"]+="  <td></td>";
           $_ajax["cart-items-list-small"]+="</tr>";
           $(".data-ajax-cart-items-list-small").html($_ajax["cart-items-list-small"]);
+
+          $(".input-cart-quantity").change(function(){
+            $_key=$(this).attr("data-cart-item");
+            $_id_product=$_ajax["cart-items"][$_key]["id_product"];
+            $_id_color=$_ajax["cart-items"][$_key]["id_color"];
+            $_size=$_ajax["cart-items"][$_key]["size"];
+            $_quantity=$(this).val();
+            update_quantity_cart_item($_id_product,$_id_color,$_size,$_quantity)
+          });
       }
 
         if($_PAGE=="/shop/checkout/1/"){

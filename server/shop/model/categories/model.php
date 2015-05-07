@@ -42,7 +42,6 @@
   switch ($action){
 
     case "list_categories":
-      debug_log($action." START");
       // Check Input Data
 
       //Temporal Code
@@ -164,6 +163,18 @@
       }
 
       break;
+
+    case "get_category":
+      // Check Input Data
+
+      $table="categories";
+      $filter=array();
+      $filter["id_category"]=array("operation"=>"=","value"=>$action_data["id_category"]);
+      $category=getInBD($table,$filter);
+      $response["data"]=$category;
+
+      break;
+
 
 
     default:

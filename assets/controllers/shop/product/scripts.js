@@ -49,6 +49,28 @@ $(document).ready(function() {
     }
   });
 });
+$(document).ready(function() {
+  $.ajax({
+    type: "POST",
+    dataType: 'json',
+    url: $_SERVER_PATH+"server/shop/model/categories/model.php",
+    data: {
+      action: "get_category",
+      id_category: $_GET["id_category"]
+    },
+    error: function(data, textStatus, jqXHR) {
+      alert("[get_category] error: ajax call error");
+    },
+    success: function(response) {
+      if(response.result){
+        $_ajax["category-name"]=response.data.name_es;
+        $(".data-ajax-category-name").html($_ajax["category-name"]);
+      }else{
+        //alert("[list_families] error: "+response.error_code);
+      }
+    }
+  });
+});
 
 $(document).ready(function() {
   $.ajax({
@@ -88,10 +110,14 @@ $(document).ready(function() {
 
         $(".data-ajax-product-images").html($_ajax["product-images"]);
 
-        $_ajax["product-colors"]="";
+        $_ajax["product-colors"]="<select id='product-color' class='form-control'>";
         $_ajax["product-sizes"]="";
+        $_ajax["product-colors-mobile"]="<ul class='mobile-selector'>";
+        $_ajax["product-sizes-mobile"]="";
         jQuery.each(response.data.colors,function($_key,$_color){
           $_ajax["product-colors"]+="<option value='"+$_color.id+"'>"+$_color.name_es+"</option>";
+          $_ajax["product-colors-mobile"]+="<li><a href='javascript:select_color("+$_color.id+")'>"+$_color.name_es+"</a></li>";
+
           $_ajax["product-sizes"]+="<select class='form-control hidden product-sizes' id='product-sizes-"+$_color.id+"'>";
           if($_color.stock_size_1>0){$_ajax["product-sizes"]+="  <option value='1'>34</option>";}
           if($_color.stock_size_2>0){$_ajax["product-sizes"]+="  <option value='2'>36</option>";}
@@ -105,10 +131,29 @@ $(document).ready(function() {
           if($_color.stock_size_10>0){$_ajax["product-sizes"]+="  <option value='10'>52</option>";}
           $_ajax["product-sizes"]+="</select>";
 
+          $_ajax["product-sizes-mobile"]+="<p class='text-center small'><a href='javascript:request_product_select_color("+$_color.id+")'>¿No encuentras tu talla?</a></p>";
+          $_ajax["product-sizes-mobile"]+="<ul class='hidden mobile-selector product-sizes-mobile-selector' id='product-sizes-mobile-"+$_color.id+"'>";
+          if($_color.stock_size_1>0){$_ajax["product-sizes-mobile"]+="  <li><a href='javascript:add_to_cart("+response.data.id_product+","+$_color.id+",1,1);hidde_mobile_notification()'>34</a></li>";}
+          if($_color.stock_size_2>0){$_ajax["product-sizes-mobile"]+="  <li><a href='javascript:add_to_cart("+response.data.id_product+","+$_color.id+",1,1);hidde_mobile_notification()'>36</a></li>";}
+          if($_color.stock_size_3>0){$_ajax["product-sizes-mobile"]+="  <li><a href='javascript:add_to_cart("+response.data.id_product+","+$_color.id+",1,1);hidde_mobile_notification()'>38</a></li>";}
+          if($_color.stock_size_4>0){$_ajax["product-sizes-mobile"]+="  <li><a href='javascript:add_to_cart("+response.data.id_product+","+$_color.id+",1,1);hidde_mobile_notification()'>40</a></li>";}
+          if($_color.stock_size_5>0){$_ajax["product-sizes-mobile"]+="  <li><a href='javascript:add_to_cart("+response.data.id_product+","+$_color.id+",1,1);hidde_mobile_notification()'>42</a></li>";}
+          if($_color.stock_size_6>0){$_ajax["product-sizes-mobile"]+="  <li><a href='javascript:add_to_cart("+response.data.id_product+","+$_color.id+",1,1);hidde_mobile_notification()'>44</a></li>";}
+          if($_color.stock_size_7>0){$_ajax["product-sizes-mobile"]+="  <li><a href='javascript:add_to_cart("+response.data.id_product+","+$_color.id+",1,1);hidde_mobile_notification()'>46</a></li>";}
+          if($_color.stock_size_8>0){$_ajax["product-sizes-mobile"]+="  <li><a href='javascript:add_to_cart("+response.data.id_product+","+$_color.id+",1,1);hidde_mobile_notification()'>48</a></li>";}
+          if($_color.stock_size_9>0){$_ajax["product-sizes-mobile"]+="  <li><a href='javascript:add_to_cart("+response.data.id_product+","+$_color.id+",1,1);hidde_mobile_notification()'>50</a></li>";}
+          if($_color.stock_size_10>0){$_ajax["product-sizes-mobile"]+="  <li><a href='javascript:add_to_cart("+response.data.id_product+","+$_color.id+",1,1);hidde_mobile_notification()'>52</a></li>";}
+          $_ajax["product-sizes-mobile"]+="</ul>";
+
+
         });
         $_ajax["product-colors"]+="</select>";
+        $_ajax["product-colors-mobile"]+="</ul>";
         $(".data-ajax-product-colors").html($_ajax["product-colors"]);
         $(".data-ajax-product-sizes").html($_ajax["product-sizes"]);
+        $(".data-ajax-product-colors-mobile").html($_ajax["product-colors-mobile"]);
+        $(".data-ajax-product-sizes-mobile").html($_ajax["product-sizes-mobile"]);
+
         $_color_selected=$(".data-ajax-product-colors select").val();
         $("#product-sizes-"+$_color_selected).removeClass("hidden");
         $("#product-color").change(function(){
@@ -134,8 +179,6 @@ $(document).ready(function() {
               email: $("#product-request-form #product-request-email").val()
             },
             error: function(data, textStatus, jqXHR) {
-              alert("[list_categories] error: ajax call error");
-<<<<<<< HEAD
               $("#product-request-form").toggleClass("hidden");
               $("#product-request-form-error").toggleClass("hidden");
               scroll_to("product-request");
@@ -149,18 +192,6 @@ $(document).ready(function() {
                 $("#product-request-form").toggleClass("hidden");
                 $("#product-request-form-error").toggleClass("hidden");
                 scroll_to("product-request");
-=======
-            },
-            success: function(response) {
-              if(response.result){
-                $_ajax["categories-list"]="";
-                jQuery.each(response.data,function($_key,$_category){
-                  $_ajax["categories-list"]+="<li><a href='../../shop/products/index.html?id_category="+$_category.id_category+"'><span>"+$_category.name_es+"</span></a></li>";
-                });
-                $(".data-ajax-categories-list").html($_ajax["categories-list"]);
-              }else{
-                alert("[list_categories] error: "+response.error_code);
->>>>>>> 7ce27e6e7e64990483b56686ff492299150d8dff
               }
             }
           });
@@ -172,3 +203,41 @@ $(document).ready(function() {
     }
   });
 });
+function select_color($_id_color){
+  $(".product-sizes-mobile-selector").addClass("hidden");
+  $("#product-sizes-mobile-"+$_id_color).removeClass("hidden");
+  show_mobile_notification("m-n-select-size");
+}
+function request_product_select_color($_id_color){
+  $("#product-request-color").val($_id_color);
+  show_mobile_notification("m-n-request-product-size");
+}
+function request_product_select_size($_size){
+  $("#product-request-size").val($_size);
+  show_mobile_notification("m-n-request-product-email");
+}
+function request_product_select_email(){
+  $("#product-request-email").val($("#product-request-email-mobile").val());
+  $.ajax({
+    type: "POST",
+    dataType: 'json',
+    url: $_SERVER_PATH+"server/shop/model/products/model.php",
+    data: {
+      action: "add_product_request",
+      id_product: $_GET["id_product"],
+      id_color: $("#product-request-form #product-request-id-color").val(),
+      size: $("#product-request-form #product-request-size").val(),
+      email: $("#product-request-form #product-request-email").val()
+    },
+    error: function(data, textStatus, jqXHR) {
+      show_mobile_notification("m-n-request-product-form-error");
+    },
+    success: function(response) {
+      if(response.result){
+        show_mobile_notification("m-n-request-product-form-success");
+      }else{
+        show_mobile_notification("m-n-request-product-form-error");
+      }
+    }
+  });
+}
