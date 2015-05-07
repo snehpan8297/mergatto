@@ -129,6 +129,7 @@
 								<div class="hidden-xs data-ajax-product-mark" data-ajax="product-mark">
 								</div>
 							</div>
+<<<<<<< HEAD
 							<div class="visible-xs product-mobile">
 			          <div class="text-center">
 			            <h2 class="product-title data-ajax-product-name" data-ajax="product-name"></h2>
@@ -260,9 +261,122 @@
 										<div class="panel-body">
 											Si no te sienta bien la prenda, necesitas otra talla, quieres otro color o simplemente no te satisface, podrás realizar una devolución totalmente gratuita de las prendas. Para todos nuestros productos siempre tendrás un plazo de 14 días para realizar la devolución desde que recibes las prendas en tu casa. Para saber más lee nuestra política de devoluciones	      						</div>
 									</div>
+=======
+						</div>
+						<div class="visible-xs product-mobile">
+		          <div class="text-center">
+		            <h2 class="product-title data-ajax-product-name" data-ajax="product-name"></h2>
+								<div class="product-price data-ajax-product-price" data-ajax="product-price"></div>
+								<div class="product-mark data-ajax-product-mark" data-ajax="product-mark"></div>
+		        	</div>
+						</div>
+            <div class="product-detail" data-ajax="product-content">
+
+            </div>
+						<label>Color</label>
+						<select id='product-color' class='form-control data-ajax-product-colors' data-ajax="product-colors">
+						</select>
+						<label class="">Talla</label>
+						<div class="form-group data-ajax-product-sizes" data-ajax="product-sizes">
+						</div>
+						<div class="panel panel-default text-right">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#product-request-panel" aria-expanded="false" aria-controls="collapseOne">¿No encuentras tu talla?</a>
+							<div id="product-request-panel" class="text-left panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+								<form  id="request-product-form" class="myform">
+									<div class="panel-body box m-t-20">
+										<div class="m-b-10">
+											Si tu talla no está disponible <b>podemos avidarte cuando vuelva a estar en la tienda</b>, selecciona la talla y color, pincha en el botón avisarme y te enviaremos un correo electronico cuando la prenda esté disponible.
+										</div>
+										<div class="form-group">
+											<label>Talla</label>
+											<select id="request-product-size" input-data-session-data="size" class="form-control input-data-session-data">
+												<option value="0">Selecciona tu talla</option>
+												<option value="1">34</option>
+												<option value="2">36</option>
+												<option value="3">38</option>
+												<option value="4">40</option>
+												<option value="5">42</option>
+												<option value="6">44</option>
+												<option value="7">46</option>
+												<option value="8">48</option>
+												<option value="9">50</option>
+												<option value="10">52</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label>Color</label>
+											<select id='request-product-color' class='form-control data-ajax-product-colors' data-ajax="product-colors">
+											</select>
+										</div>
+										<div class="form-group">
+											<label>Correo eletrónico</label>
+											<input id="request_size" input-data-session-data="email" class="form-control input-data-session-data" type="email">
+										</div>
+										<div class="clearfix">
+											<a href="javascript:void(0)" class="btn btn-block" id="request-product" data-lang="request-product">Avisarme cuando esté disponible</a>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+
+						<div class="clearfix">
+							<a href="javascript:void(0)" class="btn btn-block" id="add-to-cart" data-lang="add-to-cart">Añadir al Carro</a>
+						</div>
+						<div class="m-t-20">
+							<div class="panel panel-default">
+								<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#size_guide" aria-expanded="false" aria-controls="collapseTwo">Guía de Tallas</a>
+								<div id="size_guide" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+									<div class="panel-body">
+										<table class="table xsmall">
+											<tbody>
+												<tr><th class="first">Pais</th><th>XXS</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th><th>XXXL</th></tr>
+												<tr><td class="first">España</td><td>34</td><td>36</td><td>38</td><td>40</td><td>42</td><td>44</td><td>46</td><td>48</td></tr>
+												<tr><td class="first">Francia</td><td>34</td><td>36</td><td>38</td><td>40</td><td>42</td><td>44</td><td>46</td><td>48</td></tr>
+												<tr><td class="first">R.Unido</td><td>6</td><td>8</td><td>10</td><td>12</td><td>14</td><td>16</td><td>18</td><td>20</td></tr>
+												<tr><td class="first">Italia</td><td>38</td><td>40</td><td>42</td><td>44</td><td>46</td><td>48</td><td>50</td><td>52</td></tr>
+												<tr><td class="first">USA</td><td>2</td><td>4</td><td>6</td><td>8</td><td>10</td><td>12</td><td>14</td><td>16</td></tr>
+												<tr><td class="first">Japón</td><td>5</td><td>7</td><td>9</td><td>11</td><td>13</td><td>15</td><td>17</td><td>19</td></tr>
+												<tr><td class="first">Dinamarca</td><td>32</td><td>34</td><td>36</td><td>38</td><td>40</td><td>42</td><td>44</td><td>46</td></tr>
+												<tr><td class="first">Australia</td><td>6</td><td>8</td><td>10</td><td>12</td><td>14</td><td>16</td><td>18</td><td>20</td></tr>
+												<tr></tr>
+											</tbody>
+										</table>
+										<table class="table xsmall">
+											<tbody>
+												<tr><th class="first">Tallas</th><th>Pecho</th><th>Cintura</th><th>Caderas</th></tr>
+												<tr><td class="first">34</td><td>84 cm.</td><td>62 cm.</td><td>88 cm.</td></tr>
+												<tr><td class="first">36</td><td>88 cm.</td><td>66 cm.</td><td>91 cm.</td></tr>
+												<tr><td class="first">38</td><td>92 cm.</td><td>70 cm.</td><td>96 cm.</td></tr>
+												<tr><td class="first">40</td><td>96 cm.</td><td>74 cm.</td><td>100 cm.</td></tr>
+												<tr><td class="first">42</td><td>100 cm.</td><td>78 cm.</td><td>104 cm.</td></tr>
+												<tr><td class="first">44</td><td>104 cm.</td><td>82 cm.</td><td>108 cm.</td></tr>
+												<tr><td class="first">46</td><td>108 cm.</td><td>86 cm.</td><td>112 cm.</td></tr>
+												<tr><td class="first">48</td><td>112 cm.</td><td>90 cm.</td><td>116 cm.</td></tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 
+							<div class="panel panel-default">
+								<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping_policy" aria-expanded="false" aria-controls="collapseTwo">Política de Envío</a>
+								<div id="shipping_policy" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+									<div class="panel-body">
+										Todos nuestros pedidos son enviados a las 12:00 del medio día, si realizas el pedido por la mañana podremos enviarlo el mismo día. El envío suele tardar entre 1 a 3 días en llegar tu casa.	      						</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#return_policy" aria-expanded="false" aria-controls="collapseTwo">Política de Devolución</a>
+								<div id="return_policy" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+									<div class="panel-body">
+										Si no te sienta bien la prenda, necesitas otra talla, quieres otro color o simplemente no te satisface, podrás realizar una devolución totalmente gratuita de las prendas. Para todos nuestros productos siempre tendrás un plazo de 14 días para realizar la devolución desde que recibes las prendas en tu casa. Para saber más lee nuestra política de devoluciones	      						</div>
+>>>>>>> 7ce27e6e7e64990483b56686ff492299150d8dff
+								</div>
+							</div>
+						</div>
+
+<<<<<<< HEAD
 						</div>
 					</div>
 					<div class="col-sm-1">
@@ -283,6 +397,11 @@
 					</div>
 				</div>
 			</footer>
+=======
+					</div>
+        </div>
+      </div>
+>>>>>>> 7ce27e6e7e64990483b56686ff492299150d8dff
 			<footer>
 				<div class="container-fluid">
 					<div class="row">

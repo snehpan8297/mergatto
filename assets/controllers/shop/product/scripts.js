@@ -135,6 +135,7 @@ $(document).ready(function() {
             },
             error: function(data, textStatus, jqXHR) {
               alert("[list_categories] error: ajax call error");
+<<<<<<< HEAD
               $("#product-request-form").toggleClass("hidden");
               $("#product-request-form-error").toggleClass("hidden");
               scroll_to("product-request");
@@ -148,6 +149,18 @@ $(document).ready(function() {
                 $("#product-request-form").toggleClass("hidden");
                 $("#product-request-form-error").toggleClass("hidden");
                 scroll_to("product-request");
+=======
+            },
+            success: function(response) {
+              if(response.result){
+                $_ajax["categories-list"]="";
+                jQuery.each(response.data,function($_key,$_category){
+                  $_ajax["categories-list"]+="<li><a href='../../shop/products/index.html?id_category="+$_category.id_category+"'><span>"+$_category.name_es+"</span></a></li>";
+                });
+                $(".data-ajax-categories-list").html($_ajax["categories-list"]);
+              }else{
+                alert("[list_categories] error: "+response.error_code);
+>>>>>>> 7ce27e6e7e64990483b56686ff492299150d8dff
               }
             }
           });
