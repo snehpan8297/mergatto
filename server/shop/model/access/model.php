@@ -81,6 +81,7 @@
       $data["size"]=$client["size"];
       $data["last_activity"]=$timestamp;
       $data["logged"]=1;
+      $data["id_client"]=$client["id_client"];
       updateInBD($table,$filter,$data);
       $session=getInBD($table,$filter);
 

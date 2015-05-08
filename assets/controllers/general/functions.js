@@ -57,7 +57,10 @@ function check_session(){
           localStorage.size="";
           localStorage.cookies_accepted=0;
           localStorage.logged=0;
+          localStorage.id_client="-----";
           $_session_data["session_key"]=localStorage.session_key;
+          update_session_data();
+
         }else{
           alert("[get_session] error: "+response.error_code);
         }
@@ -93,6 +96,8 @@ function check_session(){
           localStorage.size=response.data.size;
           localStorage.cookies_accepted=response.data.cookies_accepted;
           localStorage.logged=response.data.logged;
+          localStorage.id_client="#W"+response.data.id_client;
+          update_session_data();
         }else{
           if(response.error_code=="session_key_not_valid"){
             localStorage.session_key=null;
@@ -104,6 +109,10 @@ function check_session(){
       }
     });
   }
+}
+
+function update_session_data(){
+
   $_session_data["first_name"]=localStorage.first_name;
   $_session_data["last_name"]=localStorage.last_name;
   $_session_data["email"]=localStorage.email;
@@ -117,7 +126,7 @@ function check_session(){
   $_session_data["size"]=localStorage.size;
   $_session_data["cookies_accepted"]=localStorage.cookies_accepted;
   $_session_data["logged"]=localStorage.logged;
-
+  $_session_data["id_client"]=localStorage.id_client;
   if($_session_data["cookies_accepted"]=="0"){
     $("#cookies_footer").removeClass("hidden");
   }
@@ -126,6 +135,56 @@ function check_session(){
     $_index=$(this).attr("input-data-session-data");
     $(this).val($_session_data[$_index]);
   });
+  $(".data-ajax").each(function(){
+    $_index=$(this).attr("data-ajax");
+    if(isset_and_not_empty($_session_data[$_index])){
+      $(this).html($_session_data[$_index]);
+    }
+  });
+  if(localStorage.logged==1){
+    $(".visible-logged").each(function(){
+      $(this).removeClass("hidden");
+      $(this).addClass("visible");
+      $(this).removeClass("visible-logged");
+      $(this).addClass("visible-logged-checked");
+    });
+    $(".hidden-logged").each(function(){
+      $(this).removeClass("visible");
+      $(this).addClass("hidden");
+      $(this).removeClass("hidden-logged");
+      $(this).addClass("hidden-logged-checked");
+    });
+    $(".visible-logged-checked").each(function(){
+      $(this).removeClass("hidden");
+      $(this).addClass("visible");
+    });
+    $(".hidden-logged-checked").each(function(){
+      $(this).removeClass("visible");
+      $(this).addClass("hidden");
+    });
+  }else{
+    $(".hidden-logged").each(function(){
+      $(this).removeClass("hidden");
+      $(this).addClass("visible");
+      $(this).removeClass("hidden-logged");
+      $(this).addClass("hidden-logged-checked");
+    });
+    $(".visible-logged").each(function(){
+      $(this).removeClass("visible");
+      $(this).addClass("hidden");
+      $(this).removeClass("visible-logged");
+      $(this).addClass("visible-logged-checked");
+    });
+    $(".hidden-logged-checked").each(function(){
+      $(this).removeClass("hidden");
+      $(this).addClass("visible");
+    });
+    $(".visible-logged-checked").each(function(){
+      $(this).removeClass("visible");
+      $(this).addClass("hidden");
+    });
+  }
+
   $(".input-data-session-data").change(function(){
     $_index=$(this).attr("input-data-session-data");
     $_value=$(this).val();
@@ -159,6 +218,7 @@ function check_session(){
           localStorage.size=response.data.size;
           localStorage.cookies_accepted=response.data.cookies_accepted;
           localStorage.logged=response.data.logged;
+          localStorage.id_client="#W"+response.data.id_client;
           if(localStorage.cookies_accepted=="0"){
             $("#cookies_footer").removeClass("hidden");
           }
@@ -168,7 +228,6 @@ function check_session(){
       }
     });
   });
-
 }
 
 function get_cart(){
@@ -197,11 +256,11 @@ function get_cart(){
             $_ajax["cart-items-list"]+="<tr>";
             $_ajax["cart-items-list"]+="  <td class='vert-align'><a href='../../shop/product/index.html?id_product="+$_cart_item.id_product+"'>"+$_cart_item.product.name_es+"</a></td>";
             $_ajax["cart-items-list"]+="  <td class='vert-align'>"+$_cart_item.color.name_es+"</td>";
-            $_ajax["cart-items-list"]+="  <td class='vert-align'>"+$_s["sizes_guide_"+$_cart_item.size]+"</td>";
-            if($_cart_item.product.use_discount){
-              $_ajax["cart-items-list"]+="  <td class='vert-align cart-price'>"+$_cart_item.product.price_with_discount+"€ <span class='original-price'>"+$_cart_item.product.pvp+"€</span></td>";
+            $_ajax["cart-items-list"]+="  <td class='vert-align text-center'>"+$_s["sizes_guide_"+$_cart_item.size]+"</td>";
+            if($_cart_item.product.use_discount==1){
+              $_ajax["cart-items-list"]+="  <td class='vert-align cart-price text-right'>"+$_cart_item.product.price_with_discount+"€ <span class='original-price'>"+$_cart_item.product.pvp+"€</span></td>";
             }else{
-              $_ajax["cart-items-list"]+="  <td class='vert-align cart-price'>"+$_cart_item.product.price_with_discount+"€</td>";
+              $_ajax["cart-items-list"]+="  <td class='vert-align cart-price text-right'>"+$_cart_item.product.price_with_discount+"€</td>";
             }
             $_ajax["cart-items-list"]+="  <td class='text-center vert-align'>";
             $_ajax["cart-items-list"]+="    <select class='form-control form-control-inline input-cart-quantity' data-cart-item='"+$_key+"'>";
@@ -503,6 +562,7 @@ function accept_cookies(){
         localStorage.size=response.data.size;
         localStorage.cookies_accepted=response.data.cookies_accepted;
         localStorage.logged=response.data.logged;
+        localStorage.id_client="#W"+response.data.id_client;
         $("#cookies_footer").addClass("hidden");
       }else{
         alert("[get_session] error: "+response.error_code);

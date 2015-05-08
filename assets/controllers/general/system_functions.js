@@ -19,6 +19,14 @@ function debug_log($_message){
 
 }
 
+function isset_and_not_empty($_data){
+  if ((typeof $_data == 'undefined')||($_data == null)||($_data == "null")){
+    return false;
+  }else{
+    return true;
+  }
+}
+
 function include($_script) {
   $.ajax({
     url: $_script,
