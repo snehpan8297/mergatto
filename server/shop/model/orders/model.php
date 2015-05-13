@@ -146,11 +146,11 @@
         echo json_encode($response);
         die();
       }
-      $cart_items=getInBD($table,$filter);
+      $cart_items=listInBD($table,$filter);
 
 
 
-      $table="order_requests";
+      $table="order_request";
       $data=array();
       $data["id_client"]=$session["id_client"];
       $data["date"]=$timestamp;
@@ -162,7 +162,7 @@
       $data["invoice_address_name"]=$session["first_name"];
       $data["invoice_address_subname"]=$session["last_name"];
       $data["invoice_address_email"]=$session["email"];
-      $data["invoice_address_DNI"]=$session["country_id"];
+      $data["invoice_address_DNI"]=$session["passport"];
       $data["invoice_address_address_1"]=$session["street_1"];
       $data["invoice_address_address_2"]=$session["street_2"];
       $data["invoice_address_post_code"]=$session["zip"];
@@ -174,7 +174,7 @@
       $data["shipping_address_name"]=$session["first_name"];
       $data["shipping_address_subname"]=$session["last_name"];
       $data["shipping_address_email"]=$session["email"];
-      $data["shipping_address_DNI"]=$session["country_id"];
+      $data["shipping_address_DNI"]=$session["passport"];
       $data["shipping_address_address_1"]=$session["street_1"];
       $data["shipping_address_address_2"]=$session["street_2"];
       $data["shipping_address_post_code"]=$session["zip"];
@@ -183,7 +183,7 @@
       $data["shipping_address_country"]=$session["country"];
       $data["shipping_address_mobile"]=$session["phone"];
 
-      $data["shipping_method_name"]=$session["shipping"];
+      $data["shipping_method_name"]=$session["shipping_title"];
       $data["shipping_method_price"]=$session["shipping_price"];
       $data["user_type"]=0;
       $data["discount"]=0;
@@ -193,13 +193,61 @@
       $data["allow_return"]=0;
       $data["generated_promo"]=0;
       $data["exported"]=0;
-      addInBD($table,$data);
+      $id_order=addInBD($table,$data);
 
-      $table="order_requests";
+      $order=array();
+      $order["id_order"]=$id_order;
+      $order["total"]=0;
+      $order["total_with_discount"]=0;
+      $order["num_clothes"]=0;
+
+      foreach ($cart_items as $key=>$cart_item){
+        $table="colors";
+        $filter=array();
+        $filter["id"]=array("operation"=>"=","value"=>$cart_item["id_color"]);
+        $cart_item["color"]=getInBD($table,$filter);
+        $table="products";
+        $filter=array();
+        $filter["id_product"]=array("operation"=>"=","value"=>$cart_item["id_product"]);
+        $cart_item["product"]=getInBD($table,$filter);
+
+        $table="lines_order_request";
+        $data=array();
+        $data["id_order_request"]=$id_order;
+        $data["serial_model_code"]=$cart_item["product"]["serial_model_code"];
+        $data["id_product"]=$cart_item["product"]["id_product"];
+        $data["id_color"]=$cart_item["color"]["id_color"];
+        $data["unitary_price"]=$cart_item["product"]["pvp"];
+        if($cart_item["product"]["use_discount"]==1){
+          $data["unitary_price"]=intval($cart_item["product"]["pvp"]*(100-$cart_item["product"]["discount"])/100);
+        }
+
+        $data["subtotal"]=$data["unitary_price"]*$cart_item["quantity"];
+        $data["subclothes"]=$cart_item["quantity"];
+        for($i=1;$i<=12;$i++){
+          $data["size_".$i]=0;
+          if($cart_item["size"]==$i){
+            $data["size_".$i]=$cart_item["quantity"];
+          }
+
+        }
+        $data["allsizes"]="34,36,38,40,42,44,46,48,50,52";
+        addInBD($table,$data);
+        $order["total"]+=$data["subtotal"];
+        $order["total_with_discount"]+=$data["subtotal"];
+        $order["num_clothes"]+=$cart_item["quantity"];
+      }
+
+
+      $table="order_request";
+      $filter=array();
+      $filter["id_order"]=array("operation"=>"=","value"=>$id_order);
       $data=array();
-      $data["total"]=;
-      $data["total_with_discount"]=;
-      $data["num_clothes"]=;
+      $data["total"]=$order["total"];
+      $data["total_with_discount"]=$order["total_with_discount"];
+      $data["num_clothes"]=$order["num_clothes"];
+      updateInBD($table,$filter,$data);
+
 
       break;
 

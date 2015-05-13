@@ -1307,6 +1307,12 @@ blockquote footer, blockquote small, blockquote .small {
 .m-t-20{
 	margin-top:20px;
 }
+.m-b-20{
+	margin-bottom:20px;
+}
+.m-b-40{
+	margin-bottom:40px;
+}
 
 .p-t-0{
 	padding-top:0px !important;
@@ -1537,4 +1543,7 @@ ul.mobile-selector li a:hover {
 }
 .hidden-unlogged{
 	display:none;
+}
+.icon-xl{
+	font-size:80px;
 }

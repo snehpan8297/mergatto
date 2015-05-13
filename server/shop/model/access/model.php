@@ -71,6 +71,7 @@
       $data["first_name"]=$client["name"];
       $data["last_name"]=$client["subname"];
       $data["email"]=$client["email"];
+      $data["passport"]=$client["DNI"];
       $data["street_1"]=$client["address_1"];
       $data["street_2"]=$client["address_2"];
       $data["city"]=$client["city"];
@@ -150,11 +151,40 @@
     case "update_session":
       // Check Input Data
 
+      if($action_data["index"]=="id_shipping"){
+        $table="shipping";
+        $filter=array();
+        $filter["id"]=array("operation"=>"=","value"=>$action_data["value"]);
+        $shipping=getInBD($table,$filter);
+      }
+      if($action_data["index"]=="id_payment_method"){
+        $payments=array();
+        $payments[1]["id_payment_method"]=1;
+        $payments[1]["payment_method_title"]="PayPal";
+        $payments[1]["payment_method_value"]="paypal";
+        $payments[2]["id_payment_method"]=2;
+        $payments[2]["payment_method_title"]="Tarjeta de Crédito";
+        $payments[2]["payment_method_value"]="credit_card";
+        $payments[3]["id_payment_method"]=3;
+        $payments[3]["payment_method_title"]="Transferencia Bancaria";
+        $payments[3]["payment_method_value"]="bank_transfer";
+
+        $payment=$payments[$action_data["value"]];
+      }
+
       $table="sessions";
       $filter=array();
       $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
       $data=array();
       $data[$action_data["index"]]=$action_data["value"];
+      if($action_data["index"]=="id_shipping"){
+        $data["shipping_title"]=$shipping["name_es"];
+        $data["shipping_price"]=intval($shipping["price_es"]);
+      }
+      if($action_data["index"]=="id_payment_method"){
+        $data["payment_method_title"]=$payment["payment_method_title"];
+        $data["payment_method_value"]=$payment["payment_method_value"];
+      }
       $data["last_activity"]=$timestamp;
       updateInBD($table,$filter,$data);
 
@@ -177,8 +207,10 @@
             updateInBD($table,$filter,$data);
             break;
 
-          case "email":
-
+          case "passport":
+            $data=array();
+            $data["DNI"]=$action_data["value"];
+            updateInBD($table,$filter,$data);
             break;
 
           case "street_1":
@@ -228,8 +260,6 @@
             $data["size"]=$action_data["value"];
             updateInBD($table,$filter,$data);
             break;
-
-
 
           default:
 

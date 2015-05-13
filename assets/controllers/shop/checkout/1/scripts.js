@@ -1,12 +1,13 @@
+$_ajax["shipping_address_validation"]=false;
+$_ajax["shipping_validation"]=false;
+$_ajax["payment_method_validation"]=false;
+
 $(document).ready(function() {
   if(localStorage.logged==1){
     $(".tab-pane.in").toggleClass("in");
     $(".tab-pane.active").toggleClass("active");
     $("#shipping_address").toggleClass("in");
     $("#shipping_address").toggleClass("active");
-    $("#next-checkout").html("Siguiente");
-    $("#next-checkout").attr("href","javascript:process_cart()");
-    $("#next-checkout").removeClass("disabled");
   }
   $.ajax({
     type: "POST",
@@ -52,6 +53,7 @@ $(document).ready(function() {
           localStorage.first_name=response.data.first_name;
           localStorage.last_name=response.data.last_name;
           localStorage.email=response.data.email;
+          localStorage.passport=response.data.passport;
           localStorage.street_1=response.data.street_1;
           localStorage.street_2=response.data.street_2;
           localStorage.city=response.data.city;
@@ -66,7 +68,7 @@ $(document).ready(function() {
           $(".tab-pane.active").toggleClass("active");
           $("#shipping_address").toggleClass("in");
           $("#shipping_address").toggleClass("active");
-
+          $_ajax["shipping_address_validation"]=true;
           check_session();
           scroll_to("top");
         }else{
@@ -77,15 +79,21 @@ $(document).ready(function() {
   });
 });
 function validate_shipping_address(){
+
   $(".tab-pane.in").toggleClass("in");
   $(".tab-pane.active").toggleClass("active");
   $("#shipping_address").toggleClass("in");
   $("#shipping_address").toggleClass("active");
-  scroll_to("top");
   $("#next-checkout").html("Siguiente");
   $("#next-checkout").attr("href","javascript:process_cart()");
   $("#next-checkout").removeClass("disabled");
-
+  scroll_to("top");
+  updateSession("id_shipping",0);
+  updateSession("id_payment_method",0);
+  $_ajax["shipping_address_validation"]=true;
+  $_ajax["shipping_validation"]=false;
+  $_ajax["payment_method_validation"]=false;
+  validate_order();
 }
 function edit_shipping_address(){
   $(".tab-pane.in").toggleClass("in");
@@ -96,29 +104,53 @@ function edit_shipping_address(){
   $("#next-checkout").attr("href","javascript:void(0)");
   $("#next-checkout").addClass("disabled");
   scroll_to("top");
+  $_ajax["shipping_address_validation"]=false;
+  validate_order();
 }
-function proccess_cart(){
+function process_cart(){
   $("#next-checkout").html("Cargado...");
   $("#next-checkout").attr("href","javascript:void(0)");
+  $("#next-checkout").addClass("disabled");
 
   $.ajax({
     type: "POST",
     dataType: 'json',
-    url: $_SERVER_PATH+"server/shop/model/order/model.php",
+    url: $_SERVER_PATH+"server/shop/model/orders/model.php",
     data: {
       action: "add_order",
       session_key: $_session_data["session_key"]
     },
     error: function(data, textStatus, jqXHR) {
-      alert("error: ajax call error");
+      alert("Ha ocurrido un error en el servidor, vuelva a intentarlo más tarde.");
+      validate_order();
     },
     success: function(response) {
       if(response.result){
-        window.location.href="../../../shop/checkout/2/inde.html";
+        window.location.href="../../../shop/checkout/2/index.html";
       }else{
-        alert("error: "+response.error_code);
+        alert("Ha ocurrido en los datos enviados a nuestro servidor, vuelva a intentarlo más tarde.");
+        validate_order();
       }
     }
   });
 
+}
+function validate_order(){
+  if($_ajax["shipping_address_validation"] && $_ajax["shipping_validation"] && $_ajax["payment_method_validation"]){
+    if($_session_data["payment_method_value"]=="paypal"){
+      $("#next-checkout").html("Confirmar Pedido e ir a Paypal");
+    }else if($_session_data["payment_method_value"]=="credit_card"){
+      $("#next-checkout").html("Confirmar Pedido e ir a Pasarela de pago");
+    }else{
+      $("#next-checkout").html("Confirmar Pedido");
+    }
+
+    $("#next-checkout").attr("href","javascript:process_cart()");
+    $("#next-checkout").removeClass("disabled");
+  }else{
+    $("#next-checkout").html("Complete todos los campos");
+    $("#next-checkout").attr("href","javascript:void(0)");
+    $("#next-checkout").addClass("disabled");
+
+  }
 }

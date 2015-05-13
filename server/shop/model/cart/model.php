@@ -135,6 +135,60 @@
         $response["data"]["cart_items"][]=$cart_item;
       }
 
+      $response["data"]["shipping"]=array();
+      $table="sessions";
+      $filter=array();
+      $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
+      $session=getInBD($table,$filter);
+      $response["data"]["shipping"]["has_alternatives"]=false;
+      if(issetandnotempty($session["country"])){
+        $table="shipping";
+        $filter=array();
+        $filter["country"]=array("operation"=>"=","value"=>$session["country"]);
+        if(isInBD($table,$filter)){
+          $response["data"]["shipping"]["has_alternatives"]=true;
+          $shippings=listInBD($table,$filter);
+          $response["data"]["shipping"]["alternatives"]=array();
+          foreach ($shippings as $key=>$shipping){
+            $tmp=array();
+            $tmp["id_shipping"]=$shipping["id"];
+            $tmp["shipping_title"]=$shipping["name_es"];
+            $tmp["shipping_price"]=$shipping["price_es"];
+            $response["data"]["shipping"]["alternatives"][]=$tmp;
+          }
+        }
+      }
+      $response["data"]["shipping"]["is_selected"]=false;
+      if(issetandnotempty($session["shipping_title"])){
+        $response["data"]["shipping"]["is_selected"]=true;
+        $response["data"]["shipping"]["selected"]=array();
+        $response["data"]["shipping"]["selected"]["shipping_title"]=$session["shipping_title"];
+        $response["data"]["shipping"]["selected"]["shipping_price"]=$session["shipping_price"];
+      }
+
+
+      $response["data"]["payment_method"]=array();
+      $response["data"]["payment_method"]["has_alternatives"]=true;
+      $response["data"]["payment_method"]["alternatives"][1]["id_payment_method"]=1;
+      $response["data"]["payment_method"]["alternatives"][1]["payment_method_title"]="PayPal";
+      $response["data"]["payment_method"]["alternatives"][1]["payment_method_value"]="paypal";
+      $response["data"]["payment_method"]["alternatives"][2]["id_payment_method"]=2;
+      $response["data"]["payment_method"]["alternatives"][2]["payment_method_title"]="Tarjeta de Crédito";
+      $response["data"]["payment_method"]["alternatives"][2]["payment_method_value"]="credit_card";
+      $response["data"]["payment_method"]["alternatives"][3]["id_payment_method"]=3;
+      $response["data"]["payment_method"]["alternatives"][3]["payment_method_title"]="Transferencia Bancaria";
+      $response["data"]["payment_method"]["alternatives"][3]["payment_method_value"]="bank_transfer";
+
+      $response["data"]["payment_method"]["is_selected"]=false;
+      if(issetandnotempty($session["id_payment_method"])){
+        $response["data"]["payment_method"]["is_selected"]=true;
+        $response["data"]["payment_method"]["selected"]=array();
+        $response["data"]["payment_method"]["selected"]["id_payment_method"]=$session["id_payment_method"];
+        $response["data"]["payment_method"]["selected"]["payment_method_title"]=$session["payment_method_title"];
+        $response["data"]["payment_method"]["selected"]["payment_method_value"]=$session["payment_method_value"];
+      }
+
+
       break;
 
     default:

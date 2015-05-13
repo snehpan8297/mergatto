@@ -39,6 +39,7 @@
   </head>
 
 	<body id="home">
+    <input type="hidden" id="session_data_loaded" value="false"/>
     <a name="top"></a>
     <div class="container-fluid visible-xs">
 			<div class="menu-wrapper menu-hidden">
@@ -149,6 +150,7 @@
                     <b><span class="data-ajax" data-ajax="first_name"></span></b> <span class="data-ajax" data-ajax="last_name"></span><br/>
                     Número de cliente: <span class="data-ajax" data-ajax="id_client"></span><br/>
                     Correo electrónico: <span class="data-ajax" data-ajax="email"></span><br/>
+                    DNI/Pasaporte: <span class="data-ajax" data-ajax="passport"></span><br/>
                     <span class="data-ajax" data-ajax="street_1"></span><br/>
                     <span class="data-ajax" data-ajax="street_2"></span><br/>
                     (<span class="data-ajax" data-ajax="zip"></span>) <span class="data-ajax" data-ajax="city"></span> <span class="data-ajax" data-ajax="state"></span><br/>
@@ -180,6 +182,10 @@
                     <div class="form-group">
                       <label class="control-label">Email</label>
                       <input name="email" input-data-session-data="email" class="form-control input-data-session-data" type="email">
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">DNI/Pasaporte</label>
+                      <input name="passport" input-data-session-data="passport" class="form-control input-data-session-data" type="passport">
                     </div>
                     <div class="form-group">
                       <label class="control-label" data-lang="address">Dirección</label>
