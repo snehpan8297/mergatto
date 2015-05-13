@@ -58,6 +58,7 @@ function check_session(){
           localStorage.cookies_accepted=0;
           localStorage.logged=0;
           localStorage.id_client="-----";
+          localStorage.session_menu_link="<li><a href='"+$_PATH+"access/login/index.html'><span>Indentifícate</span></a></li>";
           $_session_data["session_key"]=localStorage.session_key;
           update_session_data();
 
@@ -97,6 +98,11 @@ function check_session(){
           localStorage.cookies_accepted=response.data.cookies_accepted;
           localStorage.logged=response.data.logged;
           localStorage.id_client="#W"+response.data.id_client;
+          if(localStorage.logged==1){
+            localStorage.session_menu_link="<li><a href='"+$_PATH+"access/home/index.html'><span>Mi Cuenta</span></a></li>";
+          }else{
+            localStorage.session_menu_link="<li><a href='"+$_PATH+"access/login/index.html'><span>Indentifícate</span></a></li>";
+          }
           update_session_data();
         }else{
           if(response.error_code=="session_key_not_valid"){
@@ -127,6 +133,7 @@ function update_session_data(){
   $_session_data["cookies_accepted"]=localStorage.cookies_accepted;
   $_session_data["logged"]=localStorage.logged;
   $_session_data["id_client"]=localStorage.id_client;
+  $_session_data["session_menu_link"]=localStorage.session_menu_link;
   if($_session_data["cookies_accepted"]=="0"){
     $("#cookies_footer").removeClass("hidden");
   }

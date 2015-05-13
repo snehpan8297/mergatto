@@ -4,6 +4,9 @@ $(document).ready(function() {
     $(".tab-pane.active").toggleClass("active");
     $("#shipping_address").toggleClass("in");
     $("#shipping_address").toggleClass("active");
+    $("#next-checkout").html("Siguiente");
+    $("#next-checkout").attr("href","javascript:process_cart()");
+    $("#next-checkout").removeClass("disabled");
   }
   $.ajax({
     type: "POST",
@@ -63,6 +66,7 @@ $(document).ready(function() {
           $(".tab-pane.active").toggleClass("active");
           $("#shipping_address").toggleClass("in");
           $("#shipping_address").toggleClass("active");
+
           check_session();
           scroll_to("top");
         }else{
@@ -78,11 +82,43 @@ function validate_shipping_address(){
   $("#shipping_address").toggleClass("in");
   $("#shipping_address").toggleClass("active");
   scroll_to("top");
+  $("#next-checkout").html("Siguiente");
+  $("#next-checkout").attr("href","javascript:process_cart()");
+  $("#next-checkout").removeClass("disabled");
+
 }
 function edit_shipping_address(){
   $(".tab-pane.in").toggleClass("in");
   $(".tab-pane.active").toggleClass("active");
   $("#shipping_address_form").toggleClass("in");
   $("#shipping_address_form").toggleClass("active");
+  $("#next-checkout").html("Rellena los datos de envío");
+  $("#next-checkout").attr("href","javascript:void(0)");
+  $("#next-checkout").addClass("disabled");
   scroll_to("top");
+}
+function proccess_cart(){
+  $("#next-checkout").html("Cargado...");
+  $("#next-checkout").attr("href","javascript:void(0)");
+
+  $.ajax({
+    type: "POST",
+    dataType: 'json',
+    url: $_SERVER_PATH+"server/shop/model/order/model.php",
+    data: {
+      action: "add_order",
+      session_key: $_session_data["session_key"]
+    },
+    error: function(data, textStatus, jqXHR) {
+      alert("error: ajax call error");
+    },
+    success: function(response) {
+      if(response.result){
+        window.location.href="../../../shop/checkout/2/inde.html";
+      }else{
+        alert("error: "+response.error_code);
+      }
+    }
+  });
+
 }

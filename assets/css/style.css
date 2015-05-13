@@ -15,9 +15,6 @@ body{
 h1,h2,h3,h4 {
 	font-weight: 300;
 }
-h1 span {
-	font-weight: 700;
-}
 hr {
 	border-color: #ccc;
 	margin: 30px 0;
@@ -131,6 +128,26 @@ a:hover {
 .btn-disable:focus {
 	background: #ddd;
 	border-color: #ddd;
+}
+
+.btn-white {
+	background: #fff;
+	border: 2px solid #fff;
+	box-shadow: none;
+	color: #000;
+	text-decoration: none;
+}
+.btn-white:hover,
+.btn-white:focus {
+	background: #000;
+	border-color: #000;
+	color:#FFF;
+	top:0;
+	text-decoration: none;
+}
+.btn-no-padding{
+	padding: 0;
+
 }
 
 .btn-right {
@@ -1291,7 +1308,9 @@ blockquote footer, blockquote small, blockquote .small {
 	margin-top:20px;
 }
 
-
+.p-t-0{
+	padding-top:0px !important;
+}
 .p-t-5{
 	padding-top:5px;
 }

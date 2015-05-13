@@ -49,12 +49,13 @@
 				</ul>
 				<h3 class="" data-lang="menu">Menú</h3>
 				<ul class="nav-list text-center" data-ajax="nav-list">
-					<li><a href="../../../shop/index.html" data-lang="shop"><span>Tienda</span></a></li>
+          <li><a href="../../../index.html" data-lang="shop"><span>Inicio</span></a></li>
+          <li><a href="../../../shop/index.html" data-lang="shop"><span>Tienda</span></a></li>
 					<li><a href="../../../page/index.html?title=lookbook" data-lang="lookbook"><span>Lookbook SS15</span></a></li>
 					<li><a href="../../../page/index.html?title=posts" data-lang="blog"><span>Blog</span></a></li>
 					<li><a href="../../../page/index.html?title=about" data-lang="contact"><span>Nosotros</span></a></li>
 					<li><a href="../../../page/index.html?title=contact" data-lang="contact"><span>Contacto</span></a></li>
-					<li><a href="../../../access/login/index.html" ><span data-lang="my-account">Indentifícate</span></a></li>
+          <li class="data-ajax" data-ajax="session_menu_link"></li>
 				</ul>
 			</div>
 		</div>
@@ -82,7 +83,7 @@
 					<li><a href="../../../page/index.html?title=posts" data-lang="blog"><span>Blog</span></a></li>
 					<li><a href="../../../page/index.html?title=about" data-lang="contact"><span>Nosotros</span></a></li>
 					<li><a href="../../../page/index.html?title=contact" data-lang="contact"><span>Contacto</span></a></li>
-					<li><a href="../../../access/login/index.html" ><span data-lang="my-account">Indentifícate</span></a></li>
+          <li class="data-ajax" data-ajax="session_menu_link"></li>
 				</ul>
 			</div>
 			<div class="hidden-xs">
@@ -132,7 +133,7 @@
                   <form action="" method="post" id="login-form" class="myform">
                     <div class="form-group">
                       <label class="control-label">Correo Electrónico</label>
-                      <input id="email" class="form-control" type="text" value="" autocomplete="off">
+                      <input id="email" class="form-control" type="email" value="" autocomplete="off">
                     </div>
                     <div class="form-group">
                       <label class="control-label">Contraseña</label>
@@ -178,7 +179,7 @@
 
                     <div class="form-group">
                       <label class="control-label">Email</label>
-                      <input name="email" input-data-session-data="email" class="form-control input-data-session-data" type="text">
+                      <input name="email" input-data-session-data="email" class="form-control input-data-session-data" type="email">
                     </div>
                     <div class="form-group">
                       <label class="control-label" data-lang="address">Dirección</label>
@@ -237,7 +238,7 @@
 
 							  </tbody>
 							</table>
-							<a href="../2/" class="btn btn-right disabled" data-lang="continue">Rellena los datos de envío</a>
+							<a href="javascript:void(0)" id="next-checkout" class="btn btn-right disabled" data-lang="continue">Rellena los datos de envío</a>
 					</div>
 				</div>
 

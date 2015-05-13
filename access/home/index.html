@@ -51,12 +51,13 @@
 				</ul>
 				<h3 class="" data-lang="menu">Menú</h3>
 				<ul class="nav-list text-center" data-ajax="nav-list">
-					<li><a href="../../shop/index.html" data-lang="shop"><span>Tienda</span></a></li>
+          <li><a href="../../index.html" data-lang="shop"><span>Inicio</span></a></li>
+          <li><a href="../../shop/index.html" data-lang="shop"><span>Tienda</span></a></li>
 					<li><a href="../../page/index.html?title=lookbook" data-lang="lookbook"><span>Lookbook SS15</span></a></li>
 					<li><a href="../../page/index.html?title=posts" data-lang="blog"><span>Blog</span></a></li>
 					<li><a href="../../page/index.html?title=about" data-lang="contact"><span>Nosotros</span></a></li>
 					<li><a href="../../page/index.html?title=contact" data-lang="contact"><span>Contacto</span></a></li>
-          <li><a href="../../access/home/index.html" data-lang="my-account"><span>Mi Cuenta</span></a></li>
+          <li class="data-ajax" data-ajax="session_menu_link"></li>
 				</ul>
 			</div>
 		</div>
@@ -84,7 +85,7 @@
 					<li><a href="../../page/index.html?title=posts" data-lang="blog"><span>Blog</span></a></li>
 					<li><a href="../../page/index.html?title=about" data-lang="contact"><span>Nosotros</span></a></li>
 					<li><a href="../../page/index.html?title=contact" data-lang="contact"><span>Contacto</span></a></li>
-          <li class="active"><a href="../../access/home/index.html" data-lang="my-account"><span>Mi Cuenta</span></a></li>
+          <li class="data-ajax" data-ajax="session_menu_link"></li>
 				</ul>
 			</div>
 			<div class="hidden-xs">
@@ -95,10 +96,10 @@
 				</ul>
 			</div>
 			<div class="container-fluid cart-list">
-        <div class="row">
+        <div class="row m-t-20">
           <div class="col-sm-12" >
             <p class="text-center"><img src="../../assets/img/logo.png"/></p>
-            <h1 class="text-center">Hola, Pablo Gutiérrez Alfaro</h1>
+            <h1 class="text-center">Hola, <span class="data-ajax" data-ajax="first_name"></span> <span class="data-ajax" data-ajax="last_name"></span></h1>
             <p class="text-center" >Bienvenido a tu sección personal, aquí podrás consultar tus pedidos.</p>
           </div>
         </div>

@@ -105,7 +105,7 @@ $(document).ready(function() {
 
         $_ajax["product-images"]="";
         jQuery.each(response.data.images,function($_key,$_image){
-          $_ajax["product-images"]+="<img src='../../media/shop/photos/"+response.data.serial_model_code+"-"+$_image.index+".jpg' class='product-img img-responsive full-width' alt='item'>";
+          $_ajax["product-images"]+="<a href='./detail/index.html?id_product="+$_GET["id_product"]+"&id_category="+$_GET["id_category"]+"&id_family="+$_GET["id_family"]+"&serial_model_code="+response.data.serial_model_code+"&index="+$_image.index+"'><img src='../../media/shop/photos/"+response.data.serial_model_code+"-"+$_image.index+".jpg' class='product-img img-responsive full-width' alt='item'></a>";
         });
 
         $(".data-ajax-product-images").html($_ajax["product-images"]);
