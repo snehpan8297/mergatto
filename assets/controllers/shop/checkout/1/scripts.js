@@ -126,6 +126,8 @@ function process_cart(){
     },
     success: function(response) {
       if(response.result){
+        updateSession("current_id_order",response.data.id_order);
+
         window.location.href="../../../shop/checkout/2/index.html";
       }else{
         alert("Ha ocurrido en los datos enviados a nuestro servidor, vuelva a intentarlo más tarde.");

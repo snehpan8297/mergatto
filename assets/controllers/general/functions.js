@@ -61,6 +61,7 @@ function check_session(){
           localStorage.id_payment_method=0
           localStorage.payment_method_title="";
           localStorage.payment_method_value="";
+          localStorage.current_id_order="";
           localStorage.size="";
           localStorage.cookies_accepted=0;
           localStorage.logged=0;
@@ -108,6 +109,8 @@ function check_session(){
           localStorage.id_payment_method=response.data.id_payment_method;
           localStorage.payment_method_title=response.data.payment_method_title;
           localStorage.payment_method_value=response.data.payment_method_value;
+          localStorage.current_id_order=response.data.current_id_order;
+
           localStorage.size=response.data.size;
           localStorage.cookies_accepted=response.data.cookies_accepted;
           localStorage.logged=response.data.logged;
@@ -152,6 +155,8 @@ function update_session_data(){
   $_session_data["id_payment_method"]=localStorage.id_payment_method;
   $_session_data["payment_method_title"]=localStorage.payment_method_title;
   $_session_data["payment_method_value"]=localStorage.payment_method_value;
+  $_session_data["current_id_order"]=localStorage.current_id_order;
+
   $_session_data["size"]=localStorage.size;
   $_session_data["cookies_accepted"]=localStorage.cookies_accepted;
   $_session_data["logged"]=localStorage.logged;
@@ -619,6 +624,8 @@ function accept_cookies(){
         localStorage.id_payment_method=response.data.id_payment_method;
         localStorage.payment_method_title=response.data.payment_method_title;
         localStorage.payment_method_value=response.data.payment_method_value;
+        localStorage.current_id_order=response.data.current_id_order;
+
         localStorage.size=response.data.size;
         localStorage.cookies_accepted=response.data.cookies_accepted;
         localStorage.logged=response.data.logged;
@@ -673,6 +680,7 @@ function updateSession($_index,$_value){
         localStorage.id_payment_method=response.data.id_payment_method;
         localStorage.payment_method_title=response.data.payment_method_title;
         localStorage.payment_method_value=response.data.payment_method_value;
+        localStorage.current_id_order=response.data.current_id_order;
         localStorage.size=response.data.size;
         localStorage.cookies_accepted=response.data.cookies_accepted;
         localStorage.logged=response.data.logged;
@@ -695,11 +703,12 @@ function updateSession($_index,$_value){
         $_session_data["id_payment_method"]=response.data.id_payment_method;
         $_session_data["payment_method_title"]=response.data.payment_method_title;
         $_session_data["payment_method_value"]=response.data.payment_method_value;
+        $_session_data["current_id_order"]=response.data.current_id_order;
         $_session_data["size"]=response.data.size;
         $_session_data["cookies_accepted"]=response.data.cookies_accepted;
         $_session_data["logged"]=response.data.logged;
         $_session_data["id_client"]="#W"+response.data.id_client;
-        
+
         if(localStorage.cookies_accepted=="0"){
           $("#cookies_footer").removeClass("hidden");
         }

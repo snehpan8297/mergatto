@@ -248,6 +248,7 @@
       $data["num_clothes"]=$order["num_clothes"];
       updateInBD($table,$filter,$data);
 
+      $response["data"]=$order["id_order"];
 
       break;
 

@@ -4,6 +4,43 @@ $(document).ready(function() {
 
     }else if($_session_data["payment_method_value"]=="credit_card"){
 
+      $.ajax({
+        type: "POST",
+        dataType: 'json',
+        url: $_SERVER_PATH+"server/shop/model/payments/model.php",
+        data: {
+          action: "get_credit_card_signature",
+          id_order: $_session_data["current_id_order"]
+        },
+        error: function(data, textStatus, jqXHR) {
+          alert("[get_credit_card_signature] error: ajax call error");
+        },
+        success: function(response) {
+          if(response.result){
+            $_ajax["page"]="";
+            $_ajax["page"]+="<form id='form' name='compra' action='https://sis.sermepa.es/sis/realizarPago' method='post'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_Amount value='"+$_order["total"]+"'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_Currency value='978'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_Order  value='TEST-"+$_order["id_order"]+"'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_Titular  value='Oky Coky Shop'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_MerchantCode value='047278643'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_MerchantName value='ROTELPA, S.A (\'Fashion Retail\')'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_ConsumerLanguage value='001'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_Terminal value='1'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_TransactionType value='0'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_MerchantURL value='http://www.okycoky.net/new/server/shop/model/payments/post_credit_card.php'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_UrlOK value='http://www.okycoky.net/new/shop/payments/success/index.html'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_UrlKO value='http://www.okycoky.net/new/shop/payments/error/index.html'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_MerchantSignature value='<?php echo $signature; ?>'>";
+            $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_MerchantData value='"+$_order["id_order"]+"'>";
+            $_ajax["page"]+="</form>";
+            $_ajax["page"]+="";
+          }else{
+            alert("[get_credit_card_signature] error: "+response.error_code);
+          }
+        }
+      });
+
     }else if($_session_data["payment_method_value"]=="bank_transfer"){
       $_ajax["page"]="";
       $_ajax["page"]+="<div class='row m-b-40'>";
