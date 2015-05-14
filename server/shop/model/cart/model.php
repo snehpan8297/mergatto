@@ -119,8 +119,6 @@
         $filter=array();
         $filter["id_product"]=array("operation"=>"=","value"=>$cart_item["id_product"]);
         $cart_item["product"]=getInBD($table,$filter);
-        debug_log($cart_item["product"]["pvp"],"TEST");
-
         $cart_item["product"]["price_with_discount"]=intval($cart_item["product"]["pvp"]);
         if($cart_item["product"]["use_discount"]==1){
           $cart_item["product"]["price_with_discount"]=intval($cart_item["product"]["pvp"]*(100-$cart_item["product"]["discount"])/100);

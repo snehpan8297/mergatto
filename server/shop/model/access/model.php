@@ -93,6 +93,71 @@
 
       break;
 
+    case "signup":
+
+      // Check Input Data
+
+      $table="sessions";
+      $filter=array();
+      $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
+      if(!isInBD($table,$filter)){
+        $response["result"]=false;
+        $response["error_code"]="session_key_not_valid";
+        debug_log($response["error_code"],"ERROR");
+        echo json_encode($response);
+        die();
+      }
+      $session=getInBD($table,$filter);
+
+      $table="clients";
+      $filter=array();
+      $filter["email"]=array("operation"=>"=","value"=>$session["email"]);
+      if(isInBD($table,$filter)){
+        $response["result"]=false;
+        $response["error_code"]="email_in_use";
+        debug_log($response["error_code"],"ERROR");
+        echo json_encode($response);
+        die();
+      }
+      $data=array();
+      $data["id_elastic"]=0;
+      $data["id_client_group"]=0;
+      $data["password"]=md5($action_data["password"]);
+      $data["name"]=$session["first_name"];
+      $data["subname"]=$session["last_name"];
+      $data["email"]=$session["email"];
+      $data["id_currency"]=0;
+      $data["web_active"]=1;
+      $data["DNI"]=$session["passport"];
+      $data["address_1"]=$session["street_1"];
+      $data["address_2"]=$session["street_2"];
+      $data["post_code"]=$session["zip"];
+      $data["city"]=$session["city"];
+      $data["province"]=$session["state"];
+      $data["country"]=$session["country"];
+      $data["mobile"]=$session["phone"];
+      $data["last_login"]=0;
+      $data["user_type"]=0;
+      $data["discount"]=0;
+      $data["lang"]="";
+      $data["promo_available"]=0;
+      $data["session_key"]=$session["session_key"];
+      $data["size"]=$session["size"];
+      $client=array();
+      $client["id_client"]=addInBD($table,$data);
+
+      $table="sessions";
+      $filter=array();
+      $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
+      $data=array();
+      $data["logged"]=1;
+      $data["id_client"]=$client["id_client"];
+      updateInBD($table,$filter,$data);
+
+      $response["data"]=array();
+      $response["data"]["id_client"]=$client["id_client"];
+      break;
+
     case "add_session":
       // Check Input Data
 
@@ -137,8 +202,24 @@
         echo json_encode($response);
         die();
       }
-
       $session=getInBD($table,$filter);
+
+      if($session["logged"]==1){
+        $table="clients";
+        $filter=array();
+        $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
+        if(!isInBD($table,$filter)){
+          $response["result"]=false;
+          $response["error_code"]="login_from_other_terminal";
+          debug_log($response["error_code"],"ERROR");
+          echo json_encode($response);
+          die();
+        }
+      }
+
+      $table="sessions";
+      $filter=array();
+      $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
       $data=array();
       $data["last_activity"]=$timestamp;
       updateInBD($table,$filter,$data);

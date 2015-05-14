@@ -40,7 +40,7 @@ function check_session(){
         "action":"add_session"
       },
       error: function(data, textStatus, jqXHR) {
-        alert("[get_session] error: ajax call error");
+        alert("[add_session] error: ajax call error");
       },
       success: function(response) {
         if(response.result){
@@ -71,7 +71,7 @@ function check_session(){
           update_session_data();
 
         }else{
-          alert("[get_session] error: "+response.error_code);
+          alert("[add_session] error: "+response.error_code);
         }
       }
     });
@@ -123,7 +123,7 @@ function check_session(){
           }
           update_session_data();
         }else{
-          if(response.error_code=="session_key_not_valid"){
+          if((response.error_code=="session_key_not_valid")||(response.error_code=="login_from_other_terminal")){
             localStorage.session_key=null;
             check_session();
           }else{
@@ -137,6 +137,13 @@ function check_session(){
 }
 
 function update_session_data(){
+
+  update_session_data_no_trigger();
+  $("#session_data_loaded").change();
+
+}
+
+function update_session_data_no_trigger(){
 
   $_session_data["first_name"]=localStorage.first_name;
   $_session_data["last_name"]=localStorage.last_name;
@@ -221,10 +228,14 @@ function update_session_data(){
   }
 
   addInputListeners();
-  $("#session_data_loaded").change();
 
 }
 
+function is_email($_value){
+  var re = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
+  return re.test($_value);
+
+}
 
 
 function get_cart(){
@@ -602,7 +613,7 @@ function accept_cookies(){
       "value":"1"
     },
     error: function(data, textStatus, jqXHR) {
-      alert("[get_session] error: ajax call error");
+      alert("[update_session] error: ajax call error");
     },
     success: function(response) {
       if(response.result){
@@ -632,7 +643,7 @@ function accept_cookies(){
         localStorage.id_client="#W"+response.data.id_client;
         $("#cookies_footer").addClass("hidden");
       }else{
-        alert("[get_session] error: "+response.error_code);
+        alert("[update_session] error: "+response.error_code);
       }
     }
   });
@@ -658,7 +669,7 @@ function updateSession($_index,$_value){
       "value":$_value
     },
     error: function(data, textStatus, jqXHR) {
-      alert("[get_session] error: ajax call error");
+      alert("[update_session] error: ajax call error");
     },
     success: function(response) {
       if(response.result){
@@ -714,7 +725,7 @@ function updateSession($_index,$_value){
         }
         get_cart();
       }else{
-        alert("[get_session] error: "+response.error_code);
+        alert("[update_session] error: "+response.error_code);
       }
     }
   });

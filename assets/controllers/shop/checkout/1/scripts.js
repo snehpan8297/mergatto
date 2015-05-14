@@ -2,6 +2,7 @@ $_ajax["shipping_address_validation"]=false;
 $_ajax["shipping_validation"]=false;
 $_ajax["payment_method_validation"]=false;
 
+
 $(document).ready(function() {
   if(localStorage.logged==1){
     $(".tab-pane.in").toggleClass("in");
@@ -79,30 +80,157 @@ $(document).ready(function() {
   });
 });
 function validate_shipping_address(){
+  $("#session_data_loaded").change(function(){
+    $_validate=true;
 
-  $(".tab-pane.in").toggleClass("in");
-  $(".tab-pane.active").toggleClass("active");
-  $("#shipping_address").toggleClass("in");
-  $("#shipping_address").toggleClass("active");
-  $("#next-checkout").html("Siguiente");
-  $("#next-checkout").attr("href","javascript:process_cart()");
-  $("#next-checkout").removeClass("disabled");
+    if ((!isset_and_not_empty($_session_data["first_name"]))||($_session_data["first_name"]=="")){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>nombre</b> es obligatorio</p>");
+      $_validate=false;
+    }
+    if ((!isset_and_not_empty($_session_data["last_name"]))||($_session_data["last_name"]=="")){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>apellido</b> es obligatorio</p>");
+      $_validate=false;
+    }
+    if ((!isset_and_not_empty($_session_data["email"]))||($_session_data["email"]=="")){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>correo electrónico</b> es obligatorio</p>");
+      $_validate=false;
+    }else if(!is_email($_session_data["email"])){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>correo electrónico</b> no tiene formato válido</p>");
+      $_validate=false;
+    }
+    if ((!isset_and_not_empty($_session_data["passport"]))||($_session_data["passport"]=="")){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>DNI/Pasaporte</b> es obligatorio</p>");
+      $_validate=false;
+    }
+    if ((!isset_and_not_empty($_session_data["street_1"]))||($_session_data["street_1"]=="")){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>dirección</b> es obligatorio</p>");
+      $_validate=false;
+    }
+    if ((!isset_and_not_empty($_session_data["city"]))||($_session_data["city"]=="")){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>ciudad</b> es obligatorio</p>");
+      $_validate=false;
+    }
+    if ((!isset_and_not_empty($_session_data["zip"]))||($_session_data["zip"]=="")){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>código postal</b> es obligatorio</p>");
+      $_validate=false;
+    }
+    if ((!isset_and_not_empty($_session_data["country"]))||($_session_data["country"]=="")){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>pais</b> es obligatorio</p>");
+      $_validate=false;
+    }
+    if ((!isset_and_not_empty($_session_data["state"]))||($_session_data["state"]=="")){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>provincia</b> es obligatorio</p>");
+      $_validate=false;
+    }
+    if ((!isset_and_not_empty($_session_data["phone"]))||($_session_data["phone"]=="")){
+      $("#shipping-address-alert").removeClass("hidden");
+      $("#shipping-address-alert").append("<p>El campo <b>teléfono</b> es obligatorio</p>");
+      $_validate=false;
+    }
+
+    if($_validate){
+      $_need_to_signup=false;
+      if($_session_data["logged"]==0){
+        $_session_data["password"]=$("#signup_password").val();
+        if ((isset_and_not_empty($_session_data["password"]))&&($_session_data["password"]!="")){
+          if($("#set_password").hasClass("in")){
+            $_need_to_signup=true;
+
+            $.ajax({
+              type: "POST",
+              dataType: 'json',
+              url: $_SERVER_PATH+"server/shop/model/access/model.php",
+              data: {
+                action: "signup",
+                session_key: $_session_data["session_key"],
+                password: $_session_data["password"]
+              },
+              error: function(data, textStatus, jqXHR) {
+                alert("Ha ocurrido un error en la conexión cuando se daba de alta tu usuario");
+              },
+              success: function(response) {
+                if(response.result){
+                  $_session_data["logged"]=1;
+                  localStorage.logged=1;
+                  $_session_data["id_client"]=response.data.id_client;
+                  localStorage.id_client=response.data.id_client;
+
+                  update_session_data_no_trigger();
+                  $("#shipping-address-alert").addClass("hidden");
+                  $(".tab-pane.in").toggleClass("in");
+                  $(".tab-pane.active").toggleClass("active");
+                  $("#shipping_address").toggleClass("in");
+                  $("#shipping_address").toggleClass("active");
+                  updateSession("id_shipping",0);
+                  updateSession("id_payment_method",0);
+                  $_ajax["shipping_address_validation"]=true;
+                  $_ajax["shipping_validation"]=false;
+                  $_ajax["payment_method_validation"]=false;
+                  validate_order();
+                }else{
+                  if(response.error_code=="email_in_use"){
+                    alert("No se ha podido regsitrar tu cuenta ya que el correo electrónico ya está en uso.");
+                    $("#set_password").removeClass("in");
+                    $("#set_password").removeClass("active");
+
+
+                    $("#shipping-address-alert").addClass("hidden");
+                    $(".tab-pane.in").toggleClass("in");
+                    $(".tab-pane.active").toggleClass("active");
+                    $("#shipping_address").toggleClass("in");
+                    $("#shipping_address").toggleClass("active");
+                    updateSession("id_shipping",0);
+                    updateSession("id_payment_method",0);
+                    $_ajax["shipping_address_validation"]=true;
+                    $_ajax["shipping_validation"]=false;
+                    $_ajax["payment_method_validation"]=false;
+                    validate_order();
+                  }else{
+                    alert("error: "+response.error_code);
+                  }
+                  $("#signup_password").val("");
+                }
+              }
+            });
+          }
+        }
+      }
+      if(!$_need_to_signup){
+        $("#shipping-address-alert").addClass("hidden");
+        $(".tab-pane.in").toggleClass("in");
+        $(".tab-pane.active").toggleClass("active");
+        $("#shipping_address").toggleClass("in");
+        $("#shipping_address").toggleClass("active");
+        updateSession("id_shipping",0);
+        updateSession("id_payment_method",0);
+        $_ajax["shipping_address_validation"]=true;
+        $_ajax["shipping_validation"]=false;
+        $_ajax["payment_method_validation"]=false;
+        validate_order();
+      }
+    }
+  });
   scroll_to("top");
-  updateSession("id_shipping",0);
-  updateSession("id_payment_method",0);
-  $_ajax["shipping_address_validation"]=true;
-  $_ajax["shipping_validation"]=false;
-  $_ajax["payment_method_validation"]=false;
-  validate_order();
+  check_session();
+
+
+
 }
 function edit_shipping_address(){
   $(".tab-pane.in").toggleClass("in");
   $(".tab-pane.active").toggleClass("active");
   $("#shipping_address_form").toggleClass("in");
   $("#shipping_address_form").toggleClass("active");
-  $("#next-checkout").html("Rellena los datos de envío");
-  $("#next-checkout").attr("href","javascript:void(0)");
-  $("#next-checkout").addClass("disabled");
   scroll_to("top");
   $_ajax["shipping_address_validation"]=false;
   validate_order();
@@ -112,29 +240,7 @@ function process_cart(){
   $("#next-checkout").attr("href","javascript:void(0)");
   $("#next-checkout").addClass("disabled");
 
-  $.ajax({
-    type: "POST",
-    dataType: 'json',
-    url: $_SERVER_PATH+"server/shop/model/orders/model.php",
-    data: {
-      action: "add_order",
-      session_key: $_session_data["session_key"]
-    },
-    error: function(data, textStatus, jqXHR) {
-      alert("Ha ocurrido un error en el servidor, vuelva a intentarlo más tarde.");
-      validate_order();
-    },
-    success: function(response) {
-      if(response.result){
-        updateSession("current_id_order",response.data.id_order);
-
-        window.location.href="../../../shop/checkout/2/index.html";
-      }else{
-        alert("Ha ocurrido en los datos enviados a nuestro servidor, vuelva a intentarlo más tarde.");
-        validate_order();
-      }
-    }
-  });
+  window.location.href="../../../shop/checkout/2/index.html";
 
 }
 function validate_order(){
@@ -155,4 +261,11 @@ function validate_order(){
     $("#next-checkout").addClass("disabled");
 
   }
+}
+
+function delete_form_data($_id_form){
+  $("#"+$_id_form+" input").each(function(){
+    $(this).val("");
+    $(this).change();
+  });
 }

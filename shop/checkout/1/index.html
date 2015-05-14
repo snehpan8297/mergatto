@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html ng-app="storeApp">
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
@@ -134,11 +134,11 @@
                   <form action="" method="post" id="login-form" class="myform">
                     <div class="form-group">
                       <label class="control-label">Correo Electrónico</label>
-                      <input id="email" class="form-control" type="email" value="" autocomplete="off">
+                      <input id="email" class="form-control" type="email" value="">
                     </div>
                     <div class="form-group">
                       <label class="control-label">Contraseña</label>
-                      <input id="password" class="form-control" type="password" value="" autocomplete="off">
+                      <input id="password" class="form-control" type="password" value="">
                     </div>
                     <p><button name="submit" type="submit" class="btn btn-store btn-block">Acceder</button></p>
                   </form>
@@ -165,6 +165,18 @@
                 <div class="table-row">
                   <form action="" method="post" id="shipping-address-form" class="myform">
                     <div class="row">
+                      <div class="col-xs-12">
+                        <div class="alert alert-danger hidden" id="shipping-address-alert">
+                          <h4>Ha ocurrido un error</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 text-right">
+                        <a class="small" href="javascript:delete_form_data('shipping-address-form')">Borrar datos</a>
+                      </div>
+                    </div>
+                    <div class="row">
                       <div class="col-sm-6">
                         <div class="form-group">
                           <label class="control-label" data-lang="first-name">Nombre</label>
@@ -182,6 +194,17 @@
                     <div class="form-group">
                       <label class="control-label">Email</label>
                       <input name="email" input-data-session-data="email" class="form-control input-data-session-data" type="email">
+                    </div>
+                    <div class="hidden-logged">
+                      <div class="p-b-10">
+                        <a href="#set_password" class="collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapseThree" data-lang="continue">Pincha aquí para escoger una contraseña y regitrarte automáticamente.</a>
+                      </div>
+                      <div id="set_password" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="form-group">
+                          <label class="control-label">Contraseña</label>
+                          <input id="signup_password" name="signup_password" class="form-control" input-type="password" type="text" value="" autocomplete="off">
+                        </div>
+                      </div>
                     </div>
                     <div class="form-group">
                       <label class="control-label">DNI/Pasaporte</label>
@@ -217,15 +240,6 @@
                       <label class="control-label" data-lang="phone">Teléfono</label>
                       <input name="phone" input-data-session-data="phone" class="form-control input-data-session-data" type="text">
                     </div>
-                    <div class="hidden-logged">
-                      <a href="#set_password" class="collapsed" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapseThree" data-lang="continue">Pincha aquí para escoger una contraseña y regitrarte automáticamente.</a>
-                      <div id="set_password" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="form-group">
-                          <label class="control-label">Contraseña</label>
-                          <input id="set_password" class="form-control" type="password" value="" autocomplete="off">
-                        </div>
-                      </div>
-                    </div>
                     <p><a href="javascript:validate_shipping_address()" class="btn btn-store btn-block">Validar datos</a></p>
                   </from>
                 </div>
@@ -250,7 +264,7 @@
 
 				<div class="row">
 					<div class="col-sm-12 text-center show-more">
-						<a href="../../../cart/" class="btn btn-outline" data-lang="back-to-cart">Volver al carro</a>
+						<a href="../../../shop/cart/" class="btn btn-outline" data-lang="back-to-cart">Volver al carro</a>
 					</div>
 				</div>
 			</div>

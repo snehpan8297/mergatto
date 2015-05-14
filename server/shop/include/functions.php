@@ -29,6 +29,7 @@
 	}
 
 
+
 	// Image resize function with php + gd2 lib
 	function imageresize($source, $destination, $width = 0, $height = 0, $crop = false, $quality = 100) {
 		$quality = $quality ? $quality : 80;

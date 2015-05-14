@@ -21,6 +21,7 @@ var delimiter="";
 
 var $_ajax = new Array();
 
+
 check_session();
 
 get_cart();
@@ -44,4 +45,12 @@ $('#stiky_scroll').affix({
       offset: {
         top: 200
       }
+});
+
+$(document).ready(function() {
+  setTimeout(function(){
+    $("[input-type=password]").each(function(){
+      $(this).attr("type","password");
+    });
+  },1);
 });

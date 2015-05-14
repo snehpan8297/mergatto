@@ -124,6 +124,40 @@
     case "add_order":
       // Check Input Data
 
+      $is_previous_order=false;
+      if(@issetandnotempty($action_data["current_id_order"])){
+        $table="order_request";
+        $filter=array();
+        $filter["id_order"]=array("operation"=>"=","value"=>$action_data["current_id_order"]);
+        if(isInBD($table,$filter)){
+          $is_previous_order=true;
+          $order=getInBD($table,$filter);
+          $table="lines_order_request";
+          $filter=array();
+          $filter["id_order_request"]=array("operation"=>"=","value"=>$order["id_order"]);
+          if(isInBD($table,$filter)){
+            $order_lines=listInBD($table,$filter);
+            foreach ($order_lines as $key=>$order_line){
+              if($order_line["reserve_stock"]==1){
+                $table="stocks";
+                $filter=array();
+                $filter["id_product"]=array("operation"=>"=","value"=>$order_line["id_product"]);
+                $filter["id_color"]=array("operation"=>"=","value"=>$order_line["id_color"]);
+                $stock=getInBD($table,$filter);
+                $data=array();
+                for($i=1;$i<=12;$i++){
+                  $data["stock_size_".$i]=$stock["stock_size_".$i]+$order_line["size_".$i];
+                }
+                updateInBD($table,$filter,$data);
+              }
+              $table="lines_order_request";
+              $filter=array();
+              $filter["id_line"]=array("operation"=>"=","value"=>$order_line["id_line"]);
+              deleteInBD($table,$filter);
+            }
+          }
+        }
+      }
       $table="sessions";
       $filter=array();
       $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
@@ -189,14 +223,22 @@
       $data["discount"]=0;
       $data["promo_code"]="";
       $data["promo_code_amount"]=0;
-      $data["payment_method"]="no";
+      $data["payment_method"]=$session["payment_method_value"];
+      $data["payment_attempt"]=1;
       $data["allow_return"]=0;
       $data["generated_promo"]=0;
       $data["exported"]=0;
-      $id_order=addInBD($table,$data);
+      if($is_previous_order){
+        $filter=array();
+        $filter["id_order"]=array("operation"=>"=","value"=>$order["id_order"]);
+        $data["payment_attempt"]=$order["payment_attempt"]+1;
+        updateInBD($table,$filter,$data);
+      }else{
+        $order=array();
+        $order["id_order"]=addInBD($table,$data);
 
-      $order=array();
-      $order["id_order"]=$id_order;
+      }
+
       $order["total"]=0;
       $order["total_with_discount"]=0;
       $order["num_clothes"]=0;
@@ -213,7 +255,7 @@
 
         $table="lines_order_request";
         $data=array();
-        $data["id_order_request"]=$id_order;
+        $data["id_order_request"]=$order["id_order"];
         $data["serial_model_code"]=$cart_item["product"]["serial_model_code"];
         $data["id_product"]=$cart_item["product"]["id_product"];
         $data["id_color"]=$cart_item["color"]["id_color"];
@@ -232,23 +274,56 @@
 
         }
         $data["allsizes"]="34,36,38,40,42,44,46,48,50,52";
-        addInBD($table,$data);
+        $order_line=array();
+        $order_line["id_line"]=addInBD($table,$data);
         $order["total"]+=$data["subtotal"];
         $order["total_with_discount"]+=$data["subtotal"];
         $order["num_clothes"]+=$cart_item["quantity"];
+
+        $table="stocks";
+        $filter=array();
+        $filter["id_product"]=array("operation"=>"=","value"=>$cart_item["id_product"]);
+        $filter["id_color"]=array("operation"=>"=","value"=>$cart_item["id_color"]);
+        $stock=getInBD($table,$filter);
+        $data=array();
+        for($i=1;$i<=12;$i++){
+          $data["stock_size_".$i]=$stock["stock_size_".$i];
+          if($cart_item["size"]==$i){
+            $data["stock_size_".$i]-=$cart_item["quantity"];
+          }
+        }
+        updateInBD($table,$filter,$data);
+
+        $table="lines_order_request";
+        $filter=array();
+        $filter["id_line"]=array("operation"=>"=","value"=>$order_line["id_line"]);
+        $data=array();
+        $data["reserve_stock"]=1;
+        updateInBD($table,$filter,$data);
       }
 
 
       $table="order_request";
       $filter=array();
-      $filter["id_order"]=array("operation"=>"=","value"=>$id_order);
+      $filter["id_order"]=array("operation"=>"=","value"=>$order["id_order"]);
       $data=array();
       $data["total"]=$order["total"];
       $data["total_with_discount"]=$order["total_with_discount"];
       $data["num_clothes"]=$order["num_clothes"];
+      $data["reserve_stock"]=1;
+      $data["order_key"]=sha1("order".$order["id_order"].$timestamp);
       updateInBD($table,$filter,$data);
 
-      $response["data"]=$order["id_order"];
+      $response["data"]=array();
+      $response["data"]["id_order"]=$order["id_order"];
+      $response["data"]["total_with_discount"]=$order["total_with_discount"]+intval($order["shipping_method_price"]);
+
+      $table="sessions";
+      $filter=array();
+      $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
+      $data=array();
+      $data["current_id_order"]=$order["id_order"];
+      updateInBD($table,$filter,$data);
 
       break;
 

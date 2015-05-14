@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
 
+
   $("#login-form").submit(function(e){
     e.preventDefault();
     $.ajax({
@@ -36,36 +37,5 @@ $(document).ready(function() {
         }
       }
     });
-  });
-  $("#signup-form").submit(function(e){
-    e.preventDefault();
-    localStorage.first_name=$("#signup-form #first_name").val();
-    localStorage.last_name=$("#signup-form #last_name").val();
-    localStorage.email=$("#signup-form #email").val();
-    localStorage.password=$("#signup-form #password").val();
-    $.ajax({
-      type: "POST",
-      dataType: 'json',
-      url: $_SERVER_PATH+"server/shop/model/access/model.php",
-      data: {
-        action: "signup",
-        session_key: $_session_data["session_key"],
-        first_name: $("#signup-form #first_name").val(),
-        last_name: $("#signup-form #last_name").val(),
-        email: $("#signup-form #email").val(),
-        password: $("#signup-form #password").val()
-      },
-      error: function(data, textStatus, jqXHR) {
-        alert("error: ajax call error");
-      },
-      success: function(response) {
-        if(response.result){
-          window.location.href="../welcome/index.html";
-        }else{
-          alert("error: "+response.error_code);
-        }
-      }
-    });
-    alert("temporalmente deshabilitado");
   });
 });

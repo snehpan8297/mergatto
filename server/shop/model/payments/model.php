@@ -47,19 +47,48 @@
       $table="order_request";
       $filter=array();
       $filter["id_order"]=array("operation"=>"=","value"=>$action_data["id_order"]);
+      if(!isInBD($table,$filter)){
+        $response["result"]=false;
+        $response["error_code"]="id_order_not_valid";
+        debug_log($response["error_code"],"ERROR");
+        echo json_encode($response);
+        die();
+
+      }
       $order=getInBD($table,$filter);
-      $order["total"]*=100;
-      $order["order_code"]="TEST-".$order["id_order"];
+
+      $order["gateway_code"]= "0000000000".$order["id_order"];
+
+    	if(strlen($order["gateway_code"])>8){
+    		$order["gateway_code"]=substr( $order["gateway_code"], strlen($order["gateway_code"])-7, strlen($order["gateway_code"]));
+    	}else{
+    		$order["gateway_code"]="";
+    		for($i=strlen($order["gateway_code"]);$i<7;$i++){
+    			$order["gateway_code"].=0;
+    		}
+    		$order["gateway_code"].=$action_data["id_order"];
+    	}
+      $order["gateway_code"]="CL-".$order["payment_attempt"]."-".$order["gateway_code"];
+
+      $order["total_with_discount"]+=intval($order["shipping_method_price"]);
+      $order["total_with_discount"]*=100;
+      $order["total_with_discount"]=intval($order["total_with_discount"]);
 
       $gateway=array();
       $gateway["code"]="047278643";
       $gateway["currency_tpv"]="978";
       $gateway["transactionType"]="0";
-      $gateway["urlMerchant"]="http://www.okycoky.net/new/shop/payments/post_credit_card.php";
+      $gateway["urlMerchant"]="http://www.okycoky.net/new/server/shop/model/payments/post_credit_card.php";
       $gateway["password"]="O651R804125P0063";
 
-      $message = $order["total"].$order["order_code"].$gateway["code"].$gateway["currency_tpv"].$gateway["transactionType"].$gateway["urlMerchant"].$action_data["password"];
-      $result["data"]=strtoupper(sha1($message));
+
+      $message = $order["total_with_discount"].$order["gateway_code"].$gateway["code"].$gateway["currency_tpv"].$gateway["transactionType"].$gateway["urlMerchant"].$gateway["password"];
+      $order["signature"]=strtoupper(sha1($message));
+
+      $response["data"]=array();
+      $response["data"]["total"]=$order["total_with_discount"];
+      $response["data"]["gateway_code"]=$order["gateway_code"];
+      $response["data"]["signature"]=$order["signature"];
 
       break;
 
