@@ -1,8 +1,0 @@
-{
-  "transport": "scp",
-  "uploadOnSave": true,
-  "hostname": "okycoky.net",
-  "target": "/var/www/new/",
-  "username": "root",
-  "password": "NinkTec1982"
-}
