@@ -51,19 +51,20 @@
       $filter["id_color"]=array("operation"=>"=","value"=>$action_data["id_color"]);
       $filter["size"]=array("operation"=>"=","value"=>$action_data["size"]);
       if(isInBD($table,$filter)){
-        $cart_item=getInBD($table,$filter);
-        $data=array();
-        $data["quantity"]=$cart_item["quantity"]+1;
-        updateInBD($table,$filter,$data);
-      }else{
-        $data=array();
-        $data["session_key"]=$action_data["session_key"];
-        $data["id_product"]=$action_data["id_product"];
-        $data["id_color"]=$action_data["id_color"];
-        $data["size"]=$action_data["size"];
-        $data["quantity"]=$action_data["quantity"];
-        addInBD($table,$data);
+        $response["result"]=false;
+        $response["error_code"]="is_in_cart";
+        debug_log($response["error_code"],"ERROR");
+        echo json_encode($response);
+        die();
       }
+
+      $data=array();
+      $data["session_key"]=$action_data["session_key"];
+      $data["id_product"]=$action_data["id_product"];
+      $data["id_color"]=$action_data["id_color"];
+      $data["size"]=$action_data["size"];
+      $data["quantity"]=$action_data["quantity"];
+      addInBD($table,$data);
 
 
       break;
@@ -186,6 +187,40 @@
         $response["data"]["payment_method"]["selected"]["payment_method_value"]=$session["payment_method_value"];
       }
 
+
+      break;
+
+    case "list_shipping_methods":
+
+      $table="sessions";
+      $filter=array();
+      $filter["session_key"]=array("operation"=>"=","value"=>$action_data["session_key"]);
+      $session=getInBD($table,$filter);
+      $response["data"]["shipping"]["has_alternatives"]=false;
+      if(issetandnotempty($session["country"])){
+        $table="shipping";
+        $filter=array();
+        $filter["country"]=array("operation"=>"=","value"=>$session["country"]);
+        if(isInBD($table,$filter)){
+          $response["data"]["shipping"]["has_alternatives"]=true;
+          $shippings=listInBD($table,$filter);
+          $response["data"]["shipping"]["alternatives"]=array();
+          foreach ($shippings as $key=>$shipping){
+            $tmp=array();
+            $tmp["id_shipping"]=$shipping["id"];
+            $tmp["shipping_title"]=$shipping["name_es"];
+            $tmp["shipping_price"]=$shipping["price_es"];
+            $response["data"]["shipping"]["alternatives"][]=$tmp;
+          }
+        }
+      }
+      $response["data"]["shipping"]["is_selected"]=false;
+      if(issetandnotempty($session["shipping_title"])){
+        $response["data"]["shipping"]["is_selected"]=true;
+        $response["data"]["shipping"]["selected"]=array();
+        $response["data"]["shipping"]["selected"]["shipping_title"]=$session["shipping_title"];
+        $response["data"]["shipping"]["selected"]["shipping_price"]=$session["shipping_price"];
+      }
 
       break;
 

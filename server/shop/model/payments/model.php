@@ -92,6 +92,46 @@
 
       break;
 
+    case "get_paypal_signature":
+      // Check Input Data
+
+      $table="order_request";
+      $filter=array();
+      $filter["id_order"]=array("operation"=>"=","value"=>$action_data["id_order"]);
+      if(!isInBD($table,$filter)){
+        $response["result"]=false;
+        $response["error_code"]="id_order_not_valid";
+        debug_log($response["error_code"],"ERROR");
+        echo json_encode($response);
+        die();
+
+      }
+      $order=getInBD($table,$filter);
+
+      $order["gateway_code"]= "0000000000".$order["id_order"];
+
+    	if(strlen($order["gateway_code"])>8){
+    		$order["gateway_code"]=substr( $order["gateway_code"], strlen($order["gateway_code"])-7, strlen($order["gateway_code"]));
+    	}else{
+    		$order["gateway_code"]="";
+    		for($i=strlen($order["gateway_code"]);$i<7;$i++){
+    			$order["gateway_code"].=0;
+    		}
+    		$order["gateway_code"].=$action_data["id_order"];
+    	}
+      $order["gateway_code"]="CL-".$order["payment_attempt"]."-".$order["gateway_code"];
+
+      $order["total_with_discount"]+=intval($order["shipping_method_price"]);
+      $order["total_with_discount"]=intval($order["total_with_discount"]);
+
+      $gateway=array();
+
+      $response["data"]=array();
+      $response["data"]["total"]=$order["total_with_discount"];
+      $response["data"]["gateway_code"]=$order["gateway_code"];
+
+      break;
+
 
     default:
       notValidAction();echo json_encode($response);die();

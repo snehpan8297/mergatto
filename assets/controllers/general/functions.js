@@ -270,16 +270,7 @@ function get_cart(){
             }else{
               $_ajax["cart-items-list"]+="  <td class='vert-align cart-price text-right'>"+$_cart_item.product.price_with_discount+"€</td>";
             }
-            $_ajax["cart-items-list"]+="  <td class='text-center vert-align'>";
-            $_ajax["cart-items-list"]+="    <select class='form-control form-control-inline input-cart-quantity' data-cart-item='"+$_key+"'>";
-            for ( $_i=0;$_i<=9;$_i++){
-              $_option_selected="";
-              if($_cart_item.quantity==$_i){$_option_selected="selected"}
-              $_ajax["cart-items-list"]+="      <option value='"+$_i+"' "+$_option_selected+">"+$_i+"</option>";
-            }
-
-            $_ajax["cart-items-list"]+="    </select>";
-            $_ajax["cart-items-list"]+="  </td>";
+            $_ajax["cart-items-list"]+="  <td class='vert-align cart-price text-right'>"+$_cart_item.quantity+"</td>";
 
 
             $_ajax["cart-items-list"]+="  <td class='text-right vert-align'>"+$_cart_item.total+"€</td>";
@@ -534,15 +525,20 @@ function add_to_cart($_id_product,$_id_color,$_size,$_quantity){
       quantity: $_quantity,
     },
     error: function(data, textStatus, jqXHR) {
-      alert("[add_cart_item] error: ajax call error");
+      show_notification("danger","Error al conectar compruebe su conexión",false);
+
     },
     success: function(response) {
       if(response.result){
         get_cart();
-        $('.cart').fadeOut(400).delay(100).fadeIn(400).delay(100).fadeOut(400).delay(100).fadeIn(400);
+        show_notification("success","Producto añadido",false);
 
       }else{
-        alert("[add_cart_item] error: "+response.error_code);
+        if(response.error_code="is_in_cart"){
+          show_notification("danger","El producto ya se encuenta en el carro",false);
+        }else{
+          alert("[add_cart_item] error: "+response.error_code);
+        }
       }
     }
   });

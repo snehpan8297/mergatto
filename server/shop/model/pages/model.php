@@ -181,16 +181,28 @@
         case "about":
 
           $response["data"]["content"]="
-          <div class='container-fluid'>
+          <div class='container-fluid title'>
+    				<div class='row'>
+    					<div class='col-sm-12'>
+    						<h2>Nosotros</h2>
+    					</div>
+    				</div>
+    			</div>
+          <div class='container-fluid cart-list'>
             <div class='row'>
-              <div class='col-sm-12' >
-                <p class='text-center big-text padding-40'>Ups!</p>
-                <h1 class='text-center' data-lang='404-title'>Esta página no está disponible</h1>
-                <p class='text-center' data-lang='404-content'>Nuestro equipo está trabajando para activarla en unos momentos.</p>
-                <br/><br/><br/><br/><br/>
+              <div class='col-xs-12 col-sm-6 col-md-6'>
+                <p>Desde 1986 nuestro trabajo se centra en ofrecer a la mujer las armas necesarias para poder sentirse sencillamente bien. Para ello utilizamos tejidos, patrones, diseños y complementos que conforman prendas en las que se revaloriza una silueta lo más femenina y contemporánea posible.</p>
+                <p>Tras más de 25 años trabajando con un experimentado equipo, apostando por la elaboración de prendas en talleres próximos a nuestra ubicación y ofreciendo colecciones en las que el denominador común es tanto el buen patronaje como la buena costura, creemos que hemos logrado nuestro principal objetivo.</p>
               </div>
+              <div class='col-xs-12 col-sm-6 col-md-6'>
+                <p>La profesionalidad, calidad y esmero con el que confeccionamos hacen que nuestra marca sea reconocida y reconocible. La filosofía de trabajo y el perfil de mujer al que nos dirigimos, se define perfectamente por cada una de nuestras clientas. Ellas son las que le dan vida a cada prenda y las que hacen que cada colección tenga tantos significados como perfiles de mujeres existen.</p>
+                <p>Nuestra sede principal se sitúa en Vigo, desde donde hemos ido creando una sólida red comercial, en la que el concepto de internacionalización se convierte en uno de los más sólidos pilares dentro de nuestra visión empresarial. Gracias a ella, OKY^COKY está presente en diferentes puntos de venta españoles, así como en países como Portugal, Reino Unido, Irlanda, Grecia, Bélgica, Francia, Alemania, Suecia, Luxemburgo, Italia, Rusia, EEUU, Canadá, Méjico, Panamá o Japón.</p>
+              </div>
+
             </div>
           </div>
+
+          
 
           ";
 

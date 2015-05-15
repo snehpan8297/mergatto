@@ -71,6 +71,7 @@ $(document).ready(function() {
           $("#shipping_address").toggleClass("active");
           $_ajax["shipping_address_validation"]=true;
           check_session();
+          get_cart();
           scroll_to("top");
         }else{
           //alert("error: "+response.error_code);

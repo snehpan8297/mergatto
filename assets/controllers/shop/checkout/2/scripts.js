@@ -25,6 +25,41 @@ $(document).ready(function() {
           $_ajax["order_total_with_discount"]=response.data.total_with_discount;
 
           if($_session_data["payment_method_value"]=="paypal"){
+            $.ajax({
+              type: "POST",
+              dataType: 'json',
+              url: $_SERVER_PATH+"server/shop/model/payments/model.php",
+              data: {
+                action: "get_paypal_signature",
+                id_order: $_session_data["current_id_order"]
+              },
+              error: function(data, textStatus, jqXHR) {
+                alert("[get_paypal_signature] error: ajax call error");
+              },
+              success: function(response) {
+                if(response.result){
+                  $_ajax["page"]="";
+                  $_ajax["page"]+="<form id='gateway-form' action='https://www.paypal.com/cgi-bin/webscr' method='POST'>";
+                  $_ajax["page"]+="  <input type='hidden' name='cancel_return' value='http://www.okycoky.net/new/shop/payment/error/index.html'>";
+                  $_ajax["page"]+="  <input type='hidden' name='return' value='http://www.okycoky.net/new/shop/payment/success/index.html'>";
+                  $_ajax["page"]+="  <input type='hidden' name='notify_url' value='http://www.okycoky.net/new/server/shop/model/payments/post_paypal.php'>";
+                  $_ajax["page"]+="  <input type='hidden' name='cmd' value='_xclick'>";
+                  $_ajax["page"]+="  <input type='hidden' name='business' value='K3BRJAETH8GJ2'>";
+                  $_ajax["page"]+="  <input type='hidden' name='item_name' value='"+response.data.gateway_code+"'>";
+                  $_ajax["page"]+="  <input type='hidden' name='currency_code' value='EUR'>";
+                  $_ajax["page"]+="  <input type='hidden' name='amount' value='"+response.data.total+"'>";
+                  $_ajax["page"]+="  <input type='hidden' name='custom' value='"+$_session_data["current_id_order"]+"'>";
+                  $_ajax["page"]+="</form>";
+                  $_ajax["page"]+="";
+                  $(".data-ajax-page").append($_ajax["page"]);
+                  $("#gateway-form").submit();
+
+                }else{
+                  alert("[get_paypal_signature] error: "+response.error_code);
+                }
+              }
+            });
+
 
           }else if($_session_data["payment_method_value"]=="credit_card"){
             $.ajax({
@@ -58,7 +93,7 @@ $(document).ready(function() {
                   $_ajax["page"]+="  <input type=hidden name=Ds_Merchant_MerchantData value='"+$_session_data["current_id_order"]+"'>";
                   $_ajax["page"]+="</form>";
                   $_ajax["page"]+="";
-                  $(".data-ajax-page").html($_ajax["page"]);
+                  $(".data-ajax-page").append($_ajax["page"]);
                   $("#gateway-form").submit();
 
                 }else{

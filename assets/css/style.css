@@ -1559,3 +1559,15 @@ ul.mobile-selector li a:hover {
 .icon-xl{
 	font-size:80px;
 }
+.main-nav-alert{
+	position:fixed;
+	top:70px;
+	right:0;
+	z-index:3000;
+	width:100%;
+	display:none;
+}
+.main-nav-alert .alert{
+	border-radius:0px;
+	border:none;
+}

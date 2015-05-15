@@ -25,21 +25,25 @@
 	define('PATH', '../../');
 	$timestamp=strtotime(date("Y-m-d H:i:s"));
 	include(PATH."include/inbd.php");
-	$page_path="WS::PostPaypal";
+	$page_path="WS::PostCreditCard";
 	debug_log("START");
 
 	/*********************************************************
   * AJAX OPERATIONS
   *********************************************************/
 
-	$_POST['custom']=2671;
+	if ((intval($_POST['Ds_Response'])>=0)&&(intval($_POST['Ds_Response'])<=99)){
+		$order=array();
+		$order["id_order"]=$_POST['Ds_MerchantData'];
 
-	$table='order_request';
-	$filter=array();
-	$filter["id_order"]=array("operation"=>"=","value"=>$_POST["custom"]);
-	$data=array();
-	$data["payed"]=1;
-	updateInBD($table,$filter,$data);
+		$table="order_request";
+		$filter=array();
+		$filter["id_order"]=array("operation"=>"=","value"=>$order["id_order"]);
+		$data=array();
+		$data["payed"]=1;
+		updateInBD($table,$filter,$data);
+
+	}
 
 	/*********************************************************
   * AJAX CALL RETURN
@@ -47,5 +51,4 @@
 
   debug_log("END");
   die();
-
 ?>
