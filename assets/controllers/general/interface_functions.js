@@ -10,15 +10,10 @@
 
 function show_notification($_type,$_message,$_permanent){
   $_notificaton="";
-  $_notificaton+="";
   $_notificaton+="<div class='main-nav-alert'>";
-  $_notificaton+="  <div class='container-fluid'>";
-  $_notificaton+="    <div class='row'>";
-  $_notificaton+="      <div class='col-xs-12 text-right alert alert-"+$_type+"'>";
-  $_notificaton+="        <div class='alert-content'>";
-  $_notificaton+="          "+$_message+"<a href='javascript:hidde_notification()' class='text-"+$_type+" m-l-10'><i class='fa fa-times'></i></a>";
-  $_notificaton+="        </div>";
-  $_notificaton+="      </div>";
+  $_notificaton+="  <div class='text-right alert alert-"+$_type+"'>";
+  $_notificaton+="    <div class='alert-content'>";
+  $_notificaton+="      "+$_message+"<a href='javascript:hidde_notification()' class='text-"+$_type+" m-l-10'><i class='fa fa-times'></i></a>";
   $_notificaton+="    </div>";
   $_notificaton+="  </div>";
   $_notificaton+="</div>";

@@ -45,8 +45,8 @@ include ("header.php");
 
   			});
   		</script>
-		
-  		
+
+
 
 		<div class='form' id="signup_step_1" style="display:block">
 			<form id='step_1' action="./admin_index_config.php" method="post" autocomplete='off'>

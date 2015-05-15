@@ -29,7 +29,7 @@
 	/*********************************************************
 	* AJAX OPERATIONS
 	*********************************************************/
-	$server_option='local';
+	$server_option='server';
 
 	switch ($server_option){
 		case "local":
@@ -37,12 +37,12 @@
 				'bdtype' => 'mysql',
 				'bdserver' => 'localhost',
 				'bdport' => '',
-				'bd' => 'citious',
+				'bd' => 'okycoky',
 				'bduser' => 'root',
 				'bdpass' => 'root',
-				'bdprefix' => ''
+				'bdprefix' => 'classic_'
 			);
-			$url_server = "http://localhost:8888/citious/";
+			$url_server = "http://localhost:8888/mergatto/";
 
 			break;
 		case "server":
@@ -50,12 +50,12 @@
 				'bdtype' => 'mysql',
 				'bdserver' => 'localhost',
 				'bdport' => '',
-				'bd' => 'citious',
+				'bd' => 'okycoky_classics',
 				'bduser' => 'root',
-				'bdpass' => '2CuW2St9c',
-				'bdprefix' => ''
+				'bdpass' => 'n1nkt3c',
+				'bdprefix' => 'classic_'
 			);
-			$url_server = "http://www.citious.com/";
+			$url_server = "http://www.okycoky.com/";
 			break;
 	}
 

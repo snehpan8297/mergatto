@@ -4,7 +4,7 @@
 	Login ADMIN
 	------
 	Decripción
-	
+
 */
 @session_start();
 
@@ -21,9 +21,9 @@ $returns_num=countInBD($table,$filter);
 $returns_num_str="";
 if($returns_num>0){
 	if($returns_num==1){
-		$returns_num_str="<span class='or_badge or_badge-warning'>".$returns_num." Nueva</span>";	
+		$returns_num_str="<span class='or_badge or_badge-warning'>".$returns_num." Nueva</span>";
 	}else{
-		$returns_num_str="<span class='or_badge or_badge-warning'>".$returns_num." Nuevas</span>";	
+		$returns_num_str="<span class='or_badge or_badge-warning'>".$returns_num." Nuevas</span>";
 	}
 }
 $filter=array();
@@ -81,6 +81,18 @@ if($orders_num>0){
 	</div>
 	<div class='contentbox'>
 		<div>
+			<div class='form_entry'>
+				<span class='label'><h3>Blog</h3></span>
+			</div>
+			<div class='form_entry'>
+				<span class='label'><a href='./admin_list_posts.php'>Listar Posts</a></span>
+			</div>
+			<div class='form_entry'>
+				<span class='label'><a href='./admin_add_post.php'>Añadir Post</a></span>
+			</div>
+
+
+
 			<div class='form_entry'>
 				<span class='label'><h3><?php echo $s["users"]; ?></h3></span>
 			</div>

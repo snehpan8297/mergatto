@@ -29,6 +29,7 @@ a:hover {
 	color: #999;
 	/*color: #000;*/
 }
+
 .color {
 	background-color: #000;
 }
@@ -951,9 +952,7 @@ ul.nav-list-secondary li.active a span{
 	margin-bottom: 10px;
 	text-transform: uppercase;
 }
-.post-date span {
-	float: right;
-}
+
 article h1{
 	font-size: 32px;
 }
@@ -1570,4 +1569,14 @@ ul.mobile-selector li a:hover {
 .main-nav-alert .alert{
 	border-radius:0px;
 	border:none;
+}
+.div-link {
+	text-decoration: none;
+}
+.div-link:hover{
+	color: #000;
+	text-decoration: none;
+}
+.max-full-width{
+	max-width:100% !important;
 }
